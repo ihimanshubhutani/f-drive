@@ -8,7 +8,7 @@ routes.get("/verify", (req, res) => {
   const send = require("gmail-send")({
     user: keys.GOOGLE.USERNAME,
     pass: keys.GOOGLE.PASS,
-    to: "bhutanihimanshu98@gmail.com",
+    to: req.query.validemail,
     subject: "Verification Email -- Fdrive",
   });
 
