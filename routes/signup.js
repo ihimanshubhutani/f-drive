@@ -15,7 +15,7 @@ routes.get("/", (req, res) => {
 routes.post("/", validator, cryptoPasswordParser, (req, res) => {
   console.log(req.body.email);
   const code = uuid.v4();
-  insertUser(req.body.username, req.body.password, false);
+  insertUser(req.body.username, req.body.password, false, email);
   insertVerificationCode(req.body.email, code);
   res.redirect(`/email/verify?validemail=${req.body.email}&code=${code}`);
   // return res.redirect(201, "/login");

@@ -4,16 +4,16 @@ const db = require("../models");
  * Insert Username and hashed password in database.
  * @param   {string} username
  * @param   {string} password
- * @returns {void}
+ * @returns {Promise}
  */
-const insertUser = (username, password, verified) =>
-  db.User.create({ username, password, verified });
+const insertUser = (username, password, verified, email) =>
+  db.User.create({ username, password, verified, email });
 
 /**
  * Authenticates username against its password.
  * @param   {string} username
  * @param   {string} password
- * @returns {void}
+ * @returns {Promise}
  */
 const authenticateUser = (username, password) =>
   new Promise((resolve) =>
