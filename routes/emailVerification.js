@@ -13,7 +13,9 @@ routes.get("/verify", (req, res) => {
   });
 
   send(
-    { text: "Thank You for registering with Us \n We Welcome you" },
+    {
+      text: `Thank You for registering with Us \n Your verification code is ${req.query.code}`,
+    },
     (error, result, fullResult) => {
       if (error) console.error(error);
       console.log(result, fullResult);

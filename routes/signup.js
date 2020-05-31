@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const uuid = require("uuid");
 const { insertUser } = require("../controller/user-dataHandler");
+const { insertVerificationCode } = require("../controller/emailVerification");
 const validator = require("../middleware/validator");
 const cryptoPasswordParser = require("../middleware/cryptoPassword");
 
