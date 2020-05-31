@@ -2,6 +2,10 @@ const uuid = require("uuid");
 const config = require("config");
 const keys = require("../config/keys.json");
 
+/**
+ * Sends Email Verification link to `email`
+ * @param {string} email
+ */
 const sendEmailForVerification = (email) => {
   const code = uuid.v4();
   insertVerificationCode(email, code);
