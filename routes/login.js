@@ -12,7 +12,7 @@ routes.get('/', (req, res) =>
 
 routes.post('/', cryptoPasswordParser, (req, res) => {
 
-  authenticateUser(req.body.username, req.body.password)
+  authenticateUser(req.body.username, req.body.password, req.body.email)
     .then(result => {
 
       if (!result) {

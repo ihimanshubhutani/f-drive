@@ -2,7 +2,8 @@
   "SECRET": "101458794DSA",
   "MESSAGE": {
     "INVALID_PASSWORD": "Password Should be Minimum eight characters, \n at least one letter, one number and one special character",
-    "USER_EXISTS": "Username Already Exits",
+    "USERNAME_EXISTS": "Username Already Exits",
+    "EMAIL_EXISTS": "Email Already Exits",
     "INVALID_CREDENTIALS": "Invalid Credentials"
   },
   "SERVER": "localhost:3000"

@@ -17,21 +17,42 @@ const isValidPassword = password => {
  * @param   {string} username 
  * @returns {promise}
  */
-const isAlreadyExists = username => new Promise((resolve) =>
+const isUsernameAlreadyExists = username => new Promise((resolve) =>
   db.User.findOne({ where: { username } })
     .then((result) => resolve(result)));
+
+/**
+ * Checks from database does email already exists in database
+ * @param   {string} username 
+ * @returns {promise}
+ */
+const isEmailAlreadyExists = email => new Promise((resolve) =>
+  db.User.findOne({ where: { email } })
+    .then((result) => resolve(result)));
+
+
 
 module.exports = (req, res, next) => {
   if (!isValidPassword(req.body.password)) {
     return res.status(401).send({ message: config.MESSAGE.INVALID_PASSWORD });
   }
 
-  isAlreadyExists(req.body.username).
+  isUsernameAlreadyExists(req.body.username).
     then((response) => {
       if (response) {
-        return res.status(401).send({ message: config.MESSAGE.USER_EXISTS });
+        return res.status(401).send({ message: config.MESSAGE.USERNAME_EXISTS });
       }
 
-      next();
+      isEmailAlreadyExists(req.body.email).then(response => {
+        console.log(response);
+
+        if (response) {
+          console.log('email ', req.body.email);
+          return res.status(401).send({ message: config.MESSAGE.EMAIL_EXISTS });
+        }
+        next();
+      })
+
+
     });
 }
