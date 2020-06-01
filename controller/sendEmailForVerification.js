@@ -6,8 +6,7 @@ const keys = require("../config/keys.json");
  * Sends Email Verification link to `email`
  * @param {string} email
  */
-const sendEmailForVerification = (email) => {
-  const code = uuid.v4();
+const sendEmailForVerification = (email, code) => {
   const send = require("gmail-send")({
     user: keys.GOOGLE.USERNAME,
     pass: keys.GOOGLE.PASS,

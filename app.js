@@ -7,10 +7,11 @@ const filesRoute = require("./routes/files");
 const index = require("./routes/index");
 const loginRoute = require("./routes/login");
 const signupRoute = require("./routes/signup");
-const emailVerification = require("./routes/emailVerification");
-
+var ejs = require('ejs');
 const app = express();
 
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
@@ -23,12 +24,14 @@ app.use(
 
 app.use(fileUpload());
 
+app.use("/hello", (req, res) => {
+  res.render("emailConfirmation", { email: "bhutani" });
+})
 app.use("/files", express.static("./public"));
 
 app.use("/files", filesRoute);
 app.use("/login", loginRoute);
 app.use("/signup", signupRoute);
-app.use("/email", emailVerification);
 app.use("/", index);
 
 app.listen(3000, console.log("Running Server"));
