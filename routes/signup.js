@@ -11,8 +11,9 @@ routes.get("/", (req, res) => {
 });
 
 routes.post("/", validator, cryptoPasswordParser, (req, res) => {
-  insertUser(req.body.username, req.body.password, false, email);
-  res.redirect(`/email/verify?validemail=${req.body.email}&code=${code}`);
+  console.log(req.body.email);
+  insertUser(req.body.username, req.body.password, false, req.body.email);
+  res.redirect(`/email/verify?email=${req.body.email}`);
   // return res.redirect(201, "/login");
 });
 

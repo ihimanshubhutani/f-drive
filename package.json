@@ -4,6 +4,8 @@
   "description": "Uploading files on public folder, accessing it with unique id and performing CRUD operation with sessions.",
   "main": "app.js",
   "scripts": {
+    "prestart": "npx sequelize-cli db:migrate",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
