@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Personal directory</title>
+    <style>
+      form {
+        margin: 20px 0;
+      }
+      form input,
+      button {
+        padding: 5px;
+      }
+      table {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #cdcdcd;
+      }
+      table th,
+      table td {
+        padding: 10px;
+        text-align: left;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+      data = {
+        userId: 1,
+        arr: [
+          { path: "jttadfdsfasdf.himanshu.jpg", type: "jpg", createdAt: 123 },
+          { path: "jttadfdsfasdf.himanshu.jpg", type: "jpg" },
+          { path: "5665.himmy.jpg", type: "jpg", createdAt: 556 },
+        ],
+      };
+
+      let userId = data.userId;
+      $(document).ready(function () {
+        for (let i = 0; i < data.arr.length; i++) {
+          let name = data.arr[i].path.split(".")[1];
+          let type = data.arr[i].type;
+          let createdAt = data.arr[i].createdAt;
+          var markup =
+            "<tr><td><input type='checkbox' name='record'></td><td>" +
+            `<a href='http://localhost:3000/files/download/${userId}/${name}.${type}'>${name}</a>` +
+            "</td><td>" +
+            type +
+            "</td><td>" +
+            createdAt +
+            "</td></tr>";
+          $("table tbody").append(markup);
+        }
+        // Find and remove selected table rows
+        $(".delete-row").click(function () {
+          $("table tbody")
+            .find('input[name="record"]')
+            .each(function () {
+              if ($(this).is(":checked")) {
+                console.log(
+                  `http://localhost:3000/files/delete/${userId}/` +
+                    $(this).parents("tr").find("td").eq(1).html() +
+                    "." +
+                    $(this).parents("tr").find("td").eq(2).html()
+                );
+                $(this).parents("tr").remove();
+              }
+            });
+        });
+      });
+
+      // Find and remove selected table rows
+      $(".download-row").click(function () {
+        $("table tbody")
+          .find('input[name="record"]')
+          .each(function () {
+            if ($(this).is(":checked")) {
+              console.log(
+                `http://localhost:3000/files/download/${userId}/` +
+                  $(this).parents("tr").find("td").eq(1).html() +
+                  "." +
+                  $(this).parents("tr").find("td").eq(2).html()
+              );
+            }
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <h2>Files</h2>
+    <br />
+    <button type="button" class="delete-row">Delete Selected File</button>
+    <button type="button" class="download-row">Download Selected File</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </body>
+</html>
