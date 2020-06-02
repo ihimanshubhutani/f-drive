@@ -5,10 +5,10 @@ const { saveFilePath } = require('../controller/files-dataHandler');
  */
 module.exports = (file, filename, userId, type, creationTime) => {
 
-  file.mv(`./public/${userId}/${creationTime}||${filename}`, function (err) {
+  file.mv(`./public/${userId}/${creationTime}.${filename}`, function (err) {
     if (err)
       return false;
   });
-  const filePath = `./public/${userId}/${creationTime}||${filename}`
+  const filePath = `./public/${userId}/${creationTime}.${filename}`
   return saveFilePath(filePath, userId, creationTime, type);
 };

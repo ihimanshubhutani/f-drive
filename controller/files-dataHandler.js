@@ -45,21 +45,15 @@ const verifyUserWithFile = (userId, fileId) => new Promise(resolve => db.File.fi
  * @param {string} userId 
  * @param {string} res 
  */
-const showUserFiles = (userId, res) => {
+const showUserFiles = (userId) =>
   db.File.findAll({
     raw: true,
     where: {
       userId,
     }
-  }).then((result) => {
-    console.log(result);
-    if (!result[0]) {
-      return res.send({ message: "No files present with this userId" });
-    }
-    res.send(result);
   }).catch((err) => {
     console.log(err);
   });;
-}
+
 
 module.exports = { saveFilePath, deleteFilePath, verifyUserWithFile, showUserFiles };

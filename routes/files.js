@@ -18,7 +18,13 @@ const routes = express.Router();
 routes.use(authenticate);
 
 routes.get("/", (req, res) => {
-  showUserFiles(req.session.userId, res);
+  showUserFiles(req.session.userId, res)
+    .then(result => {
+      data = { arr: result };
+      data = JSON.stringify(data);
+      console.log(data);
+      res.render(path.join(__dirname, "../views/viewFiles"), { data });
+    });
 });
 
 routes.get("/upload", (req, res) => {
@@ -50,9 +56,9 @@ routes.post("/upload", function (req, res) {
  */
 routes.get("/delete/:id", checkAccessAllowed, (req, res) => {
   try {
-    fs.unlinkSync(`./public/${req.params.id}`);
+    fs.unlinkSync(`./public/${req.session.userId}/${req.params.id}`);
+    deleteFilePath(`./public/${req.session.userId}/${req.params.id}`);
     res.send({ message: "Removed Succesfully" });
-    deleteFilePath(`./public/${req.params.id}`);
   } catch (err) {
     res.status(404).send({ message: "File Cannot be deleted", err });
   }
