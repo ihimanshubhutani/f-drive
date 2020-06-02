@@ -18,9 +18,8 @@ routes.post('/', cryptoPasswordParser, (req, res) => {
       if (!result) {
         return res.status(400).send({ message: 'Invalid Credentials' });
       }
-
-      req.session.username = req.body.username;
-      req.session.password = req.body.password;
+      console.log('result ', result.id);
+      req.session.userId = result.id;
 
       /**
        * if user ticked 'Remember me' checkbox, his session 

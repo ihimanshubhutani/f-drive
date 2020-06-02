@@ -18,7 +18,7 @@ const insertUser = (username, password, verified, email) =>
 const authenticateUser = (username, password) =>
   new Promise((resolve) =>
     db.User.findOne({
-      attributes: ["username"],
+      attributes: ["id"],
       where: { username, password },
     }).then((result) => resolve(result))
   );

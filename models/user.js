@@ -12,10 +12,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = function (models) {
-    User.hasMany(models.Files, {
+    User.hasMany(models.File, {
       foreignKey: 'userId'
     });
-    User.belongsTo(models.EmailConfirmationCodes, { foreignKey: 'userId' })
+    //  User.belongsTo(models.EmailConfirmationCode, { foreignKey: 'userId' })
   };
   return User;
 };

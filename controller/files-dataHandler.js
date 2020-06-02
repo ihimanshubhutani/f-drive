@@ -2,18 +2,18 @@ const db = require('../models');
 
 /**
  * Saves file path into filePaths database.
- * @param   {string} path 
- * @param   {string} username
+ * @param   {string}  path 
+ * @param   {intgeer} userId
  * @returns {void} 
  */
-const saveFilePath = (path, username) => db.File_DB.create({
+const saveFilePath = (path, userId) => db.File_DB.create({
   path,
-  user_username: username
+  userId,
 });
 
 /**
  * Deletes file path from filePaths database.
- * @param {*} path 
+ * @param {string} path 
  */
 const deleteFilePath = path => db.File_DB.destroy({
   where: {
@@ -22,14 +22,14 @@ const deleteFilePath = path => db.File_DB.destroy({
 });
 
 /**
- * Verifies fileId (or token) against username , i.e. if particular file is available to its user or not
- * @param   {string} username 
+ * Verifies fileId (or token) against userId , i.e. if particular file is available to its user or not
+ * @param   {string} userId
  * @param   {string} fileId 
  * @returns {promise}
  */
-const verifyUserWithFile = (username, fileId) => new Promise(resolve => filePaths.findOne({
+const verifyUserWithFile = (userId, fileId) => new Promise(resolve => filePaths.findOne({
   where: {
-    user_username: username,
+    userId: int(userId),
     filePath: `./public/${fileId}`
   }
 }).then(result => {
@@ -38,21 +38,21 @@ const verifyUserWithFile = (username, fileId) => new Promise(resolve => filePath
 }));
 
 /**
- * Show all files for particular username
- * @param {string} username 
+ * Show all files for particular userId
+ * @param {string} userId 
  * @param {string} res 
  */
-const showUserFiles = (username, res) => {
+const showUserFiles = (userId, res) => {
   db.File_DB.findAll({
     raw: true,
     attributes: { exclude: ['createdAt'] },
     where: {
-      user_username: username
+      userId: int(userId)
     }
   }).then((result) => {
     console.log(result);
     if (!result[0]) {
-      return res.send({ message: "No files present with this username" });
+      return res.send({ message: "No files present with this userId" });
     }
     res.send(result);
   }).catch((err) => {

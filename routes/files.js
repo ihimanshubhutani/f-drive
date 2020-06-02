@@ -8,7 +8,7 @@ const {
   deleteFilePath,
   showUserFiles,
 } = require("../controller/files-dataHandler");
-const authenticate = require("../middleware/authenticate.js");
+const authenticate = require("../middleware/authenticateSession.js");
 const checkAccessAllowed = require("../middleware/checkAccesPrivilages");
 
 const routes = express.Router();
@@ -19,7 +19,7 @@ const routes = express.Router();
 routes.use(authenticate);
 
 routes.get("/", (req, res) => {
-  showUserFiles(req.session.username, res);
+  showUserFiles(req.session.userId, res);
 });
 
 routes.get("/upload", (req, res) => {

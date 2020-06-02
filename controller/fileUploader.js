@@ -8,7 +8,7 @@ module.exports = (req, res, file, filename) => {
     if (err)
       return res.status(500).send(err);
 
-    saveFilePath(`./public/${filename}`, req.session.username);
+    saveFilePath(`./public/${filename}`, req.session.userId);
     res.send(`Your FileId:<h3>${filename}</h3> 
     \n To access in future goto: http://localhost:3000/${filename}`);
   });
