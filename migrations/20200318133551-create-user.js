@@ -5,19 +5,30 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
         type: Sequelize.INTEGER
       },
       username: {
         type: Sequelize.STRING,
-        primaryKey: true,
+        unique: true,
         allowNull: false,
       },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      verifiedAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
       }
 
-    }, { attributes: { exclude: ['id'] } });
+    }, {
+      // attributes: { exclude: ['id']  }
+    });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Users');

@@ -1,11 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const EmailVerification = sequelize.define('EmailVerification', {
+  const EmailConfirmationCode = sequelize.define('EmailConfirmationCode', {
     email: DataTypes.STRING,
     verificationcode: DataTypes.STRING
   }, {});
-  EmailVerification.associate = function(models) {
+  EmailConfirmationCode.associate = function (models) {
     // associations can be defined here
   };
-  return EmailVerification;
+  return EmailConfirmationCode;
 };

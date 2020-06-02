@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('File_DBs', {
+    return queryInterface.createTable('Files', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,19 +9,30 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       path: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      type: {
+        type: Sequelize.STRING,
+
+      },
+      userid: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
+
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('File_DBs');
+    return queryInterface.dropTable('Files');
   }
 };
