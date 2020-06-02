@@ -9,4 +9,8 @@ routes.get('/', (req, res) => res.sendFile('index.html',
   { root: path.join(__dirname, '../views/') })
 );
 
+routes.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+})
 module.exports = routes;

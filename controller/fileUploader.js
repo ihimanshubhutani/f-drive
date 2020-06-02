@@ -9,6 +9,6 @@ module.exports = (file, filename, userId, type, creationTime) => {
     if (err)
       return false;
   });
-  const filePath = `./public/${userId}/${filename}`
+  const filePath = `./public/${userId}/${creationTime}||${filename}`
   return saveFilePath(filePath, userId, creationTime, type);
 };

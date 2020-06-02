@@ -28,7 +28,7 @@ routes.get("/upload", (req, res) => {
 
 routes.get("/download/:id", checkAccessAllowed, (req, res) => {
   console.log("download");
-  res.download(`./public/${req.params.id}`);
+  res.download(`./public/${req.session.userId}/${req.params.id}`);
 });
 
 routes.post("/upload", function (req, res) {

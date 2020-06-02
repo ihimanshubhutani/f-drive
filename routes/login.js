@@ -6,6 +6,17 @@ const { authenticateUser } = require('../controller/user-dataHandler');
 
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 
+/**
+ * Authenticates user, if its session is already availabe or not.
+ */
+routes.use((req, res, next) => {
+
+  if (req.session.userId) {
+    return res.redirect('/');
+  }
+  next();
+});
+
 routes.get('/', (req, res) =>
   res.sendFile('login.html', { root: path.join(__dirname, '../views/') })
 );

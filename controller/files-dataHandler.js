@@ -30,10 +30,10 @@ const deleteFilePath = path => db.File.destroy({
  * @param   {string} fileId 
  * @returns {promise}
  */
-const verifyUserWithFile = (userId, fileId) => new Promise(resolve => filePaths.findOne({
+const verifyUserWithFile = (userId, fileId) => new Promise(resolve => db.File.findOne({
   where: {
-    userId: int(userId),
-    filePath: `./public/${fileId}`
+    userId,
+    path: `./public/${userId}/${fileId}`
   }
 }).then(result => {
   console.log(result);
@@ -48,9 +48,8 @@ const verifyUserWithFile = (userId, fileId) => new Promise(resolve => filePaths.
 const showUserFiles = (userId, res) => {
   db.File.findAll({
     raw: true,
-    attributes: { exclude: ['createdAt'] },
     where: {
-      userId: int(userId)
+      userId,
     }
   }).then((result) => {
     console.log(result);
@@ -59,7 +58,7 @@ const showUserFiles = (userId, res) => {
     }
     res.send(result);
   }).catch((err) => {
-    res.send({ err });
+    console.log(err);
   });;
 }
 

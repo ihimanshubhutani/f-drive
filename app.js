@@ -11,7 +11,6 @@ var ejs = require('ejs');
 const app = express();
 
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
@@ -27,6 +26,7 @@ app.use(fileUpload({ createParentPath: true }));
 app.use("/hello", (req, res) => {
   res.render("emailConfirmation", { email: "bhutani" });
 })
+
 app.use("/files", express.static("./public"));
 
 app.use("/files", filesRoute);
