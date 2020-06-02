@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.File, {
       foreignKey: 'userId'
     });
-    //  User.belongsTo(models.EmailConfirmationCode, { foreignKey: 'userId' })
+    User.hasMany(models.EmailConfirmationCode, { foreignKey: 'userId' });
   };
   return User;
 };

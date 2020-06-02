@@ -18,15 +18,15 @@ routes.get("/", (req, res) => {
 
 routes.post("/", validator, cryptoPasswordParser, (req, res) => {
   const email = req.body.email;
-  const code = uuid.v4(); uuid.v4()
+  const code = uuid.v4();
 
-  insertUser(req.body.username, req.body.password, false, req.body.email)
-    .then(() => {
-      insertVerificationCode(req.body.email, code)
-      sendEmailForVerification(req.body.email, code);
+  insertUser(req.body.username, req.body.password, false, email)
+    .then(result => {
+      insertVerificationCode(email, code, result.id)
+      sendEmailForVerification(email, code);
     }
     ).then(() => {
-      res.render(path.join(__dirname, "../views/emailConfirmation"), { email: req.body.email });
+      res.render(path.join(__dirname, "../views/emailConfirmation"), { email });
     })
 });
 

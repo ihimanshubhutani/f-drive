@@ -1,12 +1,12 @@
 const db = require("../models");
 
 /**
- * Inserts Verification code with email
- * @param {string}  username
- * @param {string}  password
- * @param {Boolean} verified
+ * Inserts Verification code with user email and userID
+ * @param {string}  email
+ * @param {string}  code
+ * @param {Boolean} userId
  */
-const insertVerificationCode = (email, verificationcode) =>
-  db.EmailConfirmationCode.create({ email, verificationcode });
+const insertVerificationCode = (email, code, userId) =>
+  db.EmailConfirmationCode.create({ email, code, userId });
 
 module.exports = { insertVerificationCode };
