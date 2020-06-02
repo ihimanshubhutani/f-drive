@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
   }, {
+    attributes: { exclude: ['id'] },
     timestamps: false
   });
   EmailConfirmationCode.associate = function (models) {

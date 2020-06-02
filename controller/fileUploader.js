@@ -3,13 +3,12 @@ const { saveFilePath } = require('../controller/files-dataHandler');
 /**
  * Uploads file on the server
  */
-module.exports = (req, res, file, filename) => {
-  file.mv(`./public/${filename}`, function (err) {
-    if (err)
-      return res.status(500).send(err);
+module.exports = (file, filename, userId, type, creationTime) => {
 
-    saveFilePath(`./public/${filename}`, req.session.userId);
-    res.send(`Your FileId:<h3>${filename}</h3> 
-    \n To access in future goto: http://localhost:3000/${filename}`);
+  file.mv(`./public/${userId}/${creationTime}||${filename}`, function (err) {
+    if (err)
+      return false;
   });
+  const filePath = `./public/${userId}/${filename}`
+  return saveFilePath(filePath, userId, creationTime, type);
 };

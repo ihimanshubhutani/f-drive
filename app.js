@@ -22,7 +22,7 @@ app.use(
   })
 );
 
-app.use(fileUpload());
+app.use(fileUpload({ createParentPath: true }));
 
 app.use("/hello", (req, res) => {
   res.render("emailConfirmation", { email: "bhutani" });

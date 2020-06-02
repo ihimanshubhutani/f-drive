@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING,
     createdAt: DataTypes.DATE,
 
-  }, {});
+  }, {
+    timestamps: false,
+  });
   File.associate = function (models) {
     File.belongsTo(models.User)
   };

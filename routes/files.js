@@ -1,7 +1,6 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const uuid = require("uuid");
 
 const uploadFile = require("../controller/fileUploader");
 const {
@@ -23,6 +22,7 @@ routes.get("/", (req, res) => {
 });
 
 routes.get("/upload", (req, res) => {
+  console.log(req.session.userId);
   res.sendFile("upload.html", { root: path.join(__dirname, "../views/") });
 });
 
@@ -35,11 +35,13 @@ routes.post("/upload", function (req, res) {
   if (!req.files) {
     return res.status(400).send({ message: "No files were uploaded" });
   }
-
   const file = req.files.uploadedFile;
-  const filename = `${uuid.v4()}${path.extname(file.name)}`;
+  console.log(file.name);
 
-  uploadFile(req, res, file, filename);
+  if (uploadFile(file, file.name, req.session.userId, path.extname(file.name), Date.now())) {
+    return res.send({ message: "File Uploaded Successfully" });
+  }
+  return res.send({ message: "Internal Server Error " });
 });
 
 /**

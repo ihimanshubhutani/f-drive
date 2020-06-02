@@ -6,19 +6,22 @@ const db = require('../models');
  * @param   {intgeer} userId
  * @returns {void} 
  */
-const saveFilePath = (path, userId) => db.File_DB.create({
+const saveFilePath = (path, userId, createdAt, type) => db.File.create({
   path,
   userId,
+  createdAt,
+  type
 });
 
 /**
  * Deletes file path from filePaths database.
  * @param {string} path 
  */
-const deleteFilePath = path => db.File_DB.destroy({
+const deleteFilePath = path => db.File.destroy({
   where: {
     filePath: path
   }
+
 });
 
 /**
@@ -43,7 +46,7 @@ const verifyUserWithFile = (userId, fileId) => new Promise(resolve => filePaths.
  * @param {string} res 
  */
 const showUserFiles = (userId, res) => {
-  db.File_DB.findAll({
+  db.File.findAll({
     raw: true,
     attributes: { exclude: ['createdAt'] },
     where: {
