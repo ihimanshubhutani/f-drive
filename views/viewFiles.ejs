@@ -65,12 +65,11 @@
           .find('input[name="record"]')
           .each(function () {
             if ($(this).is(":checked")) {
+              let path = '' + $(this).parents("tr").find("td").eq(1).html();
+              console.log()
               console.log(
-                `http://localhost:3000/files/delete/${userId}/` +
-                $(this).parents("tr").find("td").eq(1).html() +
-                "." +
-                $(this).parents("tr").find("td").eq(2).html()
-              );
+                `http://localhost:3000/files/delete` +
+                path.split('download')[1].split('"')[0]);
               $(this).parents("tr").remove();
             }
           });
