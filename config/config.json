@@ -1,0 +1,23 @@
+{
+    "development": {
+        "username": "himanshubhutani",
+        "password": "root",
+        "database": "deqode",
+        "host": "localhost",
+        "dialect": "postgres"
+    },
+    "test": {
+        "username": "himanshubhutani",
+        "password": null,
+        "database": "deqode",
+        "host": "localhost",
+        "dialect": "postgres"
+    },
+    "production": {
+        "username": "himanshubhutani",
+        "password": null,
+        "database": "deqode",
+        "host": "localhost",
+        "dialect": "postgres"
+    }
+}
