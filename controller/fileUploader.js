@@ -1,7 +1,13 @@
 const { saveFilePath } = require('../controller/files-dataHandler');
 
 /**
- * Uploads file on the server
+ * Uploads file on server 
+ * @param   {string} file
+ * @param   {string} filename
+ * @param   {string} userId
+ * @param   {string} type
+ * @param   {Date}   creationTime
+ * @returns {Boolean}
  */
 module.exports = (file, filename, userId, type, creationTime) => {
 

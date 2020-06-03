@@ -15,7 +15,8 @@ const saveFilePath = (path, userId, createdAt, type) => db.File.create({
 
 /**
  * Deletes file path from filePaths database.
- * @param {string} path 
+ * @param   {string} path 
+ * @returns {Promise}
  */
 const deleteFilePath = path => db.File.destroy({
   where: {
@@ -25,10 +26,10 @@ const deleteFilePath = path => db.File.destroy({
 });
 
 /**
- * Verifies fileId (or token) against userId , i.e. if particular file is available to its user or not
+ * Verifies file is accessible to {userId}
  * @param   {string} userId
  * @param   {string} fileId 
- * @returns {promise}
+ * @returns {Promise}
  */
 const verifyUserWithFile = (userId, fileId) => new Promise(resolve => db.File.findOne({
   where: {
@@ -42,8 +43,8 @@ const verifyUserWithFile = (userId, fileId) => new Promise(resolve => db.File.fi
 
 /**
  * Show all files for particular userId
- * @param {string} userId 
- * @param {string} res 
+ * @param  {string} userId 
+ * @return {Promise}
  */
 const showUserFiles = (userId) =>
   db.File.findAll({
@@ -54,6 +55,5 @@ const showUserFiles = (userId) =>
   }).catch((err) => {
     console.log(err);
   });;
-
 
 module.exports = { saveFilePath, deleteFilePath, verifyUserWithFile, showUserFiles };

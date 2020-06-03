@@ -1,23 +1,24 @@
-const uuid = require("uuid");
 const config = require("config");
 const keys = require("../config/keys.json");
 
 /**
  * Sends Email Verification link to `email`
- * @param {string} email
+ * @param   {string} email
+ * @param   {string} code
+ * @returns {void}
  */
 const sendEmailForVerification = (email, code) => {
   const send = require("gmail-send")({
     user: keys.GOOGLE.USERNAME,
     pass: keys.GOOGLE.PASS,
     to: email,
-    subject: "Verification Email -- Fdrive",
+    subject: config.EMAIL.SUBJECT,
   });
 
   send(
     {
-      text: `Thank You for registering with Us \n Click below to confim your email address \n
-       http://${config.SERVER}/email/verification-service?validemail=${email}&code=${code}`,
+      text: `${config.EMAIL.BODY}
+       ${config.SERVER}/email/verification-service?validemail=${email}&code=${code}`,
     },
     (error, result, fullResult) => {
       if (error) console.error(error);

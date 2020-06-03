@@ -1,4 +1,4 @@
-const { authenticateUser, fetchInfoFromUserId } = require('../controller/user-dataHandler');
+const { fetchInfoFromUserId } = require('../controller/user-dataHandler');
 
 /**
  * Authenticate and allow to use /upload /delete /update /download

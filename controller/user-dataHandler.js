@@ -37,6 +37,11 @@ const fetchInfoFromUserId = (userId) =>
     }).then((result) => resolve(result))
   );
 
+/**
+* Update verifiedAt Column in User Table after verification complete
+* @param   {string} email
+* @returns {Promise}
+*/
 const updateVerifiedColumn = (email) =>
   db.User.update({
     verifiedAt: Date.now()
@@ -44,7 +49,6 @@ const updateVerifiedColumn = (email) =>
     where: {
       email
     }
-  })
-
+  });
 
 module.exports = { insertUser, authenticateUser, fetchInfoFromUserId, updateVerifiedColumn };

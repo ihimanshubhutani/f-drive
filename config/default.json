@@ -6,5 +6,9 @@
     "EMAIL_EXISTS": "Email Already Exits",
     "INVALID_CREDENTIALS": "Invalid Credentials"
   },
-  "SERVER": "localhost:3000"
+  "EMAIL": {
+    "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",
+    "SUBJECT": "Verify Your Email Address || Fdrive"
+  },
+  "SERVER": "http://localhost:3000"
 }
