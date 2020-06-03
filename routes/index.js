@@ -7,7 +7,7 @@ routes.use(authenticateSession);
 
 routes.get('/', (req, res) => {
   console.log(req.session);
-  if (!req.session.verifiedAt) {
+  if (!req.session.verification) {
     res.sendFile('showVerificationMessage.html', { root: path.join(__dirname, '../views/') });
   }
   else {

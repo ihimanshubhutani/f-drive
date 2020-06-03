@@ -37,5 +37,14 @@ const fetchInfoFromUserId = (userId) =>
     }).then((result) => resolve(result))
   );
 
+const updateVerifiedColumn = (email) =>
+  db.User.update({
+    verifiedAt: Date.now()
+  }, {
+    where: {
+      email
+    }
+  })
 
-module.exports = { insertUser, authenticateUser, fetchInfoFromUserId };
+
+module.exports = { insertUser, authenticateUser, fetchInfoFromUserId, updateVerifiedColumn };

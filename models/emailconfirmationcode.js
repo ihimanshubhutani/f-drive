@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   });
   EmailConfirmationCode.associate = function (models) {
-    EmailConfirmationCode.belongsTo(models.User);
+    //EmailConfirmationCode.belongsTo(models.User);
   };
   return EmailConfirmationCode;
 };
