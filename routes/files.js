@@ -57,7 +57,10 @@ routes.post("/upload", function (req, res) {
 routes.get("/delete/:id", checkAccessAllowed, (req, res) => {
   try {
     fs.unlinkSync(`./public/${req.session.userId}/${req.params.id}`);
-    deleteFilePath(`./public/${req.session.userId}/${req.params.id}`);
+    deleteFilePath(`./public/${req.session.userId}/${req.params.id}`).then((res) => {
+      console.log('deleting');
+      console.log(res)
+    });
     res.send({ message: "Removed Succesfully" });
   } catch (err) {
     res.status(404).send({ message: "File Cannot be deleted", err });

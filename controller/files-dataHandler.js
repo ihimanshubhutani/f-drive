@@ -19,7 +19,7 @@ const saveFilePath = (path, userId, createdAt, type) => db.File.create({
  */
 const deleteFilePath = path => db.File.destroy({
   where: {
-    filePath: path
+    path
   }
 
 });

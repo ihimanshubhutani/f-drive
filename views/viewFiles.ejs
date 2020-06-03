@@ -67,10 +67,13 @@
             if ($(this).is(":checked")) {
               let path = '' + $(this).parents("tr").find("td").eq(1).html();
               console.log()
-              console.log(
-                `http://localhost:3000/files/delete` +
-                path.split('download')[1].split('"')[0]);
-              $(this).parents("tr").remove();
+
+              fetch(`http://localhost:3000/files/delete` +
+                path.split('download')[1].split('"')[0]).then(() => {
+                  $(this).parents("tr").remove();
+                })
+
+
             }
           });
       });
@@ -83,7 +86,6 @@
   <h2>Files</h2>
   <br />
   <button type="button" class="delete-row">Delete Selected File</button>
-  <button type="button" class="download-row">Download Selected File</button>
 
   <table>
     <thead>
