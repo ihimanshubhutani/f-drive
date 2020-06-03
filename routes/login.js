@@ -14,7 +14,8 @@ routes.use((req, res, next) => {
   if (req.session.userId) {
     return res.redirect('/');
   }
-  next();
+
+  return next();
 });
 
 routes.get('/', (req, res) =>

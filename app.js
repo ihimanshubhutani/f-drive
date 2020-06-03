@@ -7,6 +7,7 @@ const filesRoute = require("./routes/files");
 const index = require("./routes/index");
 const loginRoute = require("./routes/login");
 const signupRoute = require("./routes/signup");
+const emailVerificationRoute = require("./routes/emailVerification");
 var ejs = require('ejs');
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/files", express.static("./public"));
 app.use("/files", filesRoute);
 app.use("/login", loginRoute);
 app.use("/signup", signupRoute);
+app.use("/email", emailVerificationRoute);
 app.use("/", index);
 
 app.listen(3000, console.log("Running Server"));

@@ -23,4 +23,19 @@ const authenticateUser = (username, password) =>
     }).then((result) => resolve(result))
   );
 
-module.exports = { insertUser, authenticateUser };
+/**
+* Fetching user info from userid.
+* @param   {string} username
+* @param   {string} password
+* @returns {Promise}
+*/
+const fetchInfoFromUserId = (userId) =>
+  new Promise((resolve) =>
+    db.User.findOne({
+      attributes: ["username", "verifiedAt"],
+      where: { id: userId },
+    }).then((result) => resolve(result))
+  );
+
+
+module.exports = { insertUser, authenticateUser, fetchInfoFromUserId };
