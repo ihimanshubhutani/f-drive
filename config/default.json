@@ -5,7 +5,8 @@
     "INVALID_EMAIL": "email incorrect format",
     "USERNAME_EXISTS": "username already exists",
     "EMAIL_EXISTS": "email already exists",
-    "INVALID_CREDENTIALS": "invalid credentials"
+    "INVALID_CREDENTIALS": "invalid credentials",
+    "LINK_EXPIRED": "verification link is expired"
   },
   "EMAIL": {
     "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",

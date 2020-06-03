@@ -38,3 +38,5 @@ app.use("/email", emailVerificationRoute);
 app.use("/", index);
 
 app.listen(3000, console.log("Running Server"));
+
+module.exports = app;

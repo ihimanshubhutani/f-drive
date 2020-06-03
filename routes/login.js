@@ -3,19 +3,15 @@ const routes = express.Router()
 const config = require('config');
 const path = require('path');
 const { authenticateUser } = require('../controller/user-dataHandler');
-
+const { authenticateSession } = require('../middleware/authenticateSession')
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 
 /**
  * Authenticates user, if its session is already availabe or not.
  */
 routes.use((req, res, next) => {
-
-  if (req.session.userId) {
-    return res.redirect('/');
-  }
-
-  return next();
+  if (req.session.userId) return res.redirect('/');
+  next();
 });
 
 routes.get('/', (req, res) =>
@@ -28,7 +24,7 @@ routes.post('/', cryptoPasswordParser, (req, res) => {
     .then(result => {
 
       if (!result) {
-        return res.status(400).send({ message: 'Invalid Credentials' });
+        return res.status(400).send({ message: config.MESSAGE.INVALID_CREDENTIALS });
       }
       console.log('result ', result.id);
       req.session.userId = result.id;
