@@ -2,13 +2,17 @@
   "SECRET": "101458794DSA",
   "MESSAGE": {
     "INVALID_PASSWORD": "Password Should be Minimum eight characters, \n at least one letter, one number and one special character",
-    "USERNAME_EXISTS": "Username Already Exits",
-    "EMAIL_EXISTS": "Email Already Exits",
-    "INVALID_CREDENTIALS": "Invalid Credentials"
+    "INVALID_EMAIL": "email incorrect format",
+    "USERNAME_EXISTS": "username already exists",
+    "EMAIL_EXISTS": "email already exists",
+    "INVALID_CREDENTIALS": "invalid credentials"
   },
   "EMAIL": {
     "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",
     "SUBJECT": "Verify Your Email Address || Fdrive"
+  },
+  "FILE": {
+    "CANNOT_DELETED": "file cannot be deleted"
   },
   "SERVER": "http://localhost:3000"
 }

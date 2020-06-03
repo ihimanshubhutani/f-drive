@@ -50,10 +50,6 @@ routes.post("/upload", function (req, res) {
   return res.send({ message: "Internal Server Error " });
 });
 
-/**
- * HTML forms not allows to set mehthod = DELETE
- * Directly deletes from browser side.
- */
 routes.get("/delete/:id", checkAccessAllowed, (req, res) => {
   try {
     fs.unlinkSync(`./public/${req.session.userId}/${req.params.id}`);

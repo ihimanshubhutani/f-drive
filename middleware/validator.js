@@ -2,14 +2,36 @@ const db = require('../models');
 const config = require('config');
 
 /**
- * Validates if password is valid
- * @param   {string}  password  
- * @returns {boolean}
- */
-const isValidPassword = password => {
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-  console.log(passwordRegex.test(password));
+* Checks for validity for Password 
+* @param  {string}   password 
+* @return {boolean} 
+*/
+let isPasswordValid = password => {
+  let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+  /**
+  * passwordRegex() returns boolean value
+  * based on the passed-in password
+  * format is correct or not.
+  */
+  console.log('checking password');
   return passwordRegex.test(password);
+}
+
+/**
+* Checks for validity for Email. 
+* @param {string} email
+* @return {boolean} 
+*/
+let isEmailValid = email => {
+  let emailRegex = /^([a-z\d\.-]+)@([a-z]{2,10})(\.[a-z]+)?(\.[a-z]{2,3})?$/;
+
+  /** 
+   * emailRegex() returns boolean value
+   *  based on checking email format.
+   **/
+  console.log('checking email');
+  return emailRegex.test(email);
 }
 
 /**
@@ -17,9 +39,9 @@ const isValidPassword = password => {
  * @param   {string} username 
  * @returns {promise}
  */
-const isUsernameAlreadyExists = username => new Promise((resolve) =>
+const isUsernameAlreadyExists = username =>
   db.User.findOne({ where: { username } })
-    .then((result) => resolve(result)));
+
 
 /**
  * Checks from database does email already exists in database
@@ -30,29 +52,33 @@ const isEmailAlreadyExists = email => new Promise((resolve) =>
   db.User.findOne({ where: { email } })
     .then((result) => resolve(result)));
 
-
-
 module.exports = (req, res, next) => {
-  if (!isValidPassword(req.body.password)) {
-    return res.status(401).send({ message: config.MESSAGE.INVALID_PASSWORD });
-  }
 
-  isUsernameAlreadyExists(req.body.username).
-    then((response) => {
-      if (response) {
-        return res.status(401).send({ message: config.MESSAGE.USERNAME_EXISTS });
-      }
+  new Promise((resolve) => {
+    /**
+     * Validates regex for email and password
+     */
+    if (!isPasswordValid(req.body.password)) return res.status(401).send({ message: config.MESSAGE.INVALID_PASSWORD });
+    if (!isEmailValid(req.body.email)) return res.status(401).send({ message: config.MESSAGE.INVALID_EMAIL });
 
-      isEmailAlreadyExists(req.body.email).then(response => {
-        console.log(response);
+    resolve(req.body.username);
+  })
+    /**
+     * Checks if username already exists in database
+     */
+    .then(username => isUsernameAlreadyExists(username))
+    .then((response) => {
+      if (response) return res.status(401).send({ message: config.MESSAGE.USERNAME_EXISTS });
+    })
+    /**
+     * Checks if email already exists in database
+     */
+    .then(() => isEmailAlreadyExists(req.body.email))
+    .then(response => {
+      if (response) return res.status(401).send({ message: config.MESSAGE.EMAIL_EXISTS });
+      next()
+    }).
+    catch(err => res.send(err));
 
-        if (response) {
-          console.log('email ', req.body.email);
-          return res.status(401).send({ message: config.MESSAGE.EMAIL_EXISTS });
-        }
-        next();
-      })
+};
 
-
-    });
-}
