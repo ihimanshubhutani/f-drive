@@ -10,13 +10,12 @@ routes.get('/', (req, res) => {
   if (!req.session.verification) {
     res.sendFile('showVerificationMessage.html', { root: path.join(__dirname, '../views/') });
   }
-  else {
-    res.sendFile('index.html',
-      { root: path.join(__dirname, '../views/') })
-  }
+
+  return res.sendFile('index.html',
+    { root: path.join(__dirname, '../views/') })
+
 }
 )
-
 
 routes.get('/logout', (req, res) => {
   req.session.destroy();

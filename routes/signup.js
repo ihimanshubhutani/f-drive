@@ -11,7 +11,6 @@ const uuid = require('uuid');
 
 const routes = express.Router();
 
-
 routes.get("/", (req, res) => {
   res.sendFile("signup.html", { root: path.join(__dirname, "../views/") });
 });

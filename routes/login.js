@@ -24,7 +24,7 @@ routes.post('/', cryptoPasswordParser, (req, res) => {
     .then(result => {
 
       if (!result) {
-        return res.status(400).send({ message: config.MESSAGE.INVALID_CREDENTIALS });
+        return res.status(401).send({ message: config.MESSAGE.INVALID_CREDENTIALS });
       }
       console.log('result ', result.id);
       req.session.userId = result.id;

@@ -1,6 +1,8 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
+const sinon = require('sinon');
+const userDataHandler = require('../controller/user-dataHandler');
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -29,7 +31,6 @@ describe('Server responds', () => {
 
 });
 
-
 describe('Logging in ', () => {
     const invalidCredentials = {
         username: "himanshubhutani",
@@ -39,23 +40,28 @@ describe('Logging in ', () => {
         username: "himanshubhutani",
         password: "deqode@123"
     }
-    it('Should respond with status 400 on invalid credentials', done => {
+    it('Should respond with status 401 on invalid credentials', done => {
         chai.request(app)
             .post('/login')
             .send(invalidCredentials)
             .end((err, res) => {
-                expect(res).to.have.status(400);
+                expect(res).to.have.status(401);
                 done();
             });
     })
 
     it('Should respond with status 200 on valid credentials', done => {
+        /**
+        * Spy authenticate user function
+        */
+        const spy = sinon.spy(userDataHandler, 'authenticateUser');
         chai.request(app)
             .post('/login')
             .send(validCredentials)
             .end((err, res) => {
                 expect(res).to.have.status(200);
                 expect('Location', '/');
+                console.log(spy);
                 done();
             })
 

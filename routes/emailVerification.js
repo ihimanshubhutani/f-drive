@@ -4,7 +4,6 @@ const { verifyEmailWithCode } = require("../controller/email-serviceHandler");
 const { updateVerifiedColumn } = require("../controller/user-dataHandler");
 const routes = express.Router();
 
-
 routes.get('/verification-service', (req, res) => {
     const email = req.query.validemail;
     const code = req.query.code;

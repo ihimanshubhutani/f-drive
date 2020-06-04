@@ -22,7 +22,6 @@ const sendEmailForVerification = (email, code) => {
     },
     (error, result, fullResult) => {
       if (error) console.error(error);
-      console.log(result, fullResult);
     }
   );
 };

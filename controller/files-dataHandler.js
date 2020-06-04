@@ -37,7 +37,6 @@ const verifyUserWithFile = (userId, fileId) => new Promise(resolve => db.File.fi
     path: `./public/${userId}/${fileId}`
   }
 }).then(result => {
-  console.log(result);
   resolve(result);
 }));
 
