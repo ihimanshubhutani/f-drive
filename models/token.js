@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     value: DataTypes.STRING,
     scope: DataTypes.ARRAY,
     expires: DataTypes.DATE
-  }, {});
-  Token.associate = function(models) {
+  }, { timestamps: false });
+  Token.associate = function (models) {
     // associations can be defined here
   };
   return Token;

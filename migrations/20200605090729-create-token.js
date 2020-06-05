@@ -15,17 +15,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       scope: {
-        type: Sequelize.ARRAY,
+        type: Sequelize.ARRAY(Sequelize.TEXT),
       },
       expires: {
-        type: Sequelize.DATE,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
       userId: {
