@@ -52,10 +52,6 @@ describe('Logging in ', () => {
     })
 
     it('Should respond with status 200 on valid credentials', done => {
-        /**
-        * Spy authenticate user function
-        */
-
         chai.request(app)
             .post('/login')
             .send(validCredentials)
