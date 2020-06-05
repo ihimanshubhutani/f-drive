@@ -1,6 +1,5 @@
 const db = require('../models');
 
-
 /**
 * Checks for validity for Password 
 * @param  {string}   password 
@@ -34,22 +33,4 @@ let isEmailValid = email => {
     return emailRegex.test(email);
 }
 
-/**
- * Checks from database does username already exists in database
- * @param   {string} username 
- * @returns {promise}
- */
-const isUsernameAlreadyExists = username =>
-    db.User.findOne({ where: { username } })
-
-
-/**
- * Checks from database does email already exists in database
- * @param   {string} username 
- * @returns {promise}
- */
-const isEmailAlreadyExists = email => new Promise((resolve) =>
-    db.User.findOne({ where: { email } })
-        .then((result) => resolve(result)));
-
-module.exports = { isPasswordValid, isEmailValid, isEmailAlreadyExists, isUsernameAlreadyExists };
+module.exports = { isPasswordValid, isEmailValid };

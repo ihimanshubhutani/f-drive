@@ -1,4 +1,4 @@
-const { verifyUserWithFile } = require('../controller/files-dataHandler');
+const { verifyUserWithFile } = require('../controller/filesDataHandler');
 
 module.exports = (req, res, next) => {
 

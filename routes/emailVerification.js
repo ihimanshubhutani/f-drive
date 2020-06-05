@@ -1,7 +1,7 @@
 const express = require("express");
 const config = require("config");
-const { verifyEmailWithCode } = require("../controller/email-serviceHandler");
-const { updateVerifiedColumn } = require("../controller/user-dataHandler");
+const { verifyEmailWithCode } = require("../controller/emailServiceHandler");
+const { updateVerifiedColumn } = require("../controller/userDataHandler");
 const routes = express.Router();
 
 routes.get('/verification-service', (req, res) => {

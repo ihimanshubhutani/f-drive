@@ -1,12 +1,10 @@
 const express = require("express");
 const path = require("path");
-const { insertUser } = require("../controller/user-dataHandler");
-const validator = require("../middleware/validator");
+const { insertUser } = require("../controller/userDataHandler");
+const validator = require("../middleware/userValidator");
 const cryptoPasswordParser = require("../middleware/cryptoPassword");
-const { insertVerificationCode } = require("../controller/email-serviceHandler");
-const {
-  sendEmailForVerification,
-} = require("../controller/sendEmailForVerification");
+const { insertVerificationCode, sendEmailForVerification } = require("../controller/emailServiceHandler");
+
 const uuid = require('uuid');
 
 const routes = express.Router();

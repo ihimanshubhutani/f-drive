@@ -1,4 +1,4 @@
-const { saveFilePath } = require('../controller/files-dataHandler');
+const { saveFilePath } = require('./filesDataHandler');
 
 /**
  * Uploads file on server 

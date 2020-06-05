@@ -2,7 +2,7 @@ const express = require('express');
 const routes = express.Router()
 const config = require('config');
 const path = require('path');
-const { authenticateUser } = require('../controller/user-dataHandler');
+const { authenticateUser } = require('../controller/userDataHandler');
 const { authenticateSession } = require('../middleware/authenticateSession')
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 

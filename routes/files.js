@@ -6,7 +6,7 @@ const uploadFile = require("../controller/fileUploader");
 const {
   deleteFilePath,
   showUserFiles,
-} = require("../controller/files-dataHandler");
+} = require("../controller/filesDataHandler");
 const authenticate = require("../middleware/authenticateSession.js");
 const checkAccessAllowed = require("../middleware/checkAccesPrivilages");
 

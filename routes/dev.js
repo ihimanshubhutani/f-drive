@@ -2,6 +2,8 @@ const express = require("express");
 const config = require("config");
 const routes = express.Router();
 const path = require("path")
+const cryptoPasswordParser = require("../middleware/cryptoPassword");
+routes.use(cryptoPasswordParser);
 
 routes.get('/', (req, res) => {
     res.sendFile("devLogin.html", { root: path.join(__dirname, "../views/") });

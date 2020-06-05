@@ -53,4 +53,22 @@ const updateVerifiedColumn = (email) =>
     }
   });
 
-module.exports = { insertUser, authenticateUser, fetchInfoFromUserId, updateVerifiedColumn };
+/**
+* Checks from database does username already exists in database
+* @param   {string} username 
+* @returns {promise}
+*/
+const isUserUsernameAlreadyExists = username =>
+  db.User.findOne({ where: { username } })
+
+
+/**
+* Checks from database does email already exists in database
+* @param   {string} username 
+* @returns {promise}
+*/
+const isUserEmailAlreadyExists = email => new Promise((resolve) =>
+  db.User.findOne({ where: { email } })
+    .then((result) => resolve(result)));
+
+module.exports = { insertUser, authenticateUser, fetchInfoFromUserId, updateVerifiedColumn, isUserEmailAlreadyExists, isUserUsernameAlreadyExists };
