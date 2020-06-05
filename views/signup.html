@@ -584,14 +584,7 @@
             <input class="input100" type="password" name="password" id="password" placeholder="Password">
             <span class="focus-input100"></span>
           </div>
-          <div class="wrap-input100 validate-input m-b-20" data-validate="Please enter password">
-            <span class="btn-show-pass">
-              <i class="fa fa fa-eye"></i>
-            </span>
-            <input class="input100" type="password" name="confirmPassword" id="confirmPassword"
-              placeholder="Confirm Password" required>
-            <span class="focus-input100"></span>
-          </div>
+
           <br>
           <div class="container-login100-form-btn">
             <button class="login100-form-btn">
@@ -626,19 +619,3 @@
 </body>
 
 </html>
-
-<script>
-  var password = document.getElementById("password")
-    , confirm_password = document.getElementById("confirm_password");
-
-  function validatePassword() {
-    if (password.value != confirm_password.value) {
-      confirm_password.setCustomValidity("Passwords Don't Match");
-    } else {
-      confirm_password.setCustomValidity('');
-    }
-  }
-
-  password.onchange = validatePassword;
-  confirm_password.onkeyup = validatePassword;
-</script>
