@@ -7,6 +7,7 @@ const userDataHandler = require('../controller/user-dataHandler');
 const { expect } = chai;
 chai.use(chaiHttp);
 
+const spy = sinon.spy(userDataHandler, 'authenticateUser');
 /**
  * Checks server responds
  */
@@ -54,14 +55,14 @@ describe('Logging in ', () => {
         /**
         * Spy authenticate user function
         */
-        const spy = sinon.spy(userDataHandler, 'authenticateUser');
+
         chai.request(app)
             .post('/login')
             .send(validCredentials)
             .end((err, res) => {
                 expect(res).to.have.status(200);
                 expect('Location', '/');
-                console.log(spy);
+                console.log(spy.called);
                 done();
             })
 

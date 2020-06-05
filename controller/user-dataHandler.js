@@ -15,14 +15,16 @@ const insertUser = (username, password, verified, email) =>
  * @param   {string} password
  * @returns {Promise}
  */
-const authenticateUser = (username, password) =>
-  new Promise((resolve) =>
+const authenticateUser = (username, password) => {
+  console.log('called');
+  return new Promise((resolve) =>
+
     db.User.findOne({
       attributes: ["id"],
       where: { username, password },
     }).then((result) => resolve(result))
   );
-
+}
 /**
 * Fetching user info from userid.
 * @param   {string} username
