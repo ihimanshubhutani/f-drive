@@ -28,7 +28,6 @@ routes.get("/", (req, res) => {
 });
 
 routes.get("/upload", (req, res) => {
-  console.log(req.session.userId);
   res.sendFile("upload.html", { root: path.join(__dirname, "../views/") });
 });
 

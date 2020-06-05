@@ -8,6 +8,7 @@ const index = require("./routes/index");
 const loginRoute = require("./routes/login");
 const signupRoute = require("./routes/signup");
 const emailVerificationRoute = require("./routes/emailVerification");
+const devRoute = require("./routes/dev");
 var ejs = require('ejs');
 const app = express();
 
@@ -30,7 +31,7 @@ app.use("/hello", (req, res) => {
 })
 
 app.use("/files", express.static("./public"));
-
+app.use("/dev", devRoute);
 app.use("/files", filesRoute);
 app.use("/login", loginRoute);
 app.use("/signup", signupRoute);
