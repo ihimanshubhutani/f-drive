@@ -2,11 +2,12 @@
   "SECRET": "101458794DSA",
   "MESSAGE": {
     "INVALID_PASSWORD": "Password Should be Minimum eight characters, \n at least one letter, one number and one special character",
-    "INVALID_EMAIL": "email incorrect format",
+    "INVALID_EMAIL": "email format is incorrect",
     "USERNAME_EXISTS": "username already exists",
     "EMAIL_EXISTS": "email already exists",
     "INVALID_CREDENTIALS": "invalid credentials",
-    "LINK_EXPIRED": "verification link is expired"
+    "LINK_EXPIRED": "verification link is expired",
+    "INVALID_URL": "URL format is incorrect"
   },
   "EMAIL": {
     "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",

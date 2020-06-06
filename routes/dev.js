@@ -6,10 +6,10 @@ const cryptoPasswordParser = require("../middleware/cryptoPassword");
 const clientValidator = require("../middleware/clientValidator");
 const { insertClient, authenticateClient, fetchInfoFromClientId, updateRedirectUriAndSecret } = require("../controller/clientDataHandler");
 const authenticateClientSession = require("../middleware/authenticateClientSession");
+const { isUrlValid } = require('../controller/validations')
 const uuid = require('uuid');
 
 routes.get('/', authenticateClientSession, (req, res) => {
-    console.log('idhar');
     fetchInfoFromClientId(req.session.dev.clientId).
         then(result => {
             if (!result.redirectUri)
@@ -19,7 +19,8 @@ routes.get('/', authenticateClientSession, (req, res) => {
         })
 })
 
-routes.post('/generatekeys', (req, res) => {
+routes.post('/generatekeys', authenticateClientSession, (req, res) => {
+    if (!isUrlValid(req.body.redirectUri)) return res.status(422).send({ message: config.MESSAGE.INVALID_URL })
     updateRedirectUriAndSecret(req.session.dev.clientId, req.body.redirectUri, uuid.v4()).
         then(result => {
             return res.redirect('/dev');

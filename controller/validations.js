@@ -32,7 +32,7 @@ const isEmailValid = email => {
 }
 
 const isUrlValid = url => {
-    const urlRegex = /^http(s)?:\/\/[a-z:.0-9]+/;
+    const urlRegex = /^http(s)?:\/\/[a-z:.0-9\/]+/;
 
     /** 
      *  isUrlValid returns boolean value
