@@ -7,7 +7,8 @@
     "EMAIL_EXISTS": "email already exists",
     "INVALID_CREDENTIALS": "invalid credentials",
     "LINK_EXPIRED": "verification link is expired",
-    "INVALID_URL": "URL format is incorrect"
+    "INVALID_URL": "URL format is incorrect",
+    "MISSING_PARAMETERS ": "One of necessary parameter is missing : response_type, access_type, scope, client_id, state"
   },
   "EMAIL": {
     "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",
