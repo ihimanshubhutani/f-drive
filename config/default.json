@@ -7,8 +7,7 @@
     "EMAIL_EXISTS": "email already exists",
     "INVALID_CREDENTIALS": "invalid credentials",
     "LINK_EXPIRED": "verification link is expired",
-    "INVALID_URL": "URL format is incorrect",
-    "MISSING_PARAMETERS ": "One of necessary parameter is missing : response_type, access_type, scope, client_id, state"
+    "INVALID_URL": "URL format is incorrect"
   },
   "EMAIL": {
     "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",
@@ -17,5 +16,13 @@
   "FILE": {
     "CANNOT_DELETED": "file cannot be deleted"
   },
-  "SERVER": "http://localhost:3000"
+  "SERVER": "http://localhost:3000",
+  "MISSING_PARAMS": {
+    "SCOPE": "missing parameter: scope",
+    "RESPONSE_TYPE": "missing parameter: response_type",
+    "STATE": "missing parameter: state",
+    "REDIRECT_URI": "missing parameter: redirect_uri",
+    "CLIENT_ID": "missing parameter: client_id",
+    "ACCESS_TYPE": "missing parameter: access_type"
+  }
 }
