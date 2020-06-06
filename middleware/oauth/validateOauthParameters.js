@@ -1,4 +1,5 @@
-const config = require('../config/default.json');
+const config = require('../../config/default.json');
+const { fetchInfoFromClientId } = require("../../controller/clientDataHandler");
 
 module.exports = (req, res, next) => {
     const query = req.query;
@@ -15,7 +16,14 @@ module.exports = (req, res, next) => {
     if (!accessType) return res.status(400).send({ message: config.MISSING_PARAMS.ACCESS_TYPE });
     if (!clientId) return res.status(400).send({ message: config.MISSING_PARAMS.CLIENT_ID });
     if (!state) return res.status(400).send({ message: config.MISSING_PARAMS.STATE });
-    if (accessType != "code") return res.status(400).send({ message: config.MISSING_PARAMS.ALLOWED_GRANT_TYPE });
+    if (responseType != "code") return res.status(400).send({ message: config.MISSING_PARAMS.ALLOWED_GRANT_TYPE });
 
-    next();
+    fetchInfoFromClientId(clientId)
+        .then(result => {
+            if (!result) throw { status: 401, message: config.MESSAGE.INVALID_CLIENT_ID }
+            if (result.redirectUri != redirectUri) throw { status: 401, message: config.MESSAGE.INVALID_REDIRECT_URI }
+            req.client = { name: result.username };
+            next();
+        }).catch(err => res.status(err.status).send({ message: err.message }))
+
 }

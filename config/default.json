@@ -7,7 +7,9 @@
     "EMAIL_EXISTS": "email already exists",
     "INVALID_CREDENTIALS": "invalid credentials",
     "LINK_EXPIRED": "verification link is expired",
-    "INVALID_URL": "URL format is incorrect"
+    "INVALID_URL": "URL format is incorrect",
+    "INVALID_CLIENT_ID": "invalid client_id",
+    "INVALID_REDIRECT_URI": "invalid redirect_uri"
   },
   "EMAIL": {
     "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",
@@ -24,6 +26,6 @@
     "REDIRECT_URI": "missing parameter: redirect_uri",
     "CLIENT_ID": "missing parameter: client_id",
     "ACCESS_TYPE": "missing parameter: access_type",
-    "ALLOWED_GRANT_TYPE": "allowed grant type: code "
+    "ALLOWED_GRANT_TYPE": "allowed response type: code "
   }
 }
