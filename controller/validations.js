@@ -5,15 +5,14 @@ const db = require('../models');
 * @param  {string}   password 
 * @return {boolean} 
 */
-let isPasswordValid = password => {
-    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+const isPasswordValid = password => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     /**
-    * passwordRegex() returns boolean value
+    * isPasswordValid returns boolean value
     * based on the passed-in password
     * format is correct or not.
     */
-    console.log('checking password');
     return passwordRegex.test(password);
 }
 
@@ -22,15 +21,25 @@ let isPasswordValid = password => {
 * @param {string} email
 * @return {boolean} 
 */
-let isEmailValid = email => {
-    let emailRegex = /^([a-z\d\.-]+)@([a-z]{2,10})(\.[a-z]+)?(\.[a-z]{2,3})?$/;
+const isEmailValid = email => {
+    const emailRegex = /^([a-z\d\.-]+)@([a-z]{2,10})(\.[a-z]+)?(\.[a-z]{2,3})?$/;
 
     /** 
-     * emailRegex() returns boolean value
+     *  isEmailValid returns boolean value
      *  based on checking email format.
      **/
-    console.log('checking email');
     return emailRegex.test(email);
 }
 
-module.exports = { isPasswordValid, isEmailValid };
+const isUrlValid = url => {
+    const urlRegex = /^http(s)?:\/\/[a-z:.0-9]+/;
+
+    /** 
+     *  isUrlValid returns boolean value
+     *  based on checking url format.
+     **/
+    return urlRegex.test(url);
+}
+
+
+module.exports = { isPasswordValid, isEmailValid, isUrlValid };

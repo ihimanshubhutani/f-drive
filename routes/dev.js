@@ -26,6 +26,14 @@ routes.post('/generatekeys', (req, res) => {
         })
 })
 
+routes.post('/regenerate', (req, res) => {
+    updateRedirectUriAndSecret(req.session.dev.clientId, null, null).
+        then(result => {
+            return res.redirect('/dev');
+        })
+})
+
+
 
 routes.get('/login', (req, res) => {
     res.sendFile("devLogin.html", { root: path.join(__dirname, "../views/") });
