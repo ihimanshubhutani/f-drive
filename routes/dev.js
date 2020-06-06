@@ -4,21 +4,29 @@ const routes = express.Router();
 const path = require("path")
 const cryptoPasswordParser = require("../middleware/cryptoPassword");
 const clientValidator = require("../middleware/clientValidator");
-const { insertClient, authenticateClient, fetchInfoFromClientId } = require("../controller/clientDataHandler");
+const { insertClient, authenticateClient, fetchInfoFromClientId, updateRedirectUriAndSecret } = require("../controller/clientDataHandler");
 const authenticateClientSession = require("../middleware/authenticateClientSession");
-
+const uuid = require('uuid');
 
 routes.get('/', authenticateClientSession, (req, res) => {
-    fetchInfoFromClientId(req.session.clientId).
+    console.log('idhar');
+    fetchInfoFromClientId(req.session.dev.clientId).
         then(result => {
             if (!result.redirectUri)
                 return res.sendFile("devIndex.html", { root: path.join(__dirname, "../views/") });
 
-            return res.render('devShowClientDetails')
+            return res.render('devShowClientDetails', {});
         })
-
-
 })
+
+routes.post('/generatekeys', (req, res) => {
+    console.log('agya generatee me')
+    updateRedirectUriAndSecret(req.session.dev.clientId, req.body.redirectUri, uuid.v4()).
+        then(result => {
+            return res.redirect('/dev');
+        })
+})
+
 
 routes.get('/login', (req, res) => {
     res.sendFile("devLogin.html", { root: path.join(__dirname, "../views/") });
