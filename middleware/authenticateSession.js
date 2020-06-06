@@ -16,7 +16,7 @@ const authenticateSession = (req, res, next) => {
         req.session.username = result.username;
         req.session.verification = result.verifiedAt;
         return next()
-      })
+      }).catch(err => res.status(500).send({ message: err.message }))
   }
   else {
     return res.redirect('/login');

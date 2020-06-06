@@ -6,7 +6,6 @@ const authenticateSession = require('../middleware/authenticateSession.js');
 routes.use(authenticateSession);
 
 routes.get('/', (req, res) => {
-  console.log(req.session);
   if (!req.session.verification) {
     res.sendFile('showVerificationMessage.html', { root: path.join(__dirname, '../views/') });
   }

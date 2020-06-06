@@ -24,7 +24,7 @@ routes.post("/", validator, cryptoPasswordParser, (req, res) => {
     }
     ).then(() => {
       res.render(path.join(__dirname, "../views/emailConfirmation"), { email });
-    })
+    }).catch(err => res.status(500).send({ message: err.message }));
 });
 
 

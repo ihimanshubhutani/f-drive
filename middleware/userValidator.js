@@ -28,6 +28,3 @@ module.exports = (req, res, next) =>
       next()
     }).
     catch(err => res.status(err.status).send(err.message));
-
-
-
