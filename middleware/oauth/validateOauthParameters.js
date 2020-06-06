@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
     if (!accessType) return res.status(400).send({ message: config.MISSING_PARAMS.ACCESS_TYPE });
     if (!clientId) return res.status(400).send({ message: config.MISSING_PARAMS.CLIENT_ID });
     if (!state) return res.status(400).send({ message: config.MISSING_PARAMS.STATE });
-
+    if (accessType != "code") return res.status(400).send({ message: config.MISSING_PARAMS.ALLOWED_GRANT_TYPE });
 
     next();
 }

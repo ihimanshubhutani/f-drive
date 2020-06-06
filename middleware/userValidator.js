@@ -3,7 +3,7 @@ const { isPasswordValid, isEmailValid, } = require('../controller/validations');
 const { isUserEmailAlreadyExists, isUserUsernameAlreadyExists } = require('../controller/userDataHandler');
 
 module.exports = (req, res, next) =>
-  new Promise((resolve, reject) => {
+  new Promise(resolve => {
     /**
      * Validates regex for email and password
      */

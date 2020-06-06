@@ -23,6 +23,7 @@
     "STATE": "missing parameter: state",
     "REDIRECT_URI": "missing parameter: redirect_uri",
     "CLIENT_ID": "missing parameter: client_id",
-    "ACCESS_TYPE": "missing parameter: access_type"
+    "ACCESS_TYPE": "missing parameter: access_type",
+    "ALLOWED_GRANT_TYPE": "allowed grant type: code "
   }
 }
