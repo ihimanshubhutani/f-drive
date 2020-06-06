@@ -7,8 +7,8 @@ module.exports = (req, res, next) =>
     /**
      * Validates regex for email and password
      */
-    if (!isPasswordValid(req.body.password)) reject({ status: 422, message: config.MESSAGE.INVALID_PASSWORD, });
-    if (!isEmailValid(req.body.email)) reject({ status: 422, message: config.MESSAGE.INVALID_EMAIL });
+    if (!isPasswordValid(req.body.password)) throw ({ status: 422, message: config.MESSAGE.INVALID_PASSWORD, });
+    if (!isEmailValid(req.body.email)) throw ({ status: 422, message: config.MESSAGE.INVALID_EMAIL });
 
     resolve(req.body.username);
   })
@@ -17,14 +17,14 @@ module.exports = (req, res, next) =>
      */
     .then(username => isUserUsernameAlreadyExists(username))
     .then((response) => {
-      if (response) reject({ status: 409, message: config.MESSAGE.USERNAME_EXISTS });
+      if (response) throw ({ status: 409, message: config.MESSAGE.USERNAME_EXISTS });
     })
     /**
      * Checks if email already exists in database
      */
     .then(() => isUserEmailAlreadyExists(req.body.email))
     .then(response => {
-      if (response) reject({ status: 409, message: config.MESSAGE.EMAIL_EXISTS })
+      if (response) throw ({ status: 409, message: config.MESSAGE.EMAIL_EXISTS })
       next()
     }).
     catch(err => res.status(err.status).send(err.message));
