@@ -555,47 +555,55 @@
     <div class="container-login100">
 
         <div class="wrap-login100 p-t-90 p-b-30">
-            <form action="/dev/login" class="login100-form validate-form" method="POST">
+            <form action="/dev/regenerate" class="login100-form validate-form" method="POST">
 
                 <br>
 
 
-                <div class="text-center p-t-55 p-b-30">
-                    <span class="txt1">
-                        Your Secret Keys
-                    </span>
-                </div>
+
                 <br>
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter Username">
-                    <input class="input100" type="text" name="username" placeholder="username">
+                <br>
+                <label>Your Redirect Uri</label>
+                <br>
+                <br>
+                <div class="wrap-input100 validate-input m-b-16" data-validate="">
+
+                    <input class="input100" type="text" name="username" value="<%= redirectUri %>" disabled>
                     <span class="focus-input100"></span>
                 </div>
-
                 <br>
-                <div class="wrap-input100 validate-input m-b-20" data-validate="Please enter password">
+                <br>
+                <label>Copy Your Client Secret & Client Id: </label>
+                <br>
+                <br>
+                <br>
+                Client Secret<div class="wrap-input100 validate-input m-b-20" style="width: 150%;" data-validate="">
                     <span class="btn-show-pass">
                         <i class="fa fa fa-eye"></i>
                     </span>
-                    <input class="input100" type="password" name="password" placeholder="Password">
+                    <input class="input100" value="<%= clientSecret %>" disabled>
                     <span class="focus-input100"></span>
                 </div>
                 <br>
-                Remember me!<input type="checkbox" name="checkbox" id="rememberMe"> <br>
+
+                <br>
+
+                Client ID<div class="wrap-input100 validate-input m-b-20" data-validate="">
+                    <span class="btn-show-pass">
+                        <i class="fa fa fa-eye"></i>
+                    </span>
+                    <input class="input100" value="<%= clientId %>" disabled>
+                    <span class="focus-input100"></span>
+                </div>
+                <br>
+
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn">
-                        Login
+                        Regenerate Keys or Update Redirect URI
                     </button>
                 </div>
                 <br> <br>
-                <div class="flex-col-c p-t-224">
-                    <span class="txt2 p-b-10">
-                        Don’t have an account?
-                    </span>
 
-                    <a href="/dev/signup" class="txt3 bo1 hov1">
-                        Sign up now
-                    </a>
-                </div>
 
             </form>
         </div>

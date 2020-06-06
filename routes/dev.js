@@ -15,12 +15,11 @@ routes.get('/', authenticateClientSession, (req, res) => {
             if (!result.redirectUri)
                 return res.sendFile("devIndex.html", { root: path.join(__dirname, "../views/") });
 
-            return res.render('devShowClientDetails', {});
+            return res.render('devShowClientDetails', { redirectUri: result.redirectUri, clientSecret: result.clientSecret, clientId: req.session.dev.clientId });
         })
 })
 
 routes.post('/generatekeys', (req, res) => {
-    console.log('agya generatee me')
     updateRedirectUriAndSecret(req.session.dev.clientId, req.body.redirectUri, uuid.v4()).
         then(result => {
             return res.redirect('/dev');
