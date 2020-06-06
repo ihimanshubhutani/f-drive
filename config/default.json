@@ -9,7 +9,8 @@
     "LINK_EXPIRED": "verification link is expired",
     "INVALID_URL": "URL format is incorrect",
     "INVALID_CLIENT_ID": "invalid client_id",
-    "INVALID_REDIRECT_URI": "invalid redirect_uri"
+    "INVALID_REDIRECT_URI": "invalid redirect_uri",
+    "INVALID_SCOPE": "some request scopes are invalid"
   },
   "EMAIL": {
     "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",
@@ -27,5 +28,9 @@
     "CLIENT_ID": "missing parameter: client_id",
     "ACCESS_TYPE": "missing parameter: access_type",
     "ALLOWED_GRANT_TYPE": "allowed response type: code "
+  },
+  "SCOPE": {
+    "profile": true,
+    "file": true
   }
 }

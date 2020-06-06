@@ -1,5 +1,7 @@
 const config = require('../../config/default.json');
 const { fetchInfoFromClientId } = require("../../controller/clientDataHandler");
+const { checkScopes } = require("../../controller/oauthHandler");
+
 
 module.exports = (req, res, next) => {
     const query = req.query;
@@ -9,6 +11,7 @@ module.exports = (req, res, next) => {
     const accessType = query.access_type;
     const clientId = query.client_id;
     const state = query.state;
+    const scopeArray = scope.split(" ");
 
     if (!scope) return res.status(400).send({ message: config.MISSING_PARAMS.SCOPE });
     if (!responseType) return res.status(400).send({ message: config.MISSING_PARAMS.RESPONSE_TYPE });
@@ -17,6 +20,9 @@ module.exports = (req, res, next) => {
     if (!clientId) return res.status(400).send({ message: config.MISSING_PARAMS.CLIENT_ID });
     if (!state) return res.status(400).send({ message: config.MISSING_PARAMS.STATE });
     if (responseType != "code") return res.status(400).send({ message: config.MISSING_PARAMS.ALLOWED_GRANT_TYPE });
+    const distinguishedScopes = checkScopes(scopeArray);
+
+    if (distinguishedScopes.invalid.length) return res.status(400).send({ message: config.MESSAGE.INVALID_SCOPE, distinguishedScopes })
 
     fetchInfoFromClientId(clientId)
         .then(result => {
