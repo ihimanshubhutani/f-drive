@@ -4,6 +4,7 @@ const { isClientEmailAlreadyExists, isClientUsernameAlreadyExists } = require('.
 
 module.exports = (req, res, next) =>
     new Promise((resolve, reject) => {
+        console.log(req.body);
         /**
          * Validates regex for email and password
          */

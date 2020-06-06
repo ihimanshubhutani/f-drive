@@ -4,11 +4,19 @@ const routes = express.Router();
 const path = require("path")
 const cryptoPasswordParser = require("../middleware/cryptoPassword");
 const clientValidator = require("../middleware/clientValidator");
-const { insertClient } = require("../controller/clientDataHandler");
-const { aut } = require("../middleware/authenticateClientSession");
-routes.use(cryptoPasswordParser);
+const { insertClient, authenticateClient, fetchInfoFromClientId } = require("../controller/clientDataHandler");
+const authenticateClientSession = require("../middleware/authenticateClientSession");
 
-routes.get('/', (req, res) => {
+
+routes.get('/', authenticateClientSession, (req, res) => {
+    fetchInfoFromClientId(req.session.clientId).
+        then(result => {
+            if (!result.redirectUri)
+                return res.sendFile("devIndex.html", { root: path.join(__dirname, "../views/") });
+
+            return res.render('devShowClientDetails')
+        })
+
 
 })
 
@@ -20,12 +28,40 @@ routes.get('/signup', (req, res) => {
     res.sendFile("devSignup.html", { root: path.join(__dirname, "../views/") });
 });
 
-routes.post('/login', (req, res) => {
+routes.post('/login', cryptoPasswordParser, (req, res) => {
+    authenticateClient(req.body.username, req.body.password, req.body.email)
+        .then(result => {
+
+            if (!result) {
+                return res.status(401).send({ message: config.MESSAGE.INVALID_CREDENTIALS });
+            }
+            console.log('result ', result.id);
+            req.session.dev = { clientId: result.id };
+
+            /**
+             * if user ticked 'Remember me' checkbox, his session 
+             * will be mainted even after browser is closed (for 24 hours from login)
+             */
+            if (req.body.checkbox) {
+                req.session.cookie.maxAge = 24 * 60 * 60 * 1000
+            }
+
+            res.redirect('/dev')
+        })
+});
+
+routes.post('/signup', clientValidator, cryptoPasswordParser, (req, res) => {
+    insertClient(req.body.username, req.body.email, req.body.password).
+        then((result) => {
+            req.session.dev = { clientId: result.id };
+            res.redirect('/dev');
+        });
 
 });
 
-routes.post('/signup', clientValidator, (req, res) => {
-    insertClient(req.body.username, req.body.email, req.body.password);
+routes.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/dev');
 });
 
 

@@ -551,55 +551,46 @@
 
 <body>
 
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-t-90 p-b-30">
+                <form action="/dev/generatekeys" class="login100-form validate-form" method="POST">
 
-    <div class="container-login100">
+                    <div class="text-center p-t-55 p-b-30">
+                        <span class="txt1">
+                            Get Client ID and Client Secret
+                        </span>
+                    </div>
+                    <br>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter Redirect URI">
+                        <input class="input100" type="text" name="redirectUri" placeholder="redirect uri">
+                        <span class="focus-input100"></span>
+                    </div>
 
-        <div class="wrap-login100 p-t-90 p-b-30">
-            <form action="/dev/login" class="login100-form validate-form" method="POST">
+                    <br>
 
+
+                    <br>
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn">
+                            Generate Credentials
+                        </button>
+                    </div>
+
+
+                </form>
                 <br>
 
 
-                <div class="text-center p-t-55 p-b-30">
-                    <span class="txt1">
-                        Login as Developer
-                    </span>
-                </div>
-                <br>
-                <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter Username">
-                    <input class="input100" type="text" name="username" placeholder="username">
-                    <span class="focus-input100"></span>
-                </div>
-
-                <br>
-                <div class="wrap-input100 validate-input m-b-20" data-validate="Please enter password">
-                    <span class="btn-show-pass">
-                        <i class="fa fa fa-eye"></i>
-                    </span>
-                    <input class="input100" type="password" name="password" placeholder="Password">
-                    <span class="focus-input100"></span>
-                </div>
-                <br>
-                Remember me!<input type="checkbox" name="checkbox" id="rememberMe"> <br>
-                <div class="container-login100-form-btn">
-                    <button class="login100-form-btn">
-                        Login
-                    </button>
-                </div>
-                <br> <br>
-                <div class="flex-col-c p-t-224">
-                    <span class="txt2 p-b-10">
-                        Don’t have an account?
-                    </span>
-
-                    <a href="/dev/signup" class="txt3 bo1 hov1">
-                        Sign up now
+                <div>
+                    <a href="/dev/logout" class="txt3 bo1 hov1">
+                        Logout
                     </a>
                 </div>
 
-            </form>
+
+            </div>
         </div>
-    </div>
     </div>
 
 

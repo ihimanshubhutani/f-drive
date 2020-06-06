@@ -22,6 +22,20 @@ const authenticateClient = (username, password) => new Promise((resolve) =>
     }).then((result) => resolve(result))
 );
 
+/**
+* Fetching client info from userid.
+* @param   {string} username
+* @param   {string} password
+* @returns {Promise}
+*/
+const fetchInfoFromClientId = (clientId) =>
+    new Promise((resolve) =>
+        db.Client.findOne({
+            attributes: ["username"],
+            where: { id: clientId },
+        }).then((result) => resolve(result))
+    );
+
 
 /**
 * Checks from database does username already exists in database
@@ -38,7 +52,7 @@ const isClientUsernameAlreadyExists = username =>
 * @returns {promise}
 */
 const isClientEmailAlreadyExists = email => new Promise((resolve) =>
-    db.User.findOne({ where: { email } })
+    db.Client.findOne({ where: { email } })
         .then((result) => resolve(result)));
 
-module.exports = { insertClient, authenticateClient, isClientEmailAlreadyExists, isClientUsernameAlreadyExists };
+module.exports = { insertClient, authenticateClient, isClientEmailAlreadyExists, fetchInfoFromClientId, isClientUsernameAlreadyExists };

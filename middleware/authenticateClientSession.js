@@ -6,7 +6,7 @@ const { fetchInfoFromClientId } = require('../controller/clientDataHandler');
  * with username 
  */
 module.exports = (req, res, next) => {
-    if (req.session.dev.clientId) {
+    if (req.session.dev) {
         fetchInfoFromClientId(req.session.dev.clientId)
             .then(result => {
                 if (!result) {
