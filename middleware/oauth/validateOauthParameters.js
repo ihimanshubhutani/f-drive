@@ -14,20 +14,28 @@ module.exports = (req, res, next) => {
   const clientId = query.client_id;
   const { state } = query;
 
-  res.status(config.STATUS.BAD_REQUEST);
-  if (!scope) return res.send({ message: config.MISSING_PARAMS.SCOPE });
-  if (!responseType) return res.send({ message: config.MISSING_PARAMS.RESPONSE_TYPE });
-  if (!redirectUri) return res.send({ message: config.MISSING_PARAMS.REDIRECT_URI });
-  if (!accessType) return res.send({ message: config.MISSING_PARAMS.ACCESS_TYPE });
-  if (!clientId) return res.send({ message: config.MISSING_PARAMS.CLIENT_ID });
-  if (!state) return res.send({ message: config.MISSING_PARAMS.STATE });
-
+  try {
+    res.status(config.STATUS.BAD_REQUEST);
+    if (!scope) throw new Error(config.MISSING_PARAMS.SCOPE);
+    if (!responseType) throw new Error(config.MISSING_PARAMS.RESPONSE_TYPE);
+    if (!redirectUri) throw new Error(config.MISSING_PARAMS.REDIRECT_URI);
+    if (!accessType) throw new Error(config.MISSING_PARAMS.ACCESS_TYPE);
+    if (!clientId) throw new Error(config.MISSING_PARAMS.CLIENT_ID);
+    if (!state) throw new Error(config.MISSING_PARAMS.STATE);
+    if (responseType !== 'code') throw new Error(config.MISSING_PARAMS.ALLOWED_GRANT_TYPE);
+  } catch (err) {
+    console.log(config.STATUS_CODE[res.statusCode]);
+    return res.render(errorPage,
+      {
+        errMsg: err.message,
+        status: res.statusCode,
+        errName: config.STATUS_CODE[res.statusCode],
+      });
+  }
   const scopeArray = scope.split(' ');
-  if (responseType !== 'code') return res.send({ message: config.MISSING_PARAMS.ALLOWED_GRANT_TYPE });
   const distinguishedScopes = checkScopes(scopeArray);
-
   if (distinguishedScopes.invalid.length) {
-    return res.send({ message: config.MESSAGE.INVALID_SCOPE, distinguishedScopes });
+    return res.json({ message: config.MESSAGE.INVALID_SCOPE, distinguishedScopes });
   }
 
   return fetchInfoFromClientId(clientId)
@@ -41,8 +49,10 @@ module.exports = (req, res, next) => {
       res.status(config.STATUS.OK);
       next();
     })
-    .catch(err => {
-      res.render(errorPage,
-        { err: err.message, status: res.statusCode, errName: config.STATUS[res.statusCode] });
-    });
+    .catch(err => res.render(errorPage,
+      {
+        errMsg: err.message,
+        status: res.statusCode,
+        errName: config.STATUS_CODE[res.statusCode],
+      }));
 };

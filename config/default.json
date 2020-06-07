@@ -38,5 +38,9 @@
     "BAD_REQUEST": 400,
     "UNAUTHORIZED": 401,
     "UNPROCESSEBLE_ENTITY": 422
+  },
+  "STATUS_CODE": {
+    "400": "Bad Request",
+    "401": "Unauthorized"
   }
 }
