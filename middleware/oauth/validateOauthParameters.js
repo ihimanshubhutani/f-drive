@@ -43,6 +43,6 @@ module.exports = (req, res, next) => {
     })
     .catch(err => {
       res.render(errorPage,
-        { err: err.message, status: res.statusCode, statusMsg: res.statusMessage });
+        { err: err.message, status: res.statusCode, statusMsg: config.STATUS[res.statusCode] });
     });
 };

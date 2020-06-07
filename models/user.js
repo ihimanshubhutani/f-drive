@@ -1,7 +1,7 @@
-"use strict";
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "User",
+    'User',
     {
       username: DataTypes.STRING,
       password: DataTypes.STRING,
@@ -11,16 +11,17 @@ module.exports = (sequelize, DataTypes) => {
     {
       // attributes: { exclude: ['id'] },
       timestamps: false,
-    }
+    },
   );
 
+  // eslint-disable-next-line func-names
   User.associate = function (models) {
     User.hasMany(models.File, {
-      foreignKey: "userId",
+      foreignKey: 'userId',
     });
-    User.hasMany(models.EmailConfirmationCode, { foreignKey: "userId" });
-    User.hasMany(models.Token, { foreignKey: "userId" });
-    User.hasMany(models.AuthorizationCode, { foreignKey: "userId" });
+    User.hasMany(models.EmailConfirmationCode, { foreignKey: 'userId' });
+    User.hasMany(models.Token, { foreignKey: 'userId' });
+    User.hasMany(models.AuthorizationCode, { foreignKey: 'userId' });
   };
   return User;
 };

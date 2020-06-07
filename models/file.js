@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const File = sequelize.define('File', {
     path: DataTypes.STRING,
@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
   });
-  File.associate = function (models) {
+  File.associate = () => {
 
   };
   return File;

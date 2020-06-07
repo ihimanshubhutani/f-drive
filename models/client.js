@@ -1,7 +1,7 @@
-"use strict";
+
 module.exports = (sequelize, DataTypes) => {
   const Client = sequelize.define(
-    "Client",
+    'Client',
     {
       clientSecret: DataTypes.STRING,
       username: DataTypes.STRING,
@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-    }
+    },
   );
-  Client.associate = function (models) {
-    Client.hasMany(models.AuthorizationCode, { foreignKey: "userId" });
+  Client.associate = (models) => {
+    Client.hasMany(models.AuthorizationCode, { foreignKey: 'userId' });
   };
   return Client;
 };

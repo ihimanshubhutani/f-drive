@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const EmailConfirmationCode = sequelize.define('EmailConfirmationCode', {
     email: DataTypes.STRING,
@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {
     attributes: { exclude: ['id'] },
-    timestamps: false
+    timestamps: false,
   });
-  EmailConfirmationCode.associate = function (models) {
-    //EmailConfirmationCode.belongsTo(models.User);
+  EmailConfirmationCode.associate = () => {
+    // EmailConfirmationCode.belongsTo(models.User);
   };
   return EmailConfirmationCode;
 };

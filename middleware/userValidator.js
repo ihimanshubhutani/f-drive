@@ -1,11 +1,9 @@
 const config = require('config');
+const path = require('path');
 const { isPasswordValid, isEmailValid } = require('../controller/validations');
 const { isUserEmailAlreadyExists, isUserUsernameAlreadyExists } = require('../controller/userDataHandler');
 
 module.exports = (req, res, next) => new Promise((resolve) => {
-  /**
-     * Validates regex for email and password
-     */
   if (!isPasswordValid(req.body.password)) {
     res.status(422);
     throw new Error(config.MESSAGE.INVALID_PASSWORD);
@@ -18,9 +16,6 @@ module.exports = (req, res, next) => new Promise((resolve) => {
 
   resolve(req.body.username);
 })
-  /**
-       * Checks if username already exists in database
-       */
   .then((username) => isUserUsernameAlreadyExists(username))
   .then((response) => {
     if (response) {
@@ -28,9 +23,6 @@ module.exports = (req, res, next) => new Promise((resolve) => {
       throw new Error(config.MESSAGE.USERNAME_EXISTS);
     }
   })
-  /**
-       * Checks if email already exists in database
-       */
   .then(() => isUserEmailAlreadyExists(req.body.email))
   .then((response) => {
     if (response) {
@@ -41,4 +33,8 @@ module.exports = (req, res, next) => new Promise((resolve) => {
     }
     next();
   })
-  .catch((err) => res.send(err));
+  .catch(err => {
+    console.log(err.message);
+    res.render(path.join(__dirname, '../views/error'),
+      { errMsg: err.message, status: res.statusCode, statusMsg: config.STATUS[res.statusCode] });
+  });

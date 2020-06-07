@@ -1,11 +1,11 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const AuthorizationCode = sequelize.define('AuthorizationCode', {
     authCode: DataTypes.STRING,
     scope: DataTypes.ARRAY(DataTypes.TEXT),
-    expires: DataTypes.DATE
+    expires: DataTypes.DATE,
   }, { timestamps: false });
-  AuthorizationCode.associate = function (models) {
+  AuthorizationCode.associate = () => {
     // associations can be defined here
   };
   return AuthorizationCode;
