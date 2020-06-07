@@ -1,4 +1,8 @@
+const config = require('config');
+const path = require('path');
 const { fetchInfoFromUserId } = require('../controller/userDataHandler');
+
+const errorPage = path.join(__dirname, '../../views/error');
 
 /**
  * Authenticate and allow to use /upload /delete /update /download
@@ -19,7 +23,12 @@ const authenticateSession = (req, res, next) => {
 
         return next();
       })
-      .catch(err => res.status(500).send({ message: err.message }));
+      .catch(err => res.render(errorPage,
+        {
+          errMsg: err.message,
+          status: res.statusCode,
+          errName: config.STATUS_CODE[res.statusCode],
+        }));
   }
   return res.redirect('/login');
 };
