@@ -20,13 +20,9 @@ routes.get('/', (req, res) =>
 
 routes.post('/', cryptoPasswordParser, (req, res) => {
 
-  authenticateUser(req.body.username, req.body.password, req.body.email)
+  authenticateUser(req.body.username, req.body.password)
     .then(result => {
-
-      if (!result) {
-        return res.status(401).send({ message: config.MESSAGE.INVALID_CREDENTIALS });
-      }
-      console.log('result ', result.id);
+      if (!result) return res.status(401).send({ message: config.MESSAGE.INVALID_CREDENTIALS });
       req.session.userId = result.id;
 
       /**
