@@ -6,15 +6,10 @@ const cryptoPasswordParser = require('../middleware/cryptoPassword');
 
 const routes = express.Router();
 
-/**
- * Authenticates user, if its session is already availabe or not.
- */
-routes.use((req, res, next) => {
+routes.get('/', (req, res) => {
   if (req.session.userId) return res.redirect('/');
-  return next();
+  return res.sendFile('login.html', { root: path.join(__dirname, '../views/') });
 });
-
-routes.get('/', (req, res) => res.sendFile('login.html', { root: path.join(__dirname, '../views/') }));
 
 routes.post('/', cryptoPasswordParser, (req, res) => {
   authenticateUser(req.body.username, req.body.password)
@@ -23,12 +18,10 @@ routes.post('/', cryptoPasswordParser, (req, res) => {
       req.session.userId = result.id;
 
       /**
-       * if user ticked 'Remember me' checkbox, his session
-       * will be mainted even after browser is closed (for 24 hours from login)
-       */
-      if (req.body.checkbox) {
-        req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
-      }
+         * if user ticked 'Remember me' checkbox, his session
+         * will be mainted even after browser is closed (for 24 hours from login)
+         */
+      if (req.body.checkbox) { req.session.cookie.maxAge = 24 * 60 * 60 * 1000; }
 
       return res.redirect('/');
     });
