@@ -2,3 +2,4 @@ node_modules
 public
 config/config.json
 config/keys.json
+.env
