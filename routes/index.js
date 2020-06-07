@@ -1,8 +1,8 @@
 const express = require('express');
-const routes = express.Router();
 const path = require('path');
-
 const authenticateSession = require('../middleware/authenticateSession.js');
+
+const routes = express.Router();
 routes.use(authenticateSession);
 
 routes.get('/', (req, res) => {
@@ -11,13 +11,11 @@ routes.get('/', (req, res) => {
   }
 
   return res.sendFile('index.html',
-    { root: path.join(__dirname, '../views/') })
-
-}
-)
+    { root: path.join(__dirname, '../views/') });
+});
 
 routes.get('/logout', (req, res) => {
   req.session.destroy();
-  res.redirect('/');
-})
+  return res.redirect('/');
+});
 module.exports = routes;
