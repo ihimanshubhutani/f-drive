@@ -1,6 +1,6 @@
-const config = require("config");
-const db = require("../models");
-const keys = require("../config/keys.json");
+const config = require('config');
+const db = require('../models');
+const keys = require('../config/keys.json');
 
 /**
  * Inserts Verification code with user email and userID
@@ -8,8 +8,11 @@ const keys = require("../config/keys.json");
  * @param {string}  code
  * @param {Boolean} userId
  */
-const insertVerificationCode = (email, code, userId) =>
-  db.EmailConfirmationCode.create({ email, code, userId });
+const insertVerificationCode = (email, code, userId) => db.EmailConfirmationCode.create({
+  email,
+  code,
+  userId,
+});
 
 /**
  * Verify email with code
@@ -17,13 +20,12 @@ const insertVerificationCode = (email, code, userId) =>
  * @param {string}  code
  * @param {Boolean} userId
  */
-const verifyEmailWithCode = (email, code) =>
-  db.EmailConfirmationCode.findOne({
-    where: {
-      email,
-      code
-    }
-  });
+const verifyEmailWithCode = (email, code) => db.EmailConfirmationCode.findOne({
+  where: {
+    email,
+    code,
+  },
+});
 
 /**
 * Sends Email Verification link to `email`
@@ -32,21 +34,23 @@ const verifyEmailWithCode = (email, code) =>
 * @returns {void}
 */
 const sendEmailForVerification = (email, code) => {
-  const send = require("gmail-send")({
+  // eslint-disable-next-line global-require
+  const send = require('gmail-send')({
     user: keys.GOOGLE.USERNAME,
     pass: keys.GOOGLE.PASS,
     to: email,
     subject: config.EMAIL.SUBJECT,
   });
 
-  send(
+  return send(
     {
       text: `${config.EMAIL.BODY}
        ${config.SERVER}/email/verification-service?validemail=${email}&code=${code}`,
     },
-    (error, result, fullResult) => {
-      if (error) console.error(error);
-    }
+    (error) => {
+      if (error) return error;
+      return true;
+    },
   );
 };
 

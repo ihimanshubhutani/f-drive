@@ -22,21 +22,33 @@ const checkScopes = scopeArray => {
   return result;
 };
 
-const encryptAuthCode = object => {
-  const text = JSON.stringify(object);
-  const cipher = crypto.createCipher('aes-256-cbc', process.env.AUTHCODE_ENCRYPTION_KEY);
-  let crypted = cipher.update(text, 'utf8', 'hex');
-  crypted += cipher.final('hex');
+/**
+ * Returns encrypted string from object passed
+ * @param   {string} data
+ * @returns {object}
+ */
+const encryptAuthCode = data => {
+  const text = JSON.stringify(data);
+  const cipher = crypto.createCipher(config.ENCRYPTION.ALGORITHM,
+    process.env.AUTHCODE_ENCRYPTION_KEY);
+
+  let crypted = cipher.update(text, config.ENCRYPTION.UTF8, config.ENCRYPTION.HEX);
+  crypted += cipher.final(config.ENCRYPTION.HEX);
   return crypted;
 };
 
-const decryptAuthCode = object => {
-  const text = JSON.stringify(object);
-  const decipher = crypto.createDecipher('aes-256-cbc', process.env.AUTHCODE_ENCRYPTION_KEY);
-  let dec = decipher.update(text, 'hex', 'utf8');
-  dec += decipher.final('utf8');
-  return dec;
+/**
+ * Returns decrypted object from string passed
+ * @param   {object} data
+ * @returns {object}
+ */
+const decryptAuthCode = data => {
+  const text = JSON.stringify(data);
+  const decipher = crypto.createDecipher(config.ENCRYPTION.ALGORITHM,
+    process.env.AUTHCODE_ENCRYPTION_KEY);
+  let dec = decipher.update(text, config.ENCRYPTION.HEX, config.ENCRYPTION.UTF8);
+  dec += decipher.final(config.ENCRYPTION.UTF8);
+  return JSON.parse(dec);
 };
-
 
 module.exports = { checkScopes, encryptAuthCode, decryptAuthCode };

@@ -37,10 +37,18 @@
     "OK": 200,
     "BAD_REQUEST": 400,
     "UNAUTHORIZED": 401,
-    "UNPROCESSEBLE_ENTITY": 422
+    "UNPROCESSEBLE_ENTITY": 422,
+    "CONFLICT": 409
   },
   "STATUS_CODE": {
     "400": "Bad Request",
-    "401": "Unauthorized"
+    "401": "Unauthorized",
+    "409": "Conflict",
+    "422": "Unprocesseble Entity"
+  },
+  "ENCRYPTION": {
+    "ALGORITHM": "aes-256-cbc",
+    "HEX": "hex",
+    "UTF8": "utf-8"
   }
 }
