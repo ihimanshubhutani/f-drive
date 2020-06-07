@@ -29,6 +29,12 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
+      expires: {
+        type: Sequelize.DATE,
+      },
+      scope: {
+        type: Sequelize.ARRAY(Sequelize.TEXT),
+      }
 
     });
   },

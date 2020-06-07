@@ -34,8 +34,6 @@ routes.post('/regenerate', (req, res) => {
         })
 })
 
-
-
 routes.get('/login', (req, res) => {
     res.sendFile("devLogin.html", { root: path.join(__dirname, "../views/") });
 });

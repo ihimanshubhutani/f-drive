@@ -5,8 +5,8 @@ const path = require("path");
 const validateOauthParameters = require("../middleware/oauth/validateOauthParameters");
 
 routes.get('/', validateOauthParameters, (req, res) => {
-
-    res.render(path.join(__dirname, "../views/oauthLogin"), { clientName: req.client.name });
+    console.log(req.url);
+    res.render(path.join(__dirname, "../views/oauthLogin"), { clientName: req.client.name, url: req.url });
 
 });
 

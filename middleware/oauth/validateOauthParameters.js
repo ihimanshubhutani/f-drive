@@ -1,6 +1,6 @@
 const config = require('../../config/default.json');
 const { fetchInfoFromClientId } = require("../../controller/clientDataHandler");
-const { checkScopes } = require("../../controller/oauthHandler");
+const { checkScopes } = require("../../controller/oauth/oauthHandler");
 
 module.exports = (req, res, next) => {
     const query = req.query;

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     expires: DataTypes.DATE
   }, { timestamps: false });
   AuthorizationCode.associate = function (models) {
-    AuthorizationCode.hasMany(models.AuthorizationCode, { foreignKey: "userId" });
+    // associations can be defined here
   };
   return AuthorizationCode;
 };
