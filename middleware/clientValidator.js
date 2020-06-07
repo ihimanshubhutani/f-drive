@@ -1,4 +1,5 @@
 const config = require('config');
+const path = require('path');
 const { isPasswordValid, isEmailValid } = require('../controller/validations');
 
 const {
@@ -28,4 +29,8 @@ module.exports = (req, res, next) => new Promise(resolve => {
     if (response) { res.status(409); throw new Error(config.MESSAGE.EMAIL_EXISTS); }
     next();
   })
-  .catch((err) => res.send({ err, status: res.status }));
+  .catch(err => {
+    console.log(err.message);
+    res.render(path.join(__dirname, '../views/error'),
+      { errMsg: err.message, status: res.statusCode, errName: config.STATUS[res.statusCode] });
+  });

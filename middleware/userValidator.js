@@ -36,5 +36,5 @@ module.exports = (req, res, next) => new Promise((resolve) => {
   .catch(err => {
     console.log(err.message);
     res.render(path.join(__dirname, '../views/error'),
-      { errMsg: err.message, status: res.statusCode, statusMsg: config.STATUS[res.statusCode] });
+      { errMsg: err.message, status: res.statusCode, errName: config.STATUS[res.statusCode] });
   });
