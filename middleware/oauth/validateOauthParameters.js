@@ -2,7 +2,6 @@ const config = require('../../config/default.json');
 const { fetchInfoFromClientId } = require("../../controller/clientDataHandler");
 const { checkScopes } = require("../../controller/oauthHandler");
 
-
 module.exports = (req, res, next) => {
     const query = req.query;
     const scope = query.scope;

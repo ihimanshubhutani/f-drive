@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     User.hasMany(models.EmailConfirmationCode, { foreignKey: "userId" });
     User.hasMany(models.Token, { foreignKey: "userId" });
+    User.hasMany(models.AuthorizationCode, { foreignKey: "userId" });
   };
   return User;
 };
