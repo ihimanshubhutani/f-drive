@@ -8,10 +8,10 @@ const db = require('../models');
  */
 const saveFilePath = (path, name, userId, createdAt, type) => db.File.create({
   path,
+  name,
   userId,
   createdAt,
   type,
-  name,
 });
 
 /**

@@ -51,7 +51,6 @@ const updateRedirectUriAndSecret = (clientId, redirectUri, clientSecret) => db.C
 */
 const isClientUsernameAlreadyExists = username => db.Client.findOne({ where: { username } });
 
-
 /**
 * Checks from database does email already exists in database
 * @param   {string} username

@@ -2,7 +2,9 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const validator = require('../middleware/userValidator');
 
+// eslint-disable-next-line no-undef
 describe('Test the middleware function validator', () => {
+  // eslint-disable-next-line no-undef
   it('Should call next()', (done) => {
     const req = {
       body: {
@@ -19,6 +21,7 @@ describe('Test the middleware function validator', () => {
     });
   });
 
+  // eslint-disable-next-line no-undef
   it('Should not call next() for username that already exists', (done) => {
     const req = {
       body: {
@@ -29,6 +32,7 @@ describe('Test the middleware function validator', () => {
     };
     const nextSpy = sinon.spy();
     validator(req, {}, nextSpy).then(() => {
+      // eslint-disable-next-line no-unused-expressions
       expect(nextSpy.calledOnce).to.be.true;
       done();
     });

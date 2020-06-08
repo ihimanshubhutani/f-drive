@@ -16,23 +16,21 @@ const insertUser = (username, password, verified, email) => db.User.create({
  * @param   {string} password
  * @returns {Promise}
  */
-const authenticateUser = (username, password) => {
-  console.log('called');
-  return new Promise((resolve) => db.User.findOne({
-    attributes: ['id'],
-    where: { username, password },
-  }).then((result) => resolve(result)));
-};
+const authenticateUser = (username, password) => db.User.findOne({
+  attributes: ['id'],
+  where: { username, password },
+});
+
 /**
 * Fetching user info from userid.
 * @param   {string} username
 * @param   {string} password
 * @returns {Promise}
 */
-const fetchInfoFromUserId = (userId) => new Promise((resolve) => db.User.findOne({
+const fetchInfoFromUserId = (userId) => db.User.findOne({
   attributes: ['username', 'verifiedAt'],
   where: { id: userId },
-}).then((result) => resolve(result)));
+});
 
 /**
 * Update verifiedAt Column in User Table after verification complete
@@ -54,14 +52,12 @@ const updateVerifiedColumn = (email) => db.User.update({
 */
 const isUserUsernameAlreadyExists = username => db.User.findOne({ where: { username } });
 
-
 /**
 * Checks from database does email already exists in database
 * @param   {string} username
 * @returns {promise}
 */
 const isUserEmailAlreadyExists = email => db.User.findOne({ where: { email } });
-
 
 module.exports = {
   insertUser,

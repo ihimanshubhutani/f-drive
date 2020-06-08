@@ -1,18 +1,18 @@
 const path = require('path');
-const config = require('../../config/default.json');
+const config = require('config');
 const { fetchInfoFromClientId } = require('../../controller/clientDataHandler');
 const { checkScopes } = require('../../controller/oauth/oauthHandler');
 
 const errorPage = path.join(__dirname, '../../views/error');
 
 module.exports = (req, res, next) => {
-  const { query } = req;
-  const { scope } = query;
+  const { query } = req.query;
+  const { scope } = query.scope;
   const responseType = query.response_type;
   const redirectUri = query.redirect_uri;
   const accessType = query.access_type;
   const clientId = query.client_id;
-  const { state } = query;
+  const { state } = query.state;
 
   try {
     res.status(config.STATUS.BAD_REQUEST);
@@ -35,7 +35,10 @@ module.exports = (req, res, next) => {
   const scopeArray = scope.split(' ');
   const distinguishedScopes = checkScopes(scopeArray);
   if (distinguishedScopes.invalid.length) {
-    return res.json({ message: config.MESSAGE.INVALID_SCOPE, distinguishedScopes });
+    return res.json({
+      message: config.MESSAGE.INVALID_SCOPE,
+      distinguishedScopes,
+    });
   }
 
   return fetchInfoFromClientId(clientId)
