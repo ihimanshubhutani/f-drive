@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     path: DataTypes.STRING,
     type: DataTypes.STRING,
     createdAt: DataTypes.DATE,
+    name: DataTypes.STRING,
 
   }, {
     timestamps: false,

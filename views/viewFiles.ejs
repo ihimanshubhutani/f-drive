@@ -44,14 +44,14 @@
 
     $(document).ready(function () {
       for (let i = 0; i < data.arr.length; i++) {
-        let splittedArray = data.arr[i].path.split(".");
+        let splittedArray = data.arr[i].path.split("*");
 
         let name = splittedArray[2];
         let type = data.arr[i].type;
         let createdAt = data.arr[i].createdAt;
         var markup =
           "<tr><td><input type='checkbox' name='record'></td><td>" +
-          `<a href='http://localhost:3000/files/download/${splittedArray[1].split('/')[3]}.${name}${type}'>${name}</a>` +
+          `<a href='http://localhost:3000/files/${splittedArray[1].split('/')[3]}.${name}${type}'>${name}</a>` +
           "</td><td>" +
           type +
           "</td><td>" +
@@ -68,9 +68,10 @@
               let path = '' + $(this).parents("tr").find("td").eq(1).html();
               console.log()
 
-              fetch(`http://localhost:3000/files/delete` +
-                path.split('download')[1].split('"')[0]).then(() => {
-                  $(this).parents("tr").remove();
+              fetch(`http://localhost:3000/files/` +
+                path.split('download')[1].split('"')[0], { method: 'DELETE' }).then((res) => {
+                  if (res) $(this).parents("tr").remove();
+
                 })
 
 

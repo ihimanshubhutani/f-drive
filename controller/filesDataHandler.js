@@ -2,57 +2,57 @@ const db = require('../models');
 
 /**
  * Saves file path into filePaths database.
- * @param   {string}  path 
+ * @param   {string}  path
  * @param   {intgeer} userId
- * @returns {void} 
+ * @returns {void}
  */
-const saveFilePath = (path, userId, createdAt, type) => db.File.create({
+const saveFilePath = (path, name, userId, createdAt, type) => db.File.create({
   path,
   userId,
   createdAt,
-  type
+  type,
+  name,
 });
 
 /**
  * Deletes file path from filePaths database.
- * @param   {string} path 
+ * @param   {string} id
  * @returns {Promise}
  */
-const deleteFilePath = path => db.File.destroy({
+const deleteFilePath = id => db.File.destroy({
   where: {
-    path
-  }
+    id,
+  },
 
 });
 
 /**
  * Verifies file is accessible to {userId}
  * @param   {string} userId
- * @param   {string} fileId 
+ * @param   {string} id
  * @returns {Promise}
  */
-const verifyUserWithFile = (userId, fileId) => new Promise(resolve => db.File.findOne({
+const verifyUserWithFile = (userId, id) => db.File.findOne({
   where: {
     userId,
-    path: `./public/${userId}/${fileId}`
-  }
-}).then(result => {
-  resolve(result);
-}));
+    id,
+  },
+});
 
 /**
  * Show all files for particular userId
- * @param  {string} userId 
+ * @param  {string} userId
  * @return {Promise}
  */
-const showUserFiles = (userId) =>
-  db.File.findAll({
-    raw: true,
-    where: {
-      userId,
-    }
-  }).catch((err) => {
-    console.log(err);
-  });;
+const showUserFiles = (userId) => db.File.findAll({
+  raw: true,
+  where: {
+    userId,
+  },
+}).catch((err) => {
+  console.log(err);
+});
 
-module.exports = { saveFilePath, deleteFilePath, verifyUserWithFile, showUserFiles };
+module.exports = {
+  saveFilePath, deleteFilePath, verifyUserWithFile, showUserFiles,
+};

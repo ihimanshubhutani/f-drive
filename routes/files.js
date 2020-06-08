@@ -1,16 +1,20 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const config = require('config');
 
+
+const authenticate = require('../middleware/authenticateSession.js');
+const checkAccessAllowed = require('../middleware/checkAccesPrivilages');
 const uploadFile = require('../controller/fileUploader');
+
 const {
   deleteFilePath,
   showUserFiles,
 } = require('../controller/filesDataHandler');
-const authenticate = require('../middleware/authenticateSession.js');
-const checkAccessAllowed = require('../middleware/checkAccesPrivilages');
 
 const routes = express.Router();
+const errorPage = path.join(__dirname, '../views/error');
 
 /**
  * Authenticates user, if its session is already availabe or not.
@@ -20,43 +24,57 @@ routes.use(authenticate);
 routes.get('/', (req, res) => {
   showUserFiles(req.session.userId, res)
     .then(result => {
-      let data = { arr: result };
-      data = JSON.stringify(data);
-      console.log(data);
+      const data = JSON.stringify({ arr: result });
       res.render(path.join(__dirname, '../views/viewFiles'), { data });
-    });
+    })
+    .catch(err => res.status(500).render(errorPage,
+      { errMsg: err.message, status: res.statusCode, errName: config.STATUS[res.statusCode] }));
 });
 
 routes.get('/upload', (req, res) => {
   res.sendFile('upload.html', { root: path.join(__dirname, '../views/') });
 });
 
-routes.get('/download/:id', checkAccessAllowed, (req, res) => {
-  console.log('download');
+routes.get('/:id', checkAccessAllowed, (req, res) => {
   res.download(`./public/${req.session.userId}/${req.params.id}`);
 });
 
-routes.post('/upload', (req, res) => {
+routes.post('/', (req, res) => {
   if (!req.files) {
-    return res.status(400).send({ message: 'No files were uploaded' });
+    return res.status(400).render(errorPage,
+      {
+        errMsg: config.MESSAGE.NO_FILE_UPLOADED,
+        status: res.statusCode,
+        errName: config.STATUS_CODE[res.statusCode],
+      });
   }
+
   const file = req.files.uploadedFile;
-  console.log(file.name);
 
   if (uploadFile(file, file.name, req.session.userId, path.extname(file.name), Date.now())) {
-    return res.send({ message: 'File Uploaded Successfully' });
+    return res.status(201).send({
+      message: config.MESSAGE.FILE_UPLOADED_SUCCESS,
+    });
   }
-  return res.send({ message: 'Internal Server Error ' });
+
+  return res.status(500).render(errorPage,
+    {
+      errMsg: config.MESSAGE.INTERNAL_SERVER_ERROR,
+      status: res.statusCode,
+      errName: config.STATUS[res.statusCode],
+    });
 });
 
-routes.get('/delete/:id', checkAccessAllowed, (req, res) => {
-  try {
-    fs.unlinkSync(`./public/${req.session.userId}/${req.params.id}`);
-    deleteFilePath(`./public/${req.session.userId}/${req.params.id}`).catch();
-    res.send({ message: 'Removed Succesfully' });
-  } catch (err) {
-    res.status(404).send({ message: 'File Cannot be deleted', err });
-  }
+
+routes.delete('/:id', checkAccessAllowed, (req, res) => {
+  deleteFilePath(req.params.id).then((result) => {
+    if (!result) throw new Error(config.MESSAGE.INTERNAL_SERVER_ERROR);
+
+    fs.unlinkSync(req.filepath);
+    res.json({ message: config.MESSAGE.REMOVED_SUCCESSFULLY });
+  }).catch(err => res.status(500).render(errorPage,
+    { errMsg: err.message, status: res.statusCode, errName: config.STATUS[res.statusCode] }));
 });
+
 
 module.exports = routes;

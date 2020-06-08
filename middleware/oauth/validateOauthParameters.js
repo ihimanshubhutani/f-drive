@@ -49,7 +49,7 @@ module.exports = (req, res, next) => {
       res.status(config.STATUS.OK);
       next();
     })
-    .catch(err => res.render(path.join(__dirname, '../../views/error'),
+    .catch(err => res.render(errorPage,
       {
         errMsg: err.message,
         status: res.statusCode,
