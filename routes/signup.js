@@ -6,14 +6,12 @@ const validator = require('../middleware/userValidator');
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 const { insertVerificationCode, sendEmailForVerification } = require('../controller/emailServiceHandler');
 
-
 const routes = express.Router();
-
 routes.get('/', (req, res) => {
   res.sendFile('signup.html', { root: path.join(__dirname, '../views/') });
 });
 
-routes.post('/', validator, cryptoPasswordParser, (req, res) => {
+routes.post('/', validator, cryptoPasswordParser, (req, res, next) => {
   const { email } = req.body;
   const code = uuid.v4();
 
@@ -23,7 +21,7 @@ routes.post('/', validator, cryptoPasswordParser, (req, res) => {
       sendEmailForVerification(email, code);
     }).then(() => {
       res.render(path.join(__dirname, '../views/emailConfirmation'), { email });
-    }).catch(err => res.status(500).send({ message: err.message }));
+    }).catch(err => next(err));
 });
 
 

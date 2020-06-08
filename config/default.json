@@ -42,13 +42,17 @@
     "BAD_REQUEST": 400,
     "UNAUTHORIZED": 401,
     "UNPROCESSEBLE_ENTITY": 422,
-    "CONFLICT": 409
+    "CONFLICT": 409,
+    "INTERNAL_SERVER_ERROR": 500,
+    "NOT_FOUND": 404
   },
   "STATUS_CODE": {
     "400": "Bad Request",
     "401": "Unauthorized",
     "409": "Conflict",
-    "422": "Unprocesseble Entity"
+    "404": "Not Found",
+    "422": "Unprocesseble Entity",
+    "500": "Internal Server Error"
   },
   "ENCRYPTION": {
     "ALGORITHM": "aes-256-cbc",

@@ -11,20 +11,15 @@ routes.get('/', (req, res) => {
   return res.sendFile('login.html', { root: path.join(__dirname, '../views/') });
 });
 
-routes.post('/', cryptoPasswordParser, (req, res) => {
+routes.post('/', cryptoPasswordParser, (req, res, next) => {
   authenticateUser(req.body.username, req.body.password)
-    .then((result) => {
-      if (!result) return res.status(401).send({ message: config.MESSAGE.INVALID_CREDENTIALS });
+    .then(result => {
+      if (!result) { res.status(401); throw new Error(config.MESSAGE.INVALID_CREDENTIALS); }
       req.session.userId = result.id;
-
-      /**
-         * if user ticked 'Remember me' checkbox, his session
-         * will be mainted even after browser is closed (for 24 hours from login)
-         */
       if (req.body.checkbox) { req.session.cookie.maxAge = 24 * 60 * 60 * 1000; }
-
       return res.redirect('/');
-    });
+    }).catch(err => next(err));
 });
+
 
 module.exports = routes;

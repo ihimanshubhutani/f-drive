@@ -5,6 +5,7 @@ const fileUpload = require('express-fileupload');
 const session = require('express-session');
 // eslint-disable-next-line no-unused-vars
 const ejs = require('ejs');
+const path = require('path');
 const filesRoute = require('./routes/files');
 const index = require('./routes/index');
 const loginRoute = require('./routes/login');
@@ -12,6 +13,8 @@ const signupRoute = require('./routes/signup');
 const emailVerificationRoute = require('./routes/emailVerification');
 const devRoute = require('./routes/dev');
 const oauthRoute = require('./routes/oauth');
+
+const errorPage = path.join(__dirname, '/views/error');
 
 const app = express();
 
@@ -29,10 +32,6 @@ app.use(
 
 app.use(fileUpload({ createParentPath: true }));
 
-app.use('/hello', (req, res) => {
-  res.render('emailConfirmation', { email: 'bhutani' });
-});
-
 app.use('/files', express.static('./public'));
 app.use('/oauth', oauthRoute);
 app.use('/dev', devRoute);
@@ -41,6 +40,17 @@ app.use('/login', loginRoute);
 app.use('/signup', signupRoute);
 app.use('/email', emailVerificationRoute);
 app.use('/', index);
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  res.status(err.status || res.statusCode);
+  res.render(errorPage,
+    {
+      errMsg: err.message,
+      status: res.statusCode,
+      errName: config.STATUS_CODE[res.statusCode],
+    });
+});
 
 app.listen(3000, console.log('Running Server'));
 

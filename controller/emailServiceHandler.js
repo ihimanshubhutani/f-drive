@@ -27,6 +27,12 @@ const verifyEmailWithCode = (email, code) => db.EmailConfirmationCode.findOne({
   },
 });
 
+const deleteVerifiedCode = (id) => db.EmailConfirmationCode.destroy({
+  where: {
+    id,
+  },
+});
+
 /**
 * Sends Email Verification link to `email`
 * @param   {string} email
@@ -55,4 +61,9 @@ const sendEmailForVerification = (email, code) => {
 };
 
 
-module.exports = { insertVerificationCode, verifyEmailWithCode, sendEmailForVerification };
+module.exports = {
+  insertVerificationCode,
+  verifyEmailWithCode,
+  sendEmailForVerification,
+  deleteVerifiedCode,
+};

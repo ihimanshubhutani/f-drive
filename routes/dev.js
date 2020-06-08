@@ -80,5 +80,4 @@ routes.get('/logout', (req, res) => {
   res.redirect('/dev');
 });
 
-
 module.exports = routes;

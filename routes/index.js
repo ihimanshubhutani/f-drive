@@ -3,7 +3,6 @@ const path = require('path');
 const authenticateSession = require('../middleware/authenticateSession.js');
 
 const routes = express.Router();
-// routes.use(authenticateSession);
 
 routes.get('/', authenticateSession, (req, res) => {
   if (!req.session.verification) {

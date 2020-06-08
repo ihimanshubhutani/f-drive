@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 
-
 const authenticate = require('../middleware/authenticateSession.js');
 const checkAccessAllowed = require('../middleware/checkAccesPrivilages');
 const uploadFile = require('../controller/fileUploader');
@@ -36,7 +35,7 @@ routes.get('/upload', (req, res) => {
 });
 
 routes.get('/:id', checkAccessAllowed, (req, res) => {
-  res.download(`./public/${req.session.userId}/${req.params.id}`);
+  res.download(req.filepath, req.filepath.split('*')[1]);
 });
 
 routes.post('/', (req, res) => {
@@ -61,7 +60,7 @@ routes.post('/', (req, res) => {
     {
       errMsg: config.MESSAGE.INTERNAL_SERVER_ERROR,
       status: res.statusCode,
-      errName: config.STATUS[res.statusCode],
+      errName: config.STATUS_CODE[res.statusCode],
     });
 });
 
