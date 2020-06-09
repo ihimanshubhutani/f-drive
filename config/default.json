@@ -52,7 +52,8 @@
     "409": "Conflict",
     "404": "Not Found",
     "422": "Unprocesseble Entity",
-    "500": "Internal Server Error"
+    "500": "Internal Server Error",
+    "200": "Ok"
   },
   "ENCRYPTION": {
     "ALGORITHM": "aes-256-cbc",

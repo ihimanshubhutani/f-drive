@@ -5,20 +5,21 @@ const { updateVerifiedColumn } = require('../controller/userDataHandler');
 
 const routes = express.Router();
 
-routes.get('/verification-service', (req, res) => {
+routes.get('/verification-service', (req, res, next) => {
   const email = req.query.validemail;
   const { code } = req.query;
 
   return verifyEmailWithCode(email, code)
     .then((result) => {
       if (result) {
-        return updateVerifiedColumn(email).then(() => {
-          deleteVerifiedCode(result.id);
-          return res.redirect('/');
-        });
+        return updateVerifiedColumn(email)
+          .then(() => {
+            deleteVerifiedCode(result.id);
+            return res.redirect('/');
+          });
       }
       return res.send({ message: config.MESSAGE.LINK_EXPIRED });
-    });
+    }).catch(err => next(err));
 });
 
 module.exports = routes;

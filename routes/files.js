@@ -13,21 +13,19 @@ const {
 } = require('../controller/filesDataHandler');
 
 const routes = express.Router();
-const errorPage = path.join(__dirname, '../views/error');
 
 /**
  * Authenticates user, if its session is already availabe or not.
  */
 routes.use(authenticate);
 
-routes.get('/', (req, res) => {
+routes.get('/', (req, res, next) => {
   showUserFiles(req.session.userId, res)
     .then(result => {
       const data = JSON.stringify({ arr: result });
       res.render(path.join(__dirname, '../views/viewFiles'), { data });
     })
-    .catch(err => res.status(500).render(errorPage,
-      { errMsg: err.message, status: res.statusCode, errName: config.STATUS[res.statusCode] }));
+    .catch(err => next(err));
 });
 
 routes.get('/upload', (req, res) => {
@@ -39,14 +37,7 @@ routes.get('/:id', checkAccessAllowed, (req, res) => {
 });
 
 routes.post('/', (req, res) => {
-  if (!req.files) {
-    return res.status(400).render(errorPage,
-      {
-        errMsg: config.MESSAGE.NO_FILE_UPLOADED,
-        status: res.statusCode,
-        errName: config.STATUS_CODE[res.statusCode],
-      });
-  }
+  if (!req.files) { res.status(400); throw new Error(config.MESSAGE.NO_FILE_UPLOADED); }
 
   const file = req.files.uploadedFile;
 
@@ -56,23 +47,17 @@ routes.post('/', (req, res) => {
     });
   }
 
-  return res.status(500).render(errorPage,
-    {
-      errMsg: config.MESSAGE.INTERNAL_SERVER_ERROR,
-      status: res.statusCode,
-      errName: config.STATUS_CODE[res.statusCode],
-    });
+  throw new Error(config.MESSAGE.INTERNAL_SERVER_ERROR);
 });
 
 
-routes.delete('/:id', checkAccessAllowed, (req, res) => {
+routes.delete('/:id', checkAccessAllowed, (req, res, next) => {
   deleteFilePath(req.params.id).then((result) => {
     if (!result) throw new Error(config.MESSAGE.INTERNAL_SERVER_ERROR);
 
     fs.unlinkSync(req.filepath);
     res.json({ message: config.MESSAGE.REMOVED_SUCCESSFULLY });
-  }).catch(err => res.status(500).render(errorPage,
-    { errMsg: err.message, status: res.statusCode, errName: config.STATUS[res.statusCode] }));
+  }).catch(err => next(err));
 });
 
 

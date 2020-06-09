@@ -43,7 +43,10 @@ app.use('/', index);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  if (res.statusCode === 200) { res.status(500); }
+
   res.status(err.status || res.statusCode);
+
   res.render(errorPage,
     {
       errMsg: err.message,

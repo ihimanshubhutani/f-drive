@@ -46,12 +46,10 @@ routes.get('/signup', (req, res) => {
   res.sendFile('devSignup.html', { root: path.join(__dirname, '../views/') });
 });
 
-routes.post('/login', cryptoPasswordParser, (req, res) => {
+routes.post('/login', cryptoPasswordParser, (req, res, next) => {
   authenticateClient(req.body.username, req.body.password, req.body.email)
     .then((result) => {
-      if (!result) {
-        return res.status(401).send({ message: config.MESSAGE.INVALID_CREDENTIALS });
-      }
+      if (!result) { res.status(401); throw new Error(config.MESSAGE.INVALID_CREDENTIALS); }
       console.log('result ', result.id);
       req.session.dev = { clientId: result.id };
 
@@ -64,7 +62,7 @@ routes.post('/login', cryptoPasswordParser, (req, res) => {
       }
 
       return res.redirect('/dev');
-    });
+    }).catch(err => next(err));
 });
 
 routes.post('/signup', clientValidator, cryptoPasswordParser, (req, res) => {

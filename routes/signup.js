@@ -5,8 +5,10 @@ const { insertUser } = require('../controller/userDataHandler');
 const validator = require('../middleware/userValidator');
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 const { insertVerificationCode, sendEmailForVerification } = require('../controller/emailServiceHandler');
+const authenticateSession = require('../middleware/authenticateSession');
 
 const routes = express.Router();
+routes.use(authenticateSession);
 routes.get('/', (req, res) => {
   res.sendFile('signup.html', { root: path.join(__dirname, '../views/') });
 });

@@ -17,7 +17,7 @@ const insertUser = (username, password, verified, email) => db.User.create({
  * @returns {Promise}
  */
 const authenticateUser = (username, password) => db.User.findOne({
-  attributes: ['id'],
+  attributes: ['id', 'verifiedAt'],
   where: { username, password },
 });
 
@@ -28,7 +28,7 @@ const authenticateUser = (username, password) => db.User.findOne({
 * @returns {Promise}
 */
 const fetchInfoFromUserId = (userId) => db.User.findOne({
-  attributes: ['username', 'verifiedAt'],
+  attributes: ['username', 'verifiedAt', 'email'],
   where: { id: userId },
 });
 

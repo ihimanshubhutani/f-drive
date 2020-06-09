@@ -1,8 +1,5 @@
-const path = require('path');
-const config = require('config');
 const { fetchInfoFromClientId } = require('../controller/clientDataHandler');
 
-const errorPage = path.join(__dirname, '../../views/error');
 
 /**
  * Authenticate and allow to use /dev
@@ -17,12 +14,7 @@ module.exports = (req, res, next) => {
         req.session.dev.username = result.username;
 
         return next();
-      }).catch(err => res.render(errorPage,
-        {
-          errMsg: err.message,
-          status: res.statusCode,
-          errName: config.STATUS_CODE[res.statusCode],
-        }));
+      }).catch(err => next(err));
   }
   return res.redirect('/dev/login');
 };

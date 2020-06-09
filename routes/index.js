@@ -6,11 +6,11 @@ const routes = express.Router();
 
 routes.get('/', authenticateSession, (req, res) => {
   if (!req.session.verification) {
-    res.sendFile('showVerificationMessage.html', { root: path.join(__dirname, '../views/') });
+    return res.render(path.join(__dirname, '../views/showVerificationMessage.ejs'), { email: req.session.email });
   }
-
-  return res.sendFile('index.html',
-    { root: path.join(__dirname, '../views/') });
+  console.log(req.session);
+  return res.render(path.join(__dirname, '../views/index'),
+    { username: req.session.username });
 });
 
 routes.get('/logout', (req, res) => {

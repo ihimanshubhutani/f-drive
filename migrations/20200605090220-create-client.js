@@ -14,6 +14,10 @@ module.exports = {
       type: Sequelize.STRING,
       unique: true,
     },
+    email: {
+      type: Sequelize.STRING,
+      unique: true,
+    },
     redirectUri: {
       type: Sequelize.STRING,
     },

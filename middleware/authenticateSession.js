@@ -1,9 +1,4 @@
-const config = require('config');
-const path = require('path');
 const { fetchInfoFromUserId } = require('../controller/userDataHandler');
-
-const errorPage = path.join(__dirname, '../../views/error');
-
 /**
  * Authenticate and allow to use /upload /delete /update /download
  * only if user is logged in, if user is logged in then populate session object
@@ -20,16 +15,15 @@ const authenticateSession = (req, res, next) => {
 
         req.session.username = result.username;
         req.session.verification = result.verifiedAt;
-
+        req.session.email = result.email;
+        if (req.baseUrl === '/files' && !req.session.verification) return res.redirect('/');
+        if (req.baseUrl === '/signup') return res.redirect('/');
         return next();
       })
-      .catch(err => res.render(errorPage,
-        {
-          errMsg: err.message,
-          status: res.statusCode,
-          errName: config.STATUS_CODE[res.statusCode],
-        }));
+      .catch(err => next(err));
   }
+  console.log(req.baseUrl);
+  if (req.baseUrl === '/signup') return next();
   return res.redirect('/login');
 };
 
