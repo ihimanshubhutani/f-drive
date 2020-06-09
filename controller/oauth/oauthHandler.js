@@ -1,6 +1,7 @@
 const path = require('path');
 // eslint-disable-next-line no-unused-vars
 const dotenv = require('dotenv').config({ path: path.join(__dirname, '../../config/.env') });
+const crypto = require('crypto');
 const config = require('../../config/default.json');
 
 /**
@@ -27,7 +28,7 @@ const checkScopes = scopeArray => {
  * @param   {string} data
  * @returns {object}
  */
-const encryptAuthCode = data => {
+const encrypter = data => {
   const text = JSON.stringify(data);
   const cipher = crypto.createCipher(config.ENCRYPTION.ALGORITHM,
     process.env.AUTHCODE_ENCRYPTION_KEY);
@@ -42,8 +43,7 @@ const encryptAuthCode = data => {
  * @param   {object} data
  * @returns {object}
  */
-const decryptAuthCode = data => {
-  const text = JSON.stringify(data);
+const decrypter = text => {
   const decipher = crypto.createDecipher(config.ENCRYPTION.ALGORITHM,
     process.env.AUTHCODE_ENCRYPTION_KEY);
   let dec = decipher.update(text, config.ENCRYPTION.HEX, config.ENCRYPTION.UTF8);
@@ -51,4 +51,4 @@ const decryptAuthCode = data => {
   return JSON.parse(dec);
 };
 
-module.exports = { checkScopes, encryptAuthCode, decryptAuthCode };
+module.exports = { checkScopes, encrypter, decrypter };

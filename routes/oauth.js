@@ -4,6 +4,7 @@ const path = require('path');
 const validateOauthParameters = require('../middleware/oauth/validateOauthParameters');
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 const { authenticateUser } = require('../controller/userDataHandler');
+const { encrypter, decrypter } = require('../controller/oauth/oauthHandler');
 
 const routes = express.Router();
 
@@ -15,8 +16,21 @@ routes.post('/login', cryptoPasswordParser, validateOauthParameters, (req, res, 
   authenticateUser(req.body.username, req.body.password)
     .then((result) => {
       if (!result) { res.status(401); throw new Error(config.MESSAGE.INVALID_CREDENTIALS); }
-      return res.render(path.join(__dirname, '../views/oauthConsent'), { clientName: req.client.name, scope: req.query.scope.split(' ') });
+      if (!result.verifiedAt) {
+        res.status(401);
+        throw new Error(config.MESSAGE.VERIFY_YOUR_EMAIL);
+      }
+      req.session.username = req.body.username;
+      req.session.userId = result.id;
+
+      return res.redirect(`/oauth/consent?authUser=${encrypter(req.query)}`);
     }).catch(err => next(err));
+});
+
+
+routes.get('/consent', (req, res) => {
+  console.log();
+  res.render(path.join(__dirname, '../views/oauthConsent'), { data: decrypter(req.query.authUser) });
 });
 
 module.exports = routes;
