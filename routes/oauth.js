@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('config');
 const path = require('path');
+const uuid = require('uuid');
 const validateOauthParameters = require('../middleware/oauth/validateOauthParameters');
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 const { authenticateUser } = require('../controller/userDataHandler');
@@ -44,19 +45,20 @@ routes.get('/consent', (req, res) => {
   });
 });
 
-routes.post('/consent', (req, res) => {
+routes.post('/consent', (req, res, next) => {
   console.log(req.body);
   const data = decrypter(req.body.authUser);
   const parsedData = JSON.parse(data);
+  console.log(parsedData.client_id);
   if (req.query.response === 'false') return res.redirect(`${parsedData.redirect_uri}/?error=acess_denied`);
-  insertAuthorizationCodeParameters(req.session.userId,
+  return insertAuthorizationCodeParameters(req.session.userId,
     parsedData.client_id, parsedData.redirect_uri,
     parsedData.scope.split(' '), parsedData.access_type)
     .then(result => {
+      const authCode = encrypter({ id: result.id, code: uuid.v4() });
       insertAuthorizationCode(result.id, authCode);
-    });
-
-  return res.json(parsedData);
+      return res.redirect(`${parsedData.redirect_uri}/?code=${authCode}&state=${parsedData.state}`);
+    }).catch(err => next(err));
 });
 
 module.exports = routes;

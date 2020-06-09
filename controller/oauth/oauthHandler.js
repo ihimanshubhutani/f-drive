@@ -5,11 +5,11 @@ const crypto = require('crypto');
 const config = require('../../config/default.json');
 const db = require('../../models');
 
-const insertAuthorizationCodeParameters = (userId, clientId, redirectUri, scope, accessType) => {
-  db.AuthorizationCode.create({
+const insertAuthorizationCodeParameters = (userId, clientId, redirectUri, scope, accessType) => db
+  .AuthorizationCode.create({
     userId, clientId, scope, redirectUri, accessType,
   });
-};
+
 
 const insertAuthorizationCode = (id, code) => db.AuthorizationCode.update({
   code,

@@ -4,6 +4,10 @@ const authenticateSession = require('../middleware/authenticateSession.js');
 
 const routes = express.Router();
 
+routes.use('/test/redirect', (req, res) => {
+  res.send(req.query.code);
+});
+
 routes.get('/', authenticateSession, (req, res) => {
   console.log(req.session);
   if (!req.session.verification) {

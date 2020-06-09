@@ -7,7 +7,7 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    authCode: {
+    code: {
       type: Sequelize.STRING,
     },
     userId: {

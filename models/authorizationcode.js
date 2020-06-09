@@ -1,7 +1,7 @@
 
 module.exports = (sequelize, DataTypes) => {
   const AuthorizationCode = sequelize.define('AuthorizationCode', {
-    authCode: DataTypes.STRING,
+    code: DataTypes.STRING,
     scope: DataTypes.ARRAY(DataTypes.TEXT),
     expires: DataTypes.DATE,
     accessType: DataTypes.STRING,
