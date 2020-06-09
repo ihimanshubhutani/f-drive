@@ -6,21 +6,22 @@ const { checkScopes } = require('../../controller/oauth/oauthHandler');
 const errorPage = path.join(__dirname, '../../views/error');
 
 module.exports = (req, res, next) => {
-  const { query } = req.query;
-  const { scope } = query.scope;
+  console.log(req.query);
+  const { query } = req;
+  const { scope } = query;
   const responseType = query.response_type;
   const redirectUri = query.redirect_uri;
   const accessType = query.access_type;
   const clientId = query.client_id;
-  const { state } = query.state;
-
+  const { state } = query;
+  console.log(state);
   try {
     res.status(config.STATUS.BAD_REQUEST);
+    if (!clientId) throw new Error(config.MISSING_PARAMS.CLIENT_ID);
     if (!scope) throw new Error(config.MISSING_PARAMS.SCOPE);
     if (!responseType) throw new Error(config.MISSING_PARAMS.RESPONSE_TYPE);
     if (!redirectUri) throw new Error(config.MISSING_PARAMS.REDIRECT_URI);
     if (!accessType) throw new Error(config.MISSING_PARAMS.ACCESS_TYPE);
-    if (!clientId) throw new Error(config.MISSING_PARAMS.CLIENT_ID);
     if (!state) throw new Error(config.MISSING_PARAMS.STATE);
     if (responseType !== 'code') throw new Error(config.MISSING_PARAMS.ALLOWED_GRANT_TYPE);
   } catch (err) {

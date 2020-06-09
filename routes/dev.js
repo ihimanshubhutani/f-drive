@@ -68,7 +68,7 @@ routes.post('/login', cryptoPasswordParser, (req, res, next) => {
 routes.post('/signup', clientValidator, cryptoPasswordParser, (req, res) => {
   insertClient(req.body.username, req.body.email, req.body.password)
     .then((result) => {
-      req.session.dev = { clientId: result.id };
+      req.session.dev = { clientId: result.id, username: result.username };
       return res.redirect('/dev');
     });
 });

@@ -14,7 +14,7 @@ routes.get('/', validateOauthParameters, (req, res) => {
 routes.post('/login', cryptoPasswordParser, validateOauthParameters, (req, res, next) => {
   authenticateUser(req.body.username, req.body.password)
     .then((result) => {
-      if (!result) { res.status(401); throw new (config.MESSAGE.INVALID_CREDENTIALS)(); }
+      if (!result) { res.status(401); throw new Error(config.MESSAGE.INVALID_CREDENTIALS); }
       return res.render(path.join(__dirname, '../views/oauthConsent'), { clientName: req.client.name, scope: req.query.scope.split(' ') });
     }).catch(err => next(err));
 });
