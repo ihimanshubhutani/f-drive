@@ -5,13 +5,15 @@ const uuid = require('uuid');
 const validateOauthParameters = require('../middleware/oauth/validateOauthParameters');
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 const { authenticateUser } = require('../controller/userDataHandler');
+const authenticateOauthSession = require('../middleware/oauth/authenticateOauthSession');
+
 const {
   encrypter, decrypter, insertAuthorizationCode, insertAuthorizationCodeParameters,
 } = require('../controller/oauth/oauthHandler');
 
 const routes = express.Router();
 
-routes.get('/', validateOauthParameters, (req, res) => {
+routes.get('/', authenticateOauthSession, validateOauthParameters, (req, res) => {
   res.render(path.join(__dirname, '../views/oauthLogin'), { clientName: req.client.name, url: req.url });
 });
 
@@ -32,7 +34,7 @@ routes.post('/login', cryptoPasswordParser, validateOauthParameters, (req, res, 
 });
 
 
-routes.get('/consent', (req, res) => {
+routes.get('/consent', authenticateOauthSession, (req, res) => {
   const data = decrypter(req.query.authUser);
   const parsedData = JSON.parse(data);
 
