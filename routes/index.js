@@ -5,6 +5,7 @@ const authenticateSession = require('../middleware/authenticateSession.js');
 const routes = express.Router();
 
 routes.get('/', authenticateSession, (req, res) => {
+  console.log(req.session);
   if (!req.session.verification) {
     return res.render(path.join(__dirname, '../views/showVerificationMessage.ejs'), { email: req.session.email });
   }

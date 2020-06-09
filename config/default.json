@@ -34,8 +34,8 @@
     "ALLOWED_GRANT_TYPE": "allowed response type: code "
   },
   "SCOPE": {
-    "profile": true,
-    "file": true
+    "profile": "View your profile details",
+    "file": "View and download your F-drive files"
   },
   "STATUS": {
     "OK": 200,
