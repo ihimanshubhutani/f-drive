@@ -82,7 +82,17 @@ const decrypter = text => {
   return decrypted.toString();
 };
 
-const verifyAuthorizationCode = id => db.model.findOne({ where: { id } });
+const verifyAuthorizationCode = id => db.AuthorizationCode.findOne(
+  {
+    include: [db.Client],
+    where: { id },
+  },
+);
+
+
+const insertAccessTokenParameters = (type, value, scope, userId, clientId) => db.Token.create({
+  type, value, scope, userId, clientId,
+});
 
 module.exports = {
   checkScopes,

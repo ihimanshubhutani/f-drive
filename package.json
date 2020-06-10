@@ -4,6 +4,7 @@
   "description": "Uploading files on public folder, accessing it with unique id and performing CRUD operation with sessions.",
   "main": "app.js",
   "scripts": {
+    "devStart": "nodemon server.js",
     "prestart": "npx sequelize-cli db:migrate",
     "start": "node app.js",
     "pretest": " kill -9 $( lsof -t -i:3000)",

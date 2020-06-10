@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     expires: DataTypes.DATE,
     accessType: DataTypes.STRING,
   }, { timestamps: false });
-  AuthorizationCode.associate = () => {
-    // associations can be defined here
+  AuthorizationCode.associate = (models) => {
+    AuthorizationCode.belongsTo(models.Client, { foreignKey: 'clientId' });
   };
   return AuthorizationCode;
 };

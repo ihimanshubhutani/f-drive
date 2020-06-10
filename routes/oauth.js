@@ -7,6 +7,7 @@ const cryptoPasswordParser = require('../middleware/cryptoPassword');
 const { authenticateUser } = require('../controller/userDataHandler');
 const authenticateOauthSession = require('../middleware/oauth/authenticateOauthSession');
 const { verifyAuthorizationCode } = require('../controller/oauth/oauthHandler');
+const { fetchInfoFromClientId } = require('../controller/clientDataHandler');
 
 const {
   encrypter, decrypter, insertAuthorizationCode, insertAuthorizationCodeParameters,
@@ -65,19 +66,23 @@ routes.post('/consent', (req, res, next) => {
 });
 
 routes.post('/token', (req, res) => {
-  const decryptedCode = decrypter(req.body.code);
+  const decryptedCode = JSON.parse(decrypter(req.body.code));
   const clientId = req.body.client_id;
   const clientSecret = req.body.client_secret;
   const grantType = req.body.grant_type;
+  console.log(decryptedCode.id);
 
   if (grantType === 'refresh_token') {
     const refreshToken = req.body.refres_token;
+    console.log(refreshToken);
   }
   verifyAuthorizationCode(decryptedCode.id)
     .then((result) => {
-      if (!result.code === decryptedCode.code) res.status(400).json({ error: 'invalid code' });
-      if)
-    });
+      if (!result.code === decryptedCode.code) return res.status(400).json({ error: 'invalid code' });
+      if (result.Client.id !== Number.parseInt(clientId, 10)) return res.status(401).json({ error: 'invalid client id' });
+      if (result.Client.clientSecret !== clientSecret) return res.status(401).json({ error: 'invalid client Secret' });
+      return res.json({ access_token: 'hi' });
+    }).catch(err => res.json({ err }));
 });
 
 
