@@ -6,6 +6,7 @@ const validateOauthParameters = require('../middleware/oauth/validateOauthParame
 const cryptoPasswordParser = require('../middleware/cryptoPassword');
 const { authenticateUser } = require('../controller/userDataHandler');
 const authenticateOauthSession = require('../middleware/oauth/authenticateOauthSession');
+const { verifyAuthorizationCode } = require('../controller/oauth/oauthHandler');
 
 const {
   encrypter, decrypter, insertAuthorizationCode, insertAuthorizationCodeParameters,
@@ -62,5 +63,22 @@ routes.post('/consent', (req, res, next) => {
       return res.redirect(`${parsedData.redirect_uri}/?code=${authCode}&state=${parsedData.state}`);
     }).catch(err => next(err));
 });
+
+routes.post('/token', (req, res) => {
+  const decryptedCode = decrypter(req.body.code);
+  const clientId = req.body.client_id;
+  const clientSecret = req.body.client_secret;
+  const grantType = req.body.grant_type;
+
+  if (grantType === 'refresh_token') {
+    const refreshToken = req.body.refres_token;
+  }
+  verifyAuthorizationCode(decryptedCode.id)
+    .then((result) => {
+      if (!result.code === decryptedCode.code) res.status(400).json({ error: 'invalid code' });
+      if)
+    });
+});
+
 
 module.exports = routes;

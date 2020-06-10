@@ -5,12 +5,24 @@ const crypto = require('crypto');
 const config = require('../../config/default.json');
 const db = require('../../models');
 
+/**
+ *
+ * @param {string} userId
+ * @param {string} clientId
+ * @param {string} redirectUri
+ * @param {string} scope
+ * @param {string} accessType
+ */
 const insertAuthorizationCodeParameters = (userId, clientId, redirectUri, scope, accessType) => db
   .AuthorizationCode.create({
     userId, clientId, scope, redirectUri, accessType,
   });
 
-
+/**
+ *
+ * @param {integer} id
+ * @param {string} code
+ */
 const insertAuthorizationCode = (id, code) => db.AuthorizationCode.update({
   code,
 }, {
@@ -70,7 +82,13 @@ const decrypter = text => {
   return decrypted.toString();
 };
 
+const verifyAuthorizationCode = id => db.model.findOne({ where: { id } });
 
 module.exports = {
-  checkScopes, encrypter, decrypter, insertAuthorizationCodeParameters, insertAuthorizationCode,
+  checkScopes,
+  encrypter,
+  decrypter,
+  insertAuthorizationCodeParameters,
+  insertAuthorizationCode,
+  verifyAuthorizationCode,
 };
