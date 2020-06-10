@@ -1,30 +1,30 @@
-const express = require('express');
-const path = require('path');
-const uuid = require('uuid');
-const { insertUser } = require('../controller/userDataHandler');
-const validator = require('../middleware/userValidator');
-const cryptoPasswordParser = require('../middleware/cryptoPassword');
-const { insertVerificationCode, sendEmailForVerification } = require('../controller/emailServiceHandler');
-const authenticateSession = require('../middleware/authenticateSession');
+import { Router } from 'express';
+import { join } from 'path';
+import { v4 } from 'uuid';
+import { insertUser } from '../controller/userDataHandler';
+import validator from '../middleware/userValidator';
+import cryptoPasswordParser from '../middleware/cryptoPassword';
+import { insertVerificationCode, sendEmailForVerification } from '../controller/emailServiceHandler';
+import authenticateSession from '../middleware/authenticateSession';
 
-const routes = express.Router();
+const routes = Router();
 routes.use(authenticateSession);
 routes.get('/', (req, res) => {
-  res.sendFile('signup.html', { root: path.join(__dirname, '../views/') });
+  res.sendFile('signup.html', { root: join(__dirname, '../views/') });
 });
 
 routes.post('/', validator, cryptoPasswordParser, (req, res, next) => {
   const { email } = req.body;
-  const code = uuid.v4();
+  const code = v4();
 
   insertUser(req.body.username, req.body.password, false, email)
     .then(result => {
       insertVerificationCode(email, code, result.id);
       sendEmailForVerification(email, code);
     }).then(() => {
-      res.render(path.join(__dirname, '../views/emailConfirmation'), { email });
+      res.render(join(__dirname, '../views/emailConfirmation'), { email });
     }).catch(err => next(err));
 });
 
 
-module.exports = routes;
+export default routes;

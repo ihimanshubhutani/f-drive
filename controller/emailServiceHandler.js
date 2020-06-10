@@ -1,6 +1,6 @@
-const config = require('config');
-const db = require('../models');
-const keys = require('../config/keys.json');
+import { EMAIL, SERVER } from 'config';
+import { EmailConfirmationCode } from '../models';
+import { GOOGLE } from '../config/keys.json';
 
 /**
  * Inserts Verification code with user email and userID
@@ -8,7 +8,7 @@ const keys = require('../config/keys.json');
  * @param {string}  code
  * @param {Boolean} userId
  */
-const insertVerificationCode = (email, code, userId) => db.EmailConfirmationCode.create({
+const insertVerificationCode = (email, code, userId) => EmailConfirmationCode.create({
   email,
   code,
   userId,
@@ -20,14 +20,14 @@ const insertVerificationCode = (email, code, userId) => db.EmailConfirmationCode
  * @param {string}  code
  * @param {Boolean} userId
  */
-const verifyEmailWithCode = (email, code) => db.EmailConfirmationCode.findOne({
+const verifyEmailWithCode = (email, code) => EmailConfirmationCode.findOne({
   where: {
     email,
     code,
   },
 });
 
-const deleteVerifiedCode = (id) => db.EmailConfirmationCode.destroy({
+const deleteVerifiedCode = (id) => EmailConfirmationCode.destroy({
   where: {
     id,
   },
@@ -42,16 +42,16 @@ const deleteVerifiedCode = (id) => db.EmailConfirmationCode.destroy({
 const sendEmailForVerification = (email, code) => {
   // eslint-disable-next-line global-require
   const send = require('gmail-send')({
-    user: keys.GOOGLE.USERNAME,
-    pass: keys.GOOGLE.PASS,
+    user: GOOGLE.USERNAME,
+    pass: GOOGLE.PASS,
     to: email,
-    subject: config.EMAIL.SUBJECT,
+    subject: EMAIL.SUBJECT,
   });
 
   return send(
     {
-      text: `${config.EMAIL.BODY}
-       ${config.SERVER}/email/verification-service?validemail=${email}&code=${code}`,
+      text: `${EMAIL.BODY}
+       ${SERVER}/email/verification-service?validemail=${email}&code=${code}`,
     },
     (error) => {
       if (error) return error;
@@ -61,7 +61,7 @@ const sendEmailForVerification = (email, code) => {
 };
 
 
-module.exports = {
+export {
   insertVerificationCode,
   verifyEmailWithCode,
   sendEmailForVerification,

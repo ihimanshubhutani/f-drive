@@ -1,12 +1,12 @@
-const crypto = require('crypto');
+import { createHash } from 'crypto';
 
 /**
  * If body has any password field, populates it with its cryptographic hash
  */
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   const { password } = req.body;
   if (password) {
-    const cryptoHash = crypto.createHash('sha256');
+    const cryptoHash = createHash('sha256');
     req.body.password = cryptoHash.update(password).digest('hex');
   }
 

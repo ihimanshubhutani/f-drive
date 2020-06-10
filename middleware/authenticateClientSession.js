@@ -1,4 +1,4 @@
-const { fetchInfoFromClientId } = require('../controller/clientDataHandler');
+import { fetchInfoFromClientId } from '../controller/clientDataHandler';
 
 
 /**
@@ -6,7 +6,7 @@ const { fetchInfoFromClientId } = require('../controller/clientDataHandler');
  * only if user is logged in, if user is logged in then populate session object
  * with username
  */
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   if (req.session.dev) {
     return fetchInfoFromClientId(req.session.dev.clientId)
       .then(result => {

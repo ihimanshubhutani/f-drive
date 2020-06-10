@@ -1,9 +1,9 @@
-const express = require('express');
-const config = require('config');
-const { verifyEmailWithCode, deleteVerifiedCode } = require('../controller/emailServiceHandler');
-const { updateVerifiedColumn } = require('../controller/userDataHandler');
+import { Router } from 'express';
+import { MESSAGE } from 'config';
+import { verifyEmailWithCode, deleteVerifiedCode } from '../controller/emailServiceHandler';
+import { updateVerifiedColumn } from '../controller/userDataHandler';
 
-const routes = express.Router();
+const routes = Router();
 
 routes.get('/verification-service', (req, res, next) => {
   const email = req.query.validemail;
@@ -18,8 +18,8 @@ routes.get('/verification-service', (req, res, next) => {
             return res.redirect('/');
           });
       }
-      return res.send({ message: config.MESSAGE.LINK_EXPIRED });
+      return res.send({ message: MESSAGE.LINK_EXPIRED });
     }).catch(err => next(err));
 });
 
-module.exports = routes;
+export default routes;

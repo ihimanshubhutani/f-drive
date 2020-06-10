@@ -1,4 +1,4 @@
-const db = require('../models');
+import { User } from '../models';
 
 /**
  * Insert Username and hashed password in database.
@@ -6,7 +6,7 @@ const db = require('../models');
  * @param   {string} password
  * @returns {Promise}
  */
-const insertUser = (username, password, verified, email) => db.User.create({
+const insertUser = (username, password, verified, email) => User.create({
   username, password, verified, email,
 });
 
@@ -16,7 +16,7 @@ const insertUser = (username, password, verified, email) => db.User.create({
  * @param   {string} password
  * @returns {Promise}
  */
-const authenticateUser = (username, password) => db.User.findOne({
+const authenticateUser = (username, password) => User.findOne({
   attributes: ['id', 'verifiedAt'],
   where: { username, password },
 });
@@ -27,7 +27,7 @@ const authenticateUser = (username, password) => db.User.findOne({
 * @param   {string} password
 * @returns {Promise}
 */
-const fetchInfoFromUserId = (userId) => db.User.findOne({
+const fetchInfoFromUserId = (userId) => User.findOne({
   attributes: ['username', 'verifiedAt', 'email'],
   where: { id: userId },
 });
@@ -37,7 +37,7 @@ const fetchInfoFromUserId = (userId) => db.User.findOne({
 * @param   {string} email
 * @returns {Promise}
 */
-const updateVerifiedColumn = (email) => db.User.update({
+const updateVerifiedColumn = (email) => User.update({
   verifiedAt: Date.now(),
 }, {
   where: {
@@ -50,16 +50,16 @@ const updateVerifiedColumn = (email) => db.User.update({
 * @param   {string} username
 * @returns {promise}
 */
-const isUserUsernameAlreadyExists = username => db.User.findOne({ where: { username } });
+const isUserUsernameAlreadyExists = username => User.findOne({ where: { username } });
 
 /**
 * Checks from database does email already exists in database
 * @param   {string} username
 * @returns {promise}
 */
-const isUserEmailAlreadyExists = email => db.User.findOne({ where: { email } });
+const isUserEmailAlreadyExists = email => User.findOne({ where: { email } });
 
-module.exports = {
+export {
   insertUser,
   authenticateUser,
   fetchInfoFromUserId,

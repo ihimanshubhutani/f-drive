@@ -1,4 +1,4 @@
-const db = require('../models');
+import { File } from '../models';
 
 /**
  * Saves file path into filePaths database.
@@ -6,7 +6,7 @@ const db = require('../models');
  * @param   {intgeer} userId
  * @returns {void}
  */
-const saveFilePath = (path, name, userId, createdAt, type) => db.File.create({
+const saveFilePath = (path, name, userId, createdAt, type) => File.create({
   path,
   name,
   userId,
@@ -19,7 +19,7 @@ const saveFilePath = (path, name, userId, createdAt, type) => db.File.create({
  * @param   {string} id
  * @returns {Promise}
  */
-const deleteFilePath = id => db.File.destroy({
+const deleteFilePath = id => File.destroy({
   where: {
     id,
   },
@@ -32,7 +32,7 @@ const deleteFilePath = id => db.File.destroy({
  * @param   {string} id
  * @returns {Promise}
  */
-const verifyUserWithFile = (userId, id) => db.File.findOne({
+const verifyUserWithFile = (userId, id) => File.findOne({
   where: {
     userId,
     id,
@@ -44,7 +44,7 @@ const verifyUserWithFile = (userId, id) => db.File.findOne({
  * @param  {string} userId
  * @return {Promise}
  */
-const showUserFiles = (userId) => db.File.findAll({
+const showUserFiles = (userId) => File.findAll({
   raw: true,
   where: {
     userId,
@@ -53,6 +53,6 @@ const showUserFiles = (userId) => db.File.findAll({
   console.log(err);
 });
 
-module.exports = {
+export {
   saveFilePath, deleteFilePath, verifyUserWithFile, showUserFiles,
 };

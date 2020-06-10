@@ -1,9 +1,9 @@
-const path = require('path');
-const config = require('config');
-const { verifyUserWithFile } = require('../controller/filesDataHandler');
+import { join } from 'path';
+import { STATUS_CODE } from 'config';
+import { verifyUserWithFile } from '../controller/filesDataHandler';
 
-const errorPage = path.join(__dirname, '../../views/error');
-module.exports = (req, res, next) => {
+const errorPage = join(__dirname, '../../views/error');
+export default (req, res, next) => {
   verifyUserWithFile(req.session.userId, req.params.id)
     .then(result => {
       if (!result) return res.redirect(403, '/');
@@ -14,6 +14,6 @@ module.exports = (req, res, next) => {
       {
         errMsg: err.message,
         status: res.statusCode,
-        errName: config.STATUS_CODE[res.statusCode],
+        errName: STATUS_CODE[res.statusCode],
       }));
 };

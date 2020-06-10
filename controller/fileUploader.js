@@ -1,4 +1,4 @@
-const { saveFilePath } = require('./filesDataHandler');
+import { saveFilePath } from './filesDataHandler';
 
 /**
  * Uploads file on server
@@ -9,7 +9,7 @@ const { saveFilePath } = require('./filesDataHandler');
  * @param   {Date}   creationTime
  * @returns {Boolean}
  */
-module.exports = (file, filename, userId, type, creationTime) => {
+export default (file, filename, userId, type, creationTime) => {
   file.mv(`./public/${userId}/${creationTime}*${filename}`, (err) => {
     if (err) console.log(err);
   });

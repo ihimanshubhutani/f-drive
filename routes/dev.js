@@ -1,24 +1,24 @@
 
-const config = require('config');
-const express = require('express');
-const path = require('path');
-const uuid = require('uuid');
-const cryptoPasswordParser = require('../middleware/cryptoPassword');
-const clientValidator = require('../middleware/clientValidator');
+import { MESSAGE } from 'config';
+import { Router } from 'express';
+import { join } from 'path';
+import { v4 } from 'uuid';
+import cryptoPasswordParser from '../middleware/cryptoPassword';
+import clientValidator from '../middleware/clientValidator';
 
-const {
+import {
   insertClient, authenticateClient, fetchInfoFromClientId, updateRedirectUriAndSecret,
-} = require('../controller/clientDataHandler');
+} from '../controller/clientDataHandler';
 
-const authenticateClientSession = require('../middleware/authenticateClientSession');
-const { isUrlValid } = require('../controller/validations');
+import authenticateClientSession from '../middleware/authenticateClientSession';
+import { isUrlValid } from '../controller/validations';
 
-const routes = express.Router();
+const routes = Router();
 
 routes.get('/', authenticateClientSession, (req, res) => {
   fetchInfoFromClientId(req.session.dev.clientId)
     .then((result) => {
-      if (!result.redirectUri) { return res.sendFile('devIndex.html', { root: path.join(__dirname, '../views/') }); }
+      if (!result.redirectUri) { return res.sendFile('devIndex.html', { root: join(__dirname, '../views/') }); }
 
       return res.render('devShowClientDetails', { redirectUri: result.redirectUri, clientSecret: result.clientSecret, clientId: req.session.dev.clientId });
     });
@@ -27,9 +27,9 @@ routes.get('/', authenticateClientSession, (req, res) => {
 routes.post('/generatekeys', authenticateClientSession, (req, res) => {
   if (!isUrlValid(req.body.redirectUri)) {
     return res.status(422)
-      .send({ message: config.MESSAGE.INVALID_URL });
+      .send({ message: MESSAGE.INVALID_URL });
   }
-  return updateRedirectUriAndSecret(req.session.dev.clientId, req.body.redirectUri, uuid.v4())
+  return updateRedirectUriAndSecret(req.session.dev.clientId, req.body.redirectUri, v4())
     .then(() => res.redirect('/dev'));
 });
 
@@ -39,17 +39,17 @@ routes.post('/regenerate', (req, res) => {
 });
 
 routes.get('/login', (req, res) => {
-  res.sendFile('devLogin.html', { root: path.join(__dirname, '../views/') });
+  res.sendFile('devLogin.html', { root: join(__dirname, '../views/') });
 });
 
 routes.get('/signup', (req, res) => {
-  res.sendFile('devSignup.html', { root: path.join(__dirname, '../views/') });
+  res.sendFile('devSignup.html', { root: join(__dirname, '../views/') });
 });
 
 routes.post('/login', cryptoPasswordParser, (req, res, next) => {
   authenticateClient(req.body.username, req.body.password, req.body.email)
     .then((result) => {
-      if (!result) { res.status(401); throw new Error(config.MESSAGE.INVALID_CREDENTIALS); }
+      if (!result) { res.status(401); throw new Error(MESSAGE.INVALID_CREDENTIALS); }
       console.log('result ', result.id);
       req.session.dev = { clientId: result.id };
 
@@ -78,4 +78,4 @@ routes.get('/logout', (req, res) => {
   res.redirect('/dev');
 });
 
-module.exports = routes;
+export default routes;

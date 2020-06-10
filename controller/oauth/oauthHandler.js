@@ -1,9 +1,10 @@
-const path = require('path');
+/* eslint-disable indent */
+import { join } from 'path';
+import { randomBytes, createCipheriv, createDecipheriv } from 'crypto';
+import { SCOPE, ENCRYPTION } from '../../config/default.json';
+import { AuthorizationCode, Client, Token } from '../../models';
 // eslint-disable-next-line no-unused-vars
-const dotenv = require('dotenv').config({ path: path.join(__dirname, '../../config/.env') });
-const crypto = require('crypto');
-const config = require('../../config/default.json');
-const db = require('../../models');
+const dotenv = require('dotenv').config({ path: join(__dirname, '../../config/.env') });
 
 /**
  *
@@ -13,17 +14,16 @@ const db = require('../../models');
  * @param {string} scope
  * @param {string} accessType
  */
-const insertAuthorizationCodeParameters = (userId, clientId, redirectUri, scope, accessType) => db
-  .AuthorizationCode.create({
+const insertAuthorizationCodeParameters = (userId,
+  clientId, redirectUri, scope, accessType) => AuthorizationCode.create({
     userId, clientId, scope, redirectUri, accessType,
   });
-
 /**
  *
  * @param {integer} id
  * @param {string} code
  */
-const insertAuthorizationCode = (id, code) => db.AuthorizationCode.update({
+const insertAuthorizationCode = (id, code) => AuthorizationCode.update({
   code,
 }, {
   where: {
@@ -38,7 +38,7 @@ const insertAuthorizationCode = (id, code) => db.AuthorizationCode.update({
  */
 const checkScopes = scopeArray => {
   const result = { invalid: [], valid: [] };
-  const availableScope = config.SCOPE;
+  const availableScope = SCOPE;
   for (let i = 0; i < scopeArray.length; i += 1) {
     if (!availableScope[scopeArray[i]]) {
       result.invalid.push(scopeArray[i]);
@@ -57,8 +57,8 @@ const checkScopes = scopeArray => {
  */
 const encrypter = data => {
   const text = JSON.stringify(data);
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(config.ENCRYPTION.ALGORITHM,
+  const iv = randomBytes(16);
+  const cipher = createCipheriv(ENCRYPTION.ALGORITHM,
     process.env.AUTHCODE_ENCRYPTION_KEY, iv);
 
   let encrypted = cipher.update(text);
@@ -75,30 +75,31 @@ const decrypter = text => {
   const textParts = text.split(':');
   const iv = Buffer.from(textParts.shift(), 'hex');
   const encryptedText = Buffer.from(textParts.join(':'), 'hex');
-  const decipher = crypto.createDecipheriv(config.ENCRYPTION.ALGORITHM,
+  const decipher = createDecipheriv(ENCRYPTION.ALGORITHM,
     process.env.AUTHCODE_ENCRYPTION_KEY, iv);
   let decrypted = decipher.update(encryptedText);
   decrypted = Buffer.concat([decrypted, decipher.final()]);
   return decrypted.toString();
 };
 
-const verifyAuthorizationCode = id => db.AuthorizationCode.findOne(
+const verifyAuthorizationCode = id => AuthorizationCode.findOne(
   {
-    include: [db.Client],
+    include: [Client],
     where: { id },
   },
 );
 
 
-const insertAccessTokenParameters = (type, value, scope, userId, clientId) => db.Token.create({
+const insertAccessTokenParameters = (type, value, scope, userId, clientId) => Token.create({
   type, value, scope, userId, clientId,
 });
 
-module.exports = {
+export {
   checkScopes,
   encrypter,
   decrypter,
   insertAuthorizationCodeParameters,
   insertAuthorizationCode,
   verifyAuthorizationCode,
+  insertAccessTokenParameters,
 };

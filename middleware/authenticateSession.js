@@ -1,4 +1,4 @@
-const { fetchInfoFromUserId } = require('../controller/userDataHandler');
+import { fetchInfoFromUserId } from '../controller/userDataHandler';
 /**
  * Authenticate and allow to use /upload /delete /update /download
  * only if user is logged in, if user is logged in then populate session object
@@ -27,4 +27,4 @@ const authenticateSession = (req, res, next) => {
   return res.redirect('/login');
 };
 
-module.exports = authenticateSession;
+export default authenticateSession;

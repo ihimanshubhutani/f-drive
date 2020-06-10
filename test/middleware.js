@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const validator = require('../middleware/userValidator');
+const validator = require('../middleware/userValidator').default.default.default;
 
 // eslint-disable-next-line no-undef
 describe('Test the middleware function validator', () => {

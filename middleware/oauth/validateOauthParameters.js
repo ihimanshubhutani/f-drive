@@ -1,11 +1,13 @@
-const path = require('path');
-const config = require('config');
-const { fetchInfoFromClientId } = require('../../controller/clientDataHandler');
-const { checkScopes } = require('../../controller/oauth/oauthHandler');
+import { join } from 'path';
+import {
+  STATUS, MISSING_PARAMS, STATUS_CODE, MESSAGE,
+} from 'config';
+import { fetchInfoFromClientId } from '../../controller/clientDataHandler';
+import { checkScopes } from '../../controller/oauth/oauthHandler';
 
-const errorPage = path.join(__dirname, '../../views/error');
+const errorPage = join(__dirname, '../../views/error');
 
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   console.log(req.query);
   const { query } = req;
   const { scope } = query;
@@ -16,28 +18,28 @@ module.exports = (req, res, next) => {
   const { state } = query;
   console.log(state);
   try {
-    res.status(config.STATUS.BAD_REQUEST);
-    if (!clientId) throw new Error(config.MISSING_PARAMS.CLIENT_ID);
-    if (!scope) throw new Error(config.MISSING_PARAMS.SCOPE);
-    if (!responseType) throw new Error(config.MISSING_PARAMS.RESPONSE_TYPE);
-    if (!redirectUri) throw new Error(config.MISSING_PARAMS.REDIRECT_URI);
-    if (!accessType) throw new Error(config.MISSING_PARAMS.ACCESS_TYPE);
-    if (!state) throw new Error(config.MISSING_PARAMS.STATE);
-    if (responseType !== 'code') throw new Error(config.MISSING_PARAMS.ALLOWED_GRANT_TYPE);
+    res.status(STATUS.BAD_REQUEST);
+    if (!clientId) throw new Error(MISSING_PARAMS.CLIENT_ID);
+    if (!scope) throw new Error(MISSING_PARAMS.SCOPE);
+    if (!responseType) throw new Error(MISSING_PARAMS.RESPONSE_TYPE);
+    if (!redirectUri) throw new Error(MISSING_PARAMS.REDIRECT_URI);
+    if (!accessType) throw new Error(MISSING_PARAMS.ACCESS_TYPE);
+    if (!state) throw new Error(MISSING_PARAMS.STATE);
+    if (responseType !== 'code') throw new Error(MISSING_PARAMS.ALLOWED_GRANT_TYPE);
   } catch (err) {
-    console.log(config.STATUS_CODE[res.statusCode]);
+    console.log(STATUS_CODE[res.statusCode]);
     return res.render(errorPage,
       {
         errMsg: err.message,
         status: res.statusCode,
-        errName: config.STATUS_CODE[res.statusCode],
+        errName: STATUS_CODE[res.statusCode],
       });
   }
   const scopeArray = scope.split(' ');
   const distinguishedScopes = checkScopes(scopeArray);
   if (distinguishedScopes.invalid.length) {
     return res.json({
-      message: config.MESSAGE.INVALID_SCOPE,
+      message: MESSAGE.INVALID_SCOPE,
       distinguishedScopes,
     });
   }
@@ -45,18 +47,18 @@ module.exports = (req, res, next) => {
   return fetchInfoFromClientId(clientId)
     .then((result) => {
       if (!result) {
-        res.status(config.STATUS.UNAUTHORIZED);
-        throw Error(config.MESSAGE.INVALID_CLIENT_ID);
+        res.status(STATUS.UNAUTHORIZED);
+        throw Error(MESSAGE.INVALID_CLIENT_ID);
       }
-      if (result.redirectUri !== redirectUri) throw new Error(config.MESSAGE.INVALID_REDIRECT_URI);
+      if (result.redirectUri !== redirectUri) throw new Error(MESSAGE.INVALID_REDIRECT_URI);
       req.client = { name: result.username };
-      res.status(config.STATUS.OK);
+      res.status(STATUS.OK);
       next();
     })
     .catch(err => res.render(errorPage,
       {
         errMsg: err.message,
         status: res.statusCode,
-        errName: config.STATUS_CODE[res.statusCode],
+        errName: STATUS_CODE[res.statusCode],
       }));
 };

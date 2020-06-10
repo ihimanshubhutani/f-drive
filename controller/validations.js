@@ -25,4 +25,4 @@ const isUrlValid = url => {
   return urlRegex.test(url);
 };
 
-module.exports = { isPasswordValid, isEmailValid, isUrlValid };
+export { isPasswordValid, isEmailValid, isUrlValid };

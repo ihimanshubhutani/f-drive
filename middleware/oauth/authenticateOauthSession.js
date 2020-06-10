@@ -1,11 +1,11 @@
-const config = require('config');
-const { fetchInfoFromUserId } = require('../../controller/userDataHandler');
-const { encrypter } = require('../../controller/oauth/oauthHandler');
+import { MESSAGE } from 'config';
+import { fetchInfoFromUserId } from '../../controller/userDataHandler';
+import { encrypter } from '../../controller/oauth/oauthHandler';
 
 /**
  * Authenticate and redirect to consent screen if user is already logged in
  */
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   if (req.session.userId) {
     return fetchInfoFromUserId(req.session.userId)
       .then(result => {
@@ -23,6 +23,6 @@ module.exports = (req, res, next) => {
       })
       .catch(err => next(err));
   }
-  if (req.url.split('?')[0] === '/consent') { res.status(401); return next(new Error(config.MESSAGE.CANNOT_PROCESS_REQUEST)); }
+  if (req.url.split('?')[0] === '/consent') { res.status(401); return next(new Error(MESSAGE.CANNOT_PROCESS_REQUEST)); }
   return next();
 };
