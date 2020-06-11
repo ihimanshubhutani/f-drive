@@ -13,7 +13,7 @@ export const downloadFile = (req, res) => {
 };
 
 export const showFiles = (req, res, next) => {
-  showUserFiles(req.session.userId, res)
+  showUserFiles(req.session.userId)
     .then(result => {
       const data = JSON.stringify({ arr: result });
       res.render(join(__dirname, '../views/viewFiles'), { data });
