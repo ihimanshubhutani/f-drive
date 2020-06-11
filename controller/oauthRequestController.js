@@ -6,7 +6,7 @@ import {
   insertAuthorizationCode,
   insertAuthorizationCodeParameters,
   insertTokenParameters,
-  insertTokenValue,
+  verifyRefreshToken,
 } from '../services/oauth/oauthHandler';
 import { encrypter, decrypter } from '../util/encrypiton';
 
@@ -60,25 +60,26 @@ export const createAuthorizationCode = (req, res, next) => {
     }).catch(err => next(err));
 };
 
-export const returnAccessToken = (req, res) => {
-  insertTokenParameters('access', req.auth.scope, req.auth.id, req.auth.Client.id)
-    .then(result => {
-      const accessTokenValue = encrypter({ id: result.id, value: v4() });
-      insertTokenValue(result.id, accessTokenValue);
-      return {
-        access_token: accessTokenValue, scope: req.auth.scope, expires_in: 600, token_type: 'Bearer',
-      };
-    }).then((data) => {
-      if (req.body.access_type === 'offline') {
-        return insertTokenParameters('refresh', req.auth.scope, req.auth.id, req.auth.Client.id)
-          .then(result => {
-            const refreshTokenValue = encrypter({ id: result.id, value: v4() });
-            insertTokenValue(result.id, refreshTokenValue);
-            const output = data;
-            output.refresh_token = refreshTokenValue;
-            return output;
-          });
-      }
-      return data;
-    }).then((data) => res.json(data));
+export const returnAccessToken = async (req, res) => {
+  const accessToken = await insertTokenParameters('access', req.auth.scope, req.auth.id, req.auth.Client.id);
+  let refreshToken;
+  try {
+    if (req.body.access_type === 'offline') {
+      refreshToken = await insertTokenParameters('refresh', req.auth.scope, req.auth.id, req.auth.Client.id);
+    }
+    if (req.body.grant_type === 'refresh_token') {
+      console.log('here');
+      if (!await verifyRefreshToken(req.body.refresh_token)) return res.json({ error: 'refresh token either expired or invalid' });
+    }
+  } catch (err) {
+    if (err.reason === 'bad decrypt') return res.json({ err: 'invalid token value' });
+    return res.json({ err });
+  }
+  return res.json({
+    access_token: accessToken,
+    scope: req.auth.scope,
+    expires_in: 600,
+    token_type: 'Bearer',
+    refresh_token: refreshToken,
+  });
 };

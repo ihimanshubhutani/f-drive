@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import { join } from 'path';
 import { randomBytes, createCipheriv, createDecipheriv } from 'crypto';
+import { v4 } from 'uuid';
 import { SCOPE, ENCRYPTION } from '../../config/default.json';
 import { AuthorizationCode, Client, Token } from '../../models';
 // eslint-disable-next-line no-unused-vars
@@ -89,10 +90,6 @@ export const verifyAuthorizationCode = id => AuthorizationCode.findOne(
   },
 );
 
-export const insertTokenParameters = (type, scope, userId, clientId) => Token.create({
-  type, scope, userId, clientId,
-});
-
 export const insertTokenValue = (id, value) => Token.update({
   value,
 }, {
@@ -100,3 +97,22 @@ export const insertTokenValue = (id, value) => Token.update({
     id,
   },
 });
+
+export const insertTokenParameters = (type, scope, userId, clientId) => Token.create({
+  type, scope, userId, clientId,
+}).then(result => {
+  const tokenValue = encrypter({ id: result.id, value: v4() });
+  insertTokenValue(result.id, tokenValue);
+  return tokenValue;
+});
+
+export const verifyRefreshToken = (refershToken) => {
+  if (!refershToken) return false;
+  const decryptedToken = JSON.parse(decrypter(refershToken));
+  const { id } = decryptedToken;
+  return Token.findOne({ where: id })
+    .then((result) => {
+      if (!result) return false;
+      return true;
+    });
+};

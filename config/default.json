@@ -60,5 +60,9 @@
     "ALGORITHM": "aes-256-cbc",
     "HEX": "hex",
     "UTF8": "utf-8"
+  },
+  "GRANT_TYPE": {
+    "refresh_token": true,
+    "authorization_code": true
   }
 }

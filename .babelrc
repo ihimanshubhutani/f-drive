@@ -3,5 +3,13 @@
     [
       "env"
     ]
+  ],
+  "plugins": [
+    [
+      "transform-runtime",
+      {
+        "regenerator": true
+      }
+    ]
   ]
 }

@@ -1,3 +1,4 @@
+import { GRANT_TYPE } from 'config';
 import { decrypter } from '../../util/encrypiton';
 import {
   verifyAuthorizationCode,
@@ -8,7 +9,7 @@ module.exports = (req, res, next) => {
   const clientId = req.body.client_id;
   const clientSecret = req.body.client_secret;
   const grantType = req.body.grant_type;
-  if (grantType !== 'authorization_code') {
+  if (!GRANT_TYPE[grantType]) {
     return res.status(400).json({ error: 'invalid grant_type' });
   }
 
