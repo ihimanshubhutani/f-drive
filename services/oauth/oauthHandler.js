@@ -116,3 +116,9 @@ export const verifyRefreshToken = (refershToken) => {
       return true;
     });
 };
+
+export const verifyAccessToken = id => AuthorizationCode.findOne(
+  {
+    where: { id },
+  },
+);

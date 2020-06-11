@@ -13,6 +13,7 @@ import signupRoute from './routes/signup';
 import emailVerificationRoute from './routes/emailVerification';
 import devRoute from './routes/dev';
 import oauthRoute from './routes/oauth';
+import fdriveRoute from './routes/f-drive';
 
 const errorPage = join(__dirname, '/views/error');
 
@@ -39,6 +40,7 @@ app.use('/files', filesRoute);
 app.use('/login', loginRoute);
 app.use('/signup', signupRoute);
 app.use('/email', emailVerificationRoute);
+app.use('/fdrive', fdriveRoute);
 app.use('/', index);
 
 // eslint-disable-next-line no-unused-vars
