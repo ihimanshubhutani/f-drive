@@ -20,7 +20,7 @@ export default (req, res, next) => {
       req.scope = result.scope;
       req.userId = result.id;
       console.log(req.scope, req.userId);
-      if (!SCOPE[req.url]) { return res.status(400).json({ err: 'scope unmatched from requested' }); }
+      if (!SCOPE[req.url.split('/')[1]]) { return res.status(400).json({ err: 'scope unmatched from requested' }); }
       return next();
     });
 };
