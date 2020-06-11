@@ -89,6 +89,14 @@ export const verifyAuthorizationCode = id => AuthorizationCode.findOne(
   },
 );
 
-export const insertAccessTokenParameters = (type, value, scope, userId, clientId) => Token.create({
-  type, value, scope, userId, clientId,
+export const insertTokenParameters = (type, scope, userId, clientId) => Token.create({
+  type, scope, userId, clientId,
+});
+
+export const insertTokenValue = (id, value) => Token.update({
+  value,
+}, {
+  where: {
+    id,
+  },
 });

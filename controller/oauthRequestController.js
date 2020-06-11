@@ -3,11 +3,13 @@ import { join } from 'path';
 import { v4 } from 'uuid';
 import { authenticateUser } from '../services/user/userDataHandler';
 import {
-  insertAuthorizationCode, insertAuthorizationCodeParameters,
+  insertAuthorizationCode,
+  insertAuthorizationCodeParameters,
+  insertTokenParameters,
+  insertTokenValue,
 } from '../services/oauth/oauthHandler';
 import { encrypter, decrypter } from '../util/encrypiton';
 
-// const { fetchInfoFromClientId } = require('../controller/clientDataHandler');
 
 export const showOauthLoginPage = (req, res) => {
   res.render(join(__dirname, '../views/oauthLogin'), { clientName: req.client.name, url: req.url });
@@ -56,4 +58,27 @@ export const createAuthorizationCode = (req, res, next) => {
       insertAuthorizationCode(result.id, authCode);
       return res.redirect(`${parsedData.redirect_uri}/?code=${authCode}&state=${parsedData.state}`);
     }).catch(err => next(err));
+};
+
+export const returnAccessToken = (req, res) => {
+  insertTokenParameters('access', req.auth.scope, req.auth.id, req.auth.Client.id)
+    .then(result => {
+      const accessTokenValue = encrypter({ id: result.id, value: v4() });
+      insertTokenValue(result.id, accessTokenValue);
+      return {
+        access_token: accessTokenValue, scope: req.auth.scope, expires_in: 600, token_type: 'Bearer',
+      };
+    }).then((data) => {
+      if (req.body.access_type === 'offline') {
+        return insertTokenParameters('refresh', req.auth.scope, req.auth.id, req.auth.Client.id)
+          .then(result => {
+            const refreshTokenValue = encrypter({ id: result.id, value: v4() });
+            insertTokenValue(result.id, refreshTokenValue);
+            const output = data;
+            output.refresh_token = refreshTokenValue;
+            return output;
+          });
+      }
+      return data;
+    }).then((data) => res.json(data));
 };
