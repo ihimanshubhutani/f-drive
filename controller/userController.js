@@ -48,7 +48,7 @@ export const createUserAccount = (req, res, next) => {
   insertUser(req.body.username, req.body.password, false, email)
     .then(result => {
       insertVerificationCode(email, code, result.id);
-      sendEmailForVerification(email, code);
+      sendEmailForVerification(email, code, `http://${req.headers.host}`);
     }).then(() => {
       res.render(join(__dirname, '../views/emailConfirmation'), { email });
     }).catch(err => next(err));

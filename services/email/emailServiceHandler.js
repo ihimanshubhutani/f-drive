@@ -1,4 +1,4 @@
-import { EMAIL, SERVER } from 'config';
+import { EMAIL } from 'config';
 import { EmailConfirmationCode } from '../../models';
 import { GOOGLE } from '../../config/keys.json';
 
@@ -39,7 +39,7 @@ const deleteVerifiedCode = (id) => EmailConfirmationCode.destroy({
 * @param   {string} code
 * @returns {void}
 */
-const sendEmailForVerification = (email, code) => {
+const sendEmailForVerification = (email, code, host) => {
   // eslint-disable-next-line global-require
   const send = require('gmail-send')({
     user: GOOGLE.USERNAME,
@@ -51,7 +51,7 @@ const sendEmailForVerification = (email, code) => {
   return send(
     {
       text: `${EMAIL.BODY}
-       ${SERVER}/email/verification-service?validemail=${email}&code=${code}`,
+       ${host}/email/verification-service?validemail=${email}&code=${code}`,
     },
     (error) => {
       if (error) return error;

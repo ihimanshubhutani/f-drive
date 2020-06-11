@@ -1,11 +1,10 @@
-import { SECRET, STATUS_CODE } from 'config';
+import { SECRET } from 'config';
 import { urlencoded } from 'body-parser';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import session from 'express-session';
 // eslint-disable-next-line no-unused-vars
 import ejs from 'ejs';
-import { join } from 'path';
 import filesRoute from './routes/files';
 import index from './routes/index';
 import loginRoute from './routes/login';
@@ -14,8 +13,7 @@ import emailVerificationRoute from './routes/emailVerification';
 import devRoute from './routes/dev';
 import oauthRoute from './routes/oauth';
 import fdriveRoute from './routes/f-drive';
-
-const errorPage = join(__dirname, '/views/error');
+import errorHandler from './middleware/errorHandler';
 
 const app = express();
 
@@ -43,20 +41,7 @@ app.use('/email', emailVerificationRoute);
 app.use('/fdrive', fdriveRoute);
 app.use('/', index);
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  if (res.statusCode === 200) { res.status(500); }
-  if (err.message === 'Invalid IV length') return res.json({ error: 'invalid token' });
-  res.status(err.status || res.statusCode);
-
-  return res.render(errorPage,
-    {
-      errMsg: err.message,
-      status: res.statusCode,
-      errName: STATUS_CODE[res.statusCode],
-    });
-});
-
+app.use(errorHandler);
 app.listen(3000, console.log('Running Server'));
 
 export default app;
