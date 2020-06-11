@@ -1,4 +1,4 @@
-import { fetchInfoFromUserId } from '../controller/userDataHandler';
+import { fetchInfoFromUserId } from '../services/user/userDataHandler';
 /**
  * Authenticate and allow to use /upload /delete /update /download
  * only if user is logged in, if user is logged in then populate session object

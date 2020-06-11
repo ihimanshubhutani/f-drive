@@ -14,7 +14,7 @@ const dotenv = require('dotenv').config({ path: join(__dirname, '../../config/.e
  * @param {string} scope
  * @param {string} accessType
  */
-const insertAuthorizationCodeParameters = (userId,
+export const insertAuthorizationCodeParameters = (userId,
   clientId, redirectUri, scope, accessType) => AuthorizationCode.create({
     userId, clientId, scope, redirectUri, accessType,
   });
@@ -23,7 +23,7 @@ const insertAuthorizationCodeParameters = (userId,
  * @param {integer} id
  * @param {string} code
  */
-const insertAuthorizationCode = (id, code) => AuthorizationCode.update({
+export const insertAuthorizationCode = (id, code) => AuthorizationCode.update({
   code,
 }, {
   where: {
@@ -36,7 +36,7 @@ const insertAuthorizationCode = (id, code) => AuthorizationCode.update({
  * @param   {array} scopeArray
  * @returns {object}
  */
-const checkScopes = scopeArray => {
+export const checkScopes = scopeArray => {
   const result = { invalid: [], valid: [] };
   const availableScope = SCOPE;
   for (let i = 0; i < scopeArray.length; i += 1) {
@@ -55,7 +55,7 @@ const checkScopes = scopeArray => {
  * @param   {string} data
  * @returns {object}
  */
-const encrypter = data => {
+export const encrypter = data => {
   const text = JSON.stringify(data);
   const iv = randomBytes(16);
   const cipher = createCipheriv(ENCRYPTION.ALGORITHM,
@@ -71,7 +71,7 @@ const encrypter = data => {
  * @param   {object} data
  * @returns {object}
  */
-const decrypter = text => {
+export const decrypter = text => {
   const textParts = text.split(':');
   const iv = Buffer.from(textParts.shift(), 'hex');
   const encryptedText = Buffer.from(textParts.join(':'), 'hex');
@@ -82,24 +82,13 @@ const decrypter = text => {
   return decrypted.toString();
 };
 
-const verifyAuthorizationCode = id => AuthorizationCode.findOne(
+export const verifyAuthorizationCode = id => AuthorizationCode.findOne(
   {
     include: [Client],
     where: { id },
   },
 );
 
-
-const insertAccessTokenParameters = (type, value, scope, userId, clientId) => Token.create({
+export const insertAccessTokenParameters = (type, value, scope, userId, clientId) => Token.create({
   type, value, scope, userId, clientId,
 });
-
-export {
-  checkScopes,
-  encrypter,
-  decrypter,
-  insertAuthorizationCodeParameters,
-  insertAuthorizationCode,
-  verifyAuthorizationCode,
-  insertAccessTokenParameters,
-};

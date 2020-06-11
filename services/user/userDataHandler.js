@@ -1,4 +1,4 @@
-import { User } from '../models';
+import { User } from '../../models';
 
 /**
  * Insert Username and hashed password in database.

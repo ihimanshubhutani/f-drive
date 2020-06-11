@@ -1,4 +1,4 @@
-import { Client } from '../models';
+import { Client } from '../../models';
 
 /**
  * Insert Username and hashed password in database.

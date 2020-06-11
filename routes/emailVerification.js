@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { MESSAGE } from 'config';
-import { verifyEmailWithCode, deleteVerifiedCode } from '../controller/emailServiceHandler';
-import { updateVerifiedColumn } from '../controller/userDataHandler';
+import { verifyEmailWithCode, deleteVerifiedCode } from '../services/email/emailServiceHandler';
+import { updateVerifiedColumn } from '../services/user/userDataHandler';
 
 const routes = Router();
 

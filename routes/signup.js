@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { join } from 'path';
 import { v4 } from 'uuid';
-import { insertUser } from '../controller/userDataHandler';
+import { insertUser } from '../services/user/userDataHandler';
 import validator from '../middleware/userValidator';
 import cryptoPasswordParser from '../middleware/cryptoPassword';
-import { insertVerificationCode, sendEmailForVerification } from '../controller/emailServiceHandler';
+import { insertVerificationCode, sendEmailForVerification } from '../services/email/emailServiceHandler';
 import authenticateSession from '../middleware/authenticateSession';
 
 const routes = Router();

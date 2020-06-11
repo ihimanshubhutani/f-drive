@@ -8,10 +8,10 @@ import clientValidator from '../middleware/clientValidator';
 
 import {
   insertClient, authenticateClient, fetchInfoFromClientId, updateRedirectUriAndSecret,
-} from '../controller/clientDataHandler';
+} from '../services/client/clientDataHandler';
 
 import authenticateClientSession from '../middleware/authenticateClientSession';
-import { isUrlValid } from '../controller/validations';
+import { isUrlValid } from '../util/validations';
 
 const routes = Router();
 

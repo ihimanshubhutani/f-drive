@@ -1,7 +1,7 @@
 import { MESSAGE } from 'config';
 import { Router } from 'express';
 import { join } from 'path';
-import { authenticateUser } from '../controller/userDataHandler';
+import { authenticateUser } from '../services/user/userDataHandler';
 import cryptoPasswordParser from '../middleware/cryptoPassword';
 
 const routes = Router();

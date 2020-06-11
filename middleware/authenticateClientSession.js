@@ -1,4 +1,4 @@
-import { fetchInfoFromClientId } from '../controller/clientDataHandler';
+import { fetchInfoFromClientId } from '../services/client/clientDataHandler';
 
 
 /**

@@ -2,8 +2,8 @@ import { join } from 'path';
 import {
   STATUS, MISSING_PARAMS, STATUS_CODE, MESSAGE,
 } from 'config';
-import { fetchInfoFromClientId } from '../../controller/clientDataHandler';
-import { checkScopes } from '../../controller/oauth/oauthHandler';
+import { fetchInfoFromClientId } from '../../services/client/clientDataHandler';
+import { checkScopes } from '../../services/oauth/oauthHandler';
 
 const errorPage = join(__dirname, '../../views/error');
 

@@ -1,6 +1,6 @@
 import { EMAIL, SERVER } from 'config';
-import { EmailConfirmationCode } from '../models';
-import { GOOGLE } from '../config/keys.json';
+import { EmailConfirmationCode } from '../../models';
+import { GOOGLE } from '../../config/keys.json';
 
 /**
  * Inserts Verification code with user email and userID

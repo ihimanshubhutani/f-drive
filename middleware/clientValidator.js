@@ -1,7 +1,7 @@
 import { MESSAGE } from 'config';
-import { isPasswordValid, isEmailValid } from '../controller/validations';
+import { isPasswordValid, isEmailValid } from '../util/validations';
 
-import { isClientEmailAlreadyExists, isClientUsernameAlreadyExists } from '../controller/clientDataHandler';
+import { isClientEmailAlreadyExists, isClientUsernameAlreadyExists } from '../services/client/clientDataHandler';
 
 export default (req, res, next) => new Promise(resolve => {
   if (!isPasswordValid(req.body.password)) {

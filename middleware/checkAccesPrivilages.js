@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { STATUS_CODE } from 'config';
-import { verifyUserWithFile } from '../controller/filesDataHandler';
+import { verifyUserWithFile } from '../services/file/filesDataHandler';
 
 const errorPage = join(__dirname, '../../views/error');
 export default (req, res, next) => {

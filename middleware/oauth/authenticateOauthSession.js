@@ -1,6 +1,6 @@
 import { MESSAGE } from 'config';
-import { fetchInfoFromUserId } from '../../controller/userDataHandler';
-import { encrypter } from '../../controller/oauth/oauthHandler';
+import { fetchInfoFromUserId } from '../../services/user/userDataHandler';
+import { encrypter } from '../../services/oauth/oauthHandler';
 
 /**
  * Authenticate and redirect to consent screen if user is already logged in

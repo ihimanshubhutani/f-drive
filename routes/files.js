@@ -5,9 +5,9 @@ import { MESSAGE } from 'config';
 
 import authenticate from '../middleware/authenticateSession';
 import checkAccessAllowed from '../middleware/checkAccesPrivilages';
-import uploadFile from '../controller/fileUploader';
+import uploadFile from '../util/fileUploader';
 
-import { deleteFilePath, showUserFiles } from '../controller/filesDataHandler';
+import { deleteFilePath, showUserFiles } from '../services/file/filesDataHandler';
 
 const routes = Router();
 

@@ -1,4 +1,4 @@
-import { File } from '../models';
+import { File } from '../../models';
 
 /**
  * Saves file path into filePaths database.

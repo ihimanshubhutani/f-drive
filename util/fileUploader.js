@@ -1,4 +1,4 @@
-import { saveFilePath } from './filesDataHandler';
+import { saveFilePath } from '../services/file/filesDataHandler';
 
 /**
  * Uploads file on server
