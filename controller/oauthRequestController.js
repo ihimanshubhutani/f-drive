@@ -60,11 +60,13 @@ export const createAuthorizationCode = (req, res, next) => {
 };
 
 export const returnAccessToken = async (req, res) => {
-  const accessToken = await insertTokenParameters('access', req.auth.scope, req.auth.id, req.auth.Client.id);
   let refreshToken;
+  let accessToken;
   try {
+    accessToken = await insertTokenParameters('access', req.auth.scope, req.auth.userId, req.auth.Client.id);
+
     if (req.body.access_type === 'offline') {
-      refreshToken = await insertTokenParameters('refresh', req.auth.scope, req.auth.id, req.auth.Client.id);
+      refreshToken = await insertTokenParameters('refresh', req.auth.scope, req.auth.userId, req.auth.Client.id);
     }
     if (req.body.grant_type === 'refresh_token') {
       console.log('here');

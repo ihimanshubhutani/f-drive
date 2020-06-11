@@ -13,7 +13,7 @@ import {
 
 const routes = Router();
 
-routes.get('/', authenticateOauthSession, validateOauthParameters, showOauthLoginPage);
+routes.get('/', validateOauthParameters, authenticateOauthSession, showOauthLoginPage);
 routes.post('/login', cryptoPasswordParser, validateOauthParameters, authenticateOauthLoginRequest);
 routes.get('/consent', authenticateOauthSession, showConsentForm);
 routes.post('/consent', createAuthorizationCode);
