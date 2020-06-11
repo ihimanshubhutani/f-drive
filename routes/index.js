@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { join } from 'path';
 import authenticateSession from '../middleware/authenticateSession';
+import { showUserIndexPage, logoutUser } from '../controller/userController';
 
 const routes = Router();
 
@@ -8,18 +8,7 @@ routes.use('/test/redirect', (req, res) => {
   res.send(req.query.code);
 });
 
-routes.get('/', authenticateSession, (req, res) => {
-  console.log(req.session);
-  if (!req.session.verification) {
-    return res.render(join(__dirname, '../views/showVerificationMessage.ejs'), { email: req.session.email });
-  }
-  console.log(req.session);
-  return res.render(join(__dirname, '../views/index'),
-    { username: req.session.username });
-});
+routes.get('/', authenticateSession, showUserIndexPage);
+routes.get('/logout', logoutUser);
 
-routes.get('/logout', (req, res) => {
-  req.session.destroy();
-  return res.redirect('/');
-});
 export default routes;
