@@ -1,5 +1,26 @@
-import { } from '../../services/oauth/oauthHandler';
+import { SCOPE } from 'config';
+import { verifyAccessToken } from '../../services/oauth/oauthHandler';
+import { decrypter } from '../../util/encrypiton';
 
-module.exports = (req, res, next) => {
-  const accessToken = res.json(req.headers.authorization.split('Bearer ')[1]);
+export default (req, res, next) => {
+  const accessToken = req.headers.authorization.split('Bearer ')[1];
+  let data;
+  console.log('hello');
+  try {
+    const decryptedAccessToken = decrypter(accessToken);
+    data = JSON.parse(decryptedAccessToken);
+  } catch (err) {
+    next(err);
+  }
+  return verifyAccessToken(data.id)
+    .then(result => {
+      if (!result) {
+        return res.status(400).json({ err: 'access token expired' });
+      }
+      req.scope = result.scope;
+      req.userId = result.id;
+      console.log(req.scope, req.userId);
+      if (!SCOPE[req.url]) { return res.status(400).json({ err: 'scope unmatched from requested' }); }
+      return next();
+    });
 };

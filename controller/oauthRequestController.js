@@ -45,7 +45,6 @@ export const showConsentForm = (req, res) => {
 };
 
 export const createAuthorizationCode = (req, res, next) => {
-  console.log(req.body);
   const data = decrypter(req.body.authUser);
   const parsedData = JSON.parse(data);
   console.log(parsedData.client_id);
