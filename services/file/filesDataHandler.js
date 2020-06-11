@@ -44,13 +44,25 @@ const verifyUserWithFile = (userId, id) => File.findOne({
  * @param  {string} userId
  * @return {Promise}
  */
-const showUserFiles = (userId) => File.findAll({
+const showUserFiles = (userId, excludeItems) => File.findAll({
   raw: true,
+  attributes: {
+    exclude: excludeItems,
+  },
   where: {
     userId,
   },
 }).catch((err) => {
   console.log(err);
+});
+
+export const showFileMetaData = (id, excludeItems) => File.findOne({
+  attributes: {
+    exclude: excludeItems,
+  },
+  where: {
+    id,
+  },
 });
 
 export {

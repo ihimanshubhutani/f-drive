@@ -1,14 +1,24 @@
 
-import { showUserFiles } from '../services/file/filesDataHandler';
+import { showUserFiles, showFileMetaData } from '../services/file/filesDataHandler';
+import { fetchInfoFromUserId } from '../services/user/userDataHandler';
 
 export const returnFilesData = (req, res) => {
-  console.log('je');
-  showUserFiles(req.userId)
-    .then(result => {
-      res.json(result);
+  console.log(req.userId);
+  showUserFiles(req.userId, ['path', 'userId'])
+    .then(files => {
+      res.json({ files });
     });
 };
 
 export const returnFileMetaData = (req, res) => {
-  res.json('hello');
+  showFileMetaData(req.params.id, ['path', 'userId'])
+    .then(file => {
+      res.json({ file });
+    });
+};
+
+export const returnProfileData = (req, res) => {
+  fetchInfoFromUserId(req.userId).then(user => {
+    res.json({ user });
+  });
 };

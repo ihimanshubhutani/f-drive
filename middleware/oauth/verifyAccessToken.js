@@ -18,7 +18,7 @@ export default (req, res, next) => {
         return res.status(400).json({ err: 'access token expired' });
       }
       req.scope = result.scope;
-      req.userId = result.id;
+      req.userId = result.userId;
       console.log(req.scope, req.userId);
       if (!SCOPE[req.url.split('/')[1]]) { return res.status(400).json({ err: 'scope unmatched from requested' }); }
       return next();
