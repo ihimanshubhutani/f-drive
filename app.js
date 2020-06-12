@@ -5,6 +5,8 @@ import fileUpload from 'express-fileupload';
 import session from 'express-session';
 // eslint-disable-next-line no-unused-vars
 import ejs from 'ejs';
+import cron from 'node-cron';
+import moment from 'moment';
 import filesRoute from './app/routes/files';
 import index from './app/routes/index';
 import loginRoute from './app/routes/login';
@@ -14,6 +16,7 @@ import devRoute from './app/routes/dev';
 import oauthRoute from './app/routes/oauth';
 import fdriveRoute from './app/routes/f-drive';
 import errorHandler from './app/middleware/errorHandler';
+import { destroyExpiredAuthorizationCode } from './app/services/oauth/oauthHandler';
 
 const app = express();
 
@@ -30,6 +33,11 @@ app.use(
 );
 
 app.use(fileUpload({ createParentPath: true }));
+
+// // eslint-disable-next-line no-useless-concat
+cron.schedule('0-59 * * * * *', () => {
+  destroyExpiredAuthorizationCode();
+});
 
 app.use('/files', express.static('./public'));
 app.use('/oauth', oauthRoute);

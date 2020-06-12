@@ -3,6 +3,8 @@ import { join } from 'path';
 import { randomBytes, createCipheriv, createDecipheriv } from 'crypto';
 import { v4 } from 'uuid';
 import { SCOPE, ENCRYPTION } from 'config';
+import { Op } from 'sequelize';
+import moment from 'moment';
 import { AuthorizationCode, Client, Token } from '../../models';
 // eslint-disable-next-line no-unused-vars
 const dotenv = require('dotenv').config({ path: join(__dirname, '../../config/.env') });
@@ -122,3 +124,14 @@ export const verifyAccessToken = id => Token.findOne(
     where: { id },
   },
 );
+
+export const destroyExpiredAuthorizationCode = () => {
+  console.log(moment().subtract(10, 'minutes'));
+  AuthorizationCode.findAll({
+    where: { expires: { [Op.lt]: moment().subtract(10, 'minutes') } },
+  }).then(result => {
+    if (result) {
+      // console.log(result);
+    }
+  });
+};
