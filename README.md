@@ -5,13 +5,13 @@
 
 ## Prerequisites
 
-* npm >=6.14.5
-* node >=12.16.3
+- npm >=6.14.5
+- node >=12.16.3
 
 ## Setup and Installation
 
-``` sh
-        git clone 
+```sh
+        git clone
 
         cd f-drive
 
@@ -20,13 +20,13 @@
 
 ## Usage
 
-``` sh
+```sh
         npm run start
 ```
 
 ## Run tests
 
-``` sh
+```sh
         npm run test
 ```
 
@@ -36,24 +36,24 @@
 
 1. Register your account by Signing-Up
 
-3. An Confirmation email will be sent to your registered Email address, confirm your email address by that link.
-4. Login to your F-Drive account
-5. Upload and View files by clicking on <b>*Upload*</b> and <b>*Show Files*</b> link on your logged in page.
-6. Uploaded files can be deleted by going to Show Files page and selecting files to delete and then click on <b>**Delete Selected Files**</b>
-7. To <b>*Download*</b> particular file, Go to <b>**Show Files**</b> page and click on name of file to which you want to download.
+2. An Confirmation email will be sent to your registered Email address, confirm your email address by that link.
+3. Login to your F-Drive account
+4. Upload and View files by clicking on <b>_Upload_</b> and <b>_Show Files_</b> link on your logged in page.
+5. Uploaded files can be deleted by going to Show Files page and selecting files to delete and then click on <b>**Delete Selected Files**</b>
+6. To <b>_Download_</b> particular file, Go to <b>**Show Files**</b> page and click on name of file to which you want to download.
 
 ### Obtain OAuth 2.0 credentials for Developers/Client.
 
 > **NOTE**: This section is for those who want to use F-Drive to integerate **Sign-In with F-Drive** Functionality in their Website
 
-Go to */dev* route or click on Developer option on homepage
+Go to _/dev_ route or click on Developer option on homepage
 
 1. Register yourself as Developer by filling up signup form on **/dev/signup**, Your Username will be shown to user to identify you during [OAuth2](https://tools.ietf.org/html/rfc6749) Flow and will appear as your name during Consent Form
 
 2. Once Developer Account created, Login with your details and Enter your Redirect URI (to which you want to redirect the Authorization Code after user allowed on consent form)
-3. After entering correct redirect URI you will be provided with your **Client Secret** and **Client Id** use it to [Exchange Authorization Code with Access Token](https://www.oauth.com/oauth2-servers/server-side-apps/authorization-code/#:~:text=The%20authorization%20code%20is%20a, approve%20or%20deny%20the%20request.)
+3. After entering correct redirect URI you will be provided with your **Client Secret** and **Client Id** use it to [Exchange Authorization Code with Access Token]()
 
-{SERVER} = http://localhost:3000 || __YOUR_SERVER_PATH__
+{SERVER} = http://localhost:3000 || **YOUR_SERVER_PATH**
 
 # Using OAuth2.0 to Access F-Drive APIs
 
@@ -67,81 +67,126 @@ To begin, obtain OAuth 2.0 client credentials from the F-Drive API Developer Con
 
 ### 1. Obtain OAuth 2.0 credentials from the F-Drive API Console.
 
-This step is alredy mentioned on how to obtain F-Drive API credentials 
+This step is alredy mentioned on how to obtain F-Drive API credentials
 
 ### 2. Identify access scopes
 
 Identify requirement of scopes you want to request to F-Drive Authorization Server
 
-Currently F-Drive supports only two scopes 
+Your first step is to create the authorization request. That request sets parameters that identify your application and define the permissions that the user will be asked to grant to your application.
 
-1. __file__ : To view and download files
-2. __profile__ : To view user's profile information 
+Currently F-Drive supports only two scopes
 
-METHOD
-Request URI
-Response
-Request Body
-GET
-/login?scope=:scope&response_type=code&redirect_uri=:redirectUri&access_type=:accessType&client_id=:clientId&state=:state
-Show OAuth login page with Client Name
+1. **file** : To view and download files
+2. **profile** : To view user's profile information
 
-POST
-/login?scope=:scope&response_type=code&redirect_uri=:redirectUri&access_type=:accessType&client_id=:clientId&state=:state
-Creates Session and Redirect to Consent Screen after verification
-username=:username&
-password=:password
+### 3. Create Authorization request
 
-[
-encrypt
-scope, 
-redirect_uri, 
-client_id, 
-access_type, 
-state
+Your next step is to create the authorization request. That request sets parameters that identify your application and define the permissions that the user will be asked to grant to your application.
 
-from query parameter and 
-redirects with unique code {authUser} to consent screen]
-GET 
-/consent?auth_user=:authUser
-Shows Consent screen to allow or cancel with requested scope and client name using :authUser
+| Parameter       |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |     |     |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | --- |
+| _client_id_     | **Required** The client ID for your application. You can find this value in the F-Drive API Console Credentials page by signing up as Developer.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |     |     |
+| _redirect_uri_  | **Required** Determines where the API server redirects the user after the user completes the authorization flow. The value must exactly match one of the authorized redirect URIs for the OAuth 2.0 client, which you configured in your client's API Console Credentials page . If this value doesn't match an authorized redirect URI for the provided client_id you will get a redirect_uri_mismatch error.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |     |     |
+| _response_type_ | **Required** Determines whether the F-Drive OAuth 2.0 endpoint returns an authorization code. Set the parameter value to code                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |     |     |
+| _scope_         | **Required** A space-delimited list of scopes that identify the resources that your application could access on the user's behalf. These values inform the consent screen that F-Drive displays to the user. F-Drive only support [profile,file] scope                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |     |     |
+| _access_type_   | **Required** Indicates whether your application can refresh access tokens when the user is not present at the browser. Valid parameter values are online , which is the default value, and offline. Set the value to offline if your application needs to refresh access tokens when the user is not present at the browser. This is the method of refreshing access tokens described later in this document. This value instructs the F-Drive authorization server to return a refresh token and an access token the first time that your application exchanges an authorization code for tokens.                                                                                                                                                                                                                                                                                                                                                                                                                                        |     |     |
+| _state_         | **Required** Specifies any string value that your application uses to maintain state between your authorization request and the authorization server's response. The server returns the exact value that you send as a name=value pair in the URL fragment identifier ( # ) of the redirect_uri after the user consents to or denies your application's access request. You can use this parameter for several purposes, such as directing the user to the correct resource in your application, sending nonces, and mitigating cross-site request forgery. Since your redirect_uri can be guessed, using a state value can increase your assurance that an incoming connection is the result of an authentication request. If you generate a random string or encode the hash of a cookie or another value that captures the client's state, you can validate the response to additionally ensure that the request and response originated in the same browser, providing protection against attacks such as cross-site request forgery. |     |     |
 
-POST 
-/consent
-Fetch info from  :authUser and redirects with :code & :state to :redirect_uri
-auth_user=:authUser
+### 4. Redirect to F-Drive's OAuth 2.0 server
 
-POST
-/token
-Exchange Authorization code with access token 
-code=:code&
-redirect_uri=:redirectUri&
-client_id=:clientId&
-client_secret=:clientSecret&
+Redirect the user to F-Drive's OAuth 2.0 server to initiate the authentication and authorization process. Typically, this occurs when your application first needs to access the user's data.
+
+### Example
+
+```sh
+{SERVER}/oauth?
+ scope=profile file&
+ access_type=offline&
+ response_type=code&
+ state={YOUR STATE PARAMETER}&
+ redirect_uri={YOUR REDIRECT URI}&
+ client_id={YOUR CLIENT ID}
+
+After you create the request URL, redirect the user to it.
+
+```
+
+F-Drive's OAuth 2.0 server authenticates the user and obtains consent from the user for your application to access the requested scopes. The response is sent back to your application using the redirect URL you specified.
+
+### 5. F-Drive prompts user for consent
+
+In this step, the user decides whether to grant your application the requested access. At this stage, F-Drive displays a consent window that shows the name of your application and the F-Drive API services that it is requesting permission to access with the user's authorization credentials and a summary of the scopes of access to be granted. The user can then consent to grant access to one or more scopes requested by your application or refuse the request
+
+### 6. Handle the OAuth 2.0 server response
+
+The OAuth 2.0 server responds to your application's access request by using the URL specified in the request.
+
+If the user approves the access request, then the response contains an authorization code. If the user does not approve the request, the response contains an error message. The authorization code or error message that is returned to the web server appears on the query string, as shown below:
+
+An error response:
+
+```sh
+
+{YOUR_REDIRECT_URI}?error=access_denied
+
+```
+
+```sh
+
+{YOUR_REDIRECT_URI}/oauth??code={REQUESTED_AUTHORIZATION_CODE}&state={STATE_YOU_ENTERED}
+
+
+```
+
+### 7. Exchange authorization code for refresh and access tokens
+
+After the web server receives the authorization code, it can exchange the authorization code for an access token.
+
+> To exchange an authorization code for an access token, call the {SERVER}/token endpoint and set the following parameters:
+
+| **Fields**      |                                                                                                   |
+| --------------- | ------------------------------------------------------------------------------------------------- |
+| _client_id_     | The client ID obtained from the F-Drive Developer API Credentials page.                           |
+| _client_secret_ | The client secret obtained from the F-Drive Developer API Credentials page.                       |
+| _code_          | The authorization code returned from the initial request.                                         |
+| _grant_type_    | As defined in the OAuth 2.0 specification, this field must contain a value of authorization_code. |
+| _access_type_   | this can be offline or online, if offline returns refresh_token with request                      |
+
+```sh
+POST /token HTTP/1.1
+Host: {SERVER}
+Content-Type: application/x-www-form-urlencoded
+
+code={AUTHORIZATION_CODE_YOU_GET}&
+client_id={CLIENT_ID}&
+client_secret={CLIENT_SECRET}&
+access_type={offline||online}
 grant_type=authorization_code
 
-POST
-/token
-Referesh expired access token 
-With refresh token
-client_id=:clientId&
-client_secret=:clientSecret&
-grant_type=refresh_token&
-referesh_token=:refereshToken
+```
+
+F-Drive responds to this request by returning a JSON object that contains a short-lived access token and a refresh token. Note that the refresh token is only returned if your application set the access_type parameter to offline in the initial request to F-Drive's authorization server.
+
+The response contains the following fields:
+
+| **Fields**      |                                                                                                                                                                                                                                                                             |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| _access_token_  | The token that your application sends to authorize a F-Drive API request.                                                                                                                                                                                                   |
+| _expires_in_    | The remaining lifetime of the access token in seconds.                                                                                                                                                                                                                      |
+| _refresh_token_ | A token that you can use to obtain a new access token. Refresh tokens are valid until the user revokes access. Again, this field is only present in this response if you set the access_type parameter to offline in the initial request to F-Drive's authorization server. |
+| _scope_         | The scopes of access granted by the access_token expressed as a list of space-delimited, case-sensitive strings.                                                                                                                                                            |
+| _token_type_    | The type of token returned. At this time, this field's value is always set to Bearer.                                                                                                                                                                                       |
 
 ## Author
 
 👤 **Himanshu Bhutani**
 
-* Twitter: [@ihimmy](https://twitter.com/ihimmy)
-* Github: [@ihimanshubhutani](https://github.com/ihimanshubhutani)
-* LinkedIn: [@himanshu-bhutani-173966140](https://linkedin.com/in/himanshu-bhutani-173966140)
+- Twitter: [@ihimmy](https://twitter.com/ihimmy)
+- Github: [@ihimanshubhutani](https://github.com/ihimanshubhutani)
+- LinkedIn: [@himanshu-bhutani-173966140](https://linkedin.com/in/himanshu-bhutani-173966140)
 
 ## 📝 License
 
 Copyright © 2020 [Himanshu Bhutani](https://github.com/ihimanshubhutani).
 This project is [MIT](https://github.com/ihimanshubhutani/f-drive/blob/master/LICENSE) licensed.
-
-- - -
-
-*This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)*
