@@ -10,7 +10,7 @@
 
 ## Setup and Installation
 
-### Setup 
+### Setup
 
 ``` sh
         git clone https://github.com/ihimanshubhutani/f-drive.git
@@ -20,12 +20,11 @@
 
 > Setup all configuration files from **configurationFiles** folder.
 
-1. Use your username and password of Gmail {or any other email account} through which you want to send email during 
+1. Use your username and password of Gmail {or any other email account} through which you want to send email during
 
 Email Confirmation in keys.json file
 
-2. Use 32 CHARACTER LONG RANDOM KEY for AUTHCODE_ENCRYPTION_KEY in .env file
-
+2. Use 32 CHARACTER LONG RANDOM KEY for AUTHCODE\_ENCRYPTION\_KEY in .env file
 3. Set your DB info in config.json file
 
 After editing all files copy and paste this three files config.json, key.json and .env
@@ -251,13 +250,13 @@ Authorization: Bearer {access_token}
 
 ## Author
 
-👤 **Himanshu Bhutani**
+👤    **Himanshu Bhutani**
 
 * Twitter: [@ihimmy](https://twitter.com/ihimmy)
 * Github: [@ihimanshubhutani](https://github.com/ihimanshubhutani)
 * LinkedIn: [@himanshu-bhutani-173966140](https://linkedin.com/in/himanshu-bhutani-173966140)
 
-## 📝 License
+## 📝  License
 
 Copyright © 2020 [Himanshu Bhutani](https://github.com/ihimanshubhutani).
 This project is [MIT](https://github.com/ihimanshubhutani/f-drive/blob/f-drive/LICENSE) licensed.
