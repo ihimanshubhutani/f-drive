@@ -1,7 +1,7 @@
 {
-  "name": "fileserving_api",
+  "name": "f-drive",
   "version": "1.0.0",
-  "description": "Uploading files on public folder, accessing it with unique id and performing CRUD operation with sessions.",
+  "description": "Let you upload your files and manage it and allow you to integerate your F-Drive Account with third party websites",
   "main": "app.js",
   "scripts": {
     "devStart": "nodemon server.js",
@@ -11,7 +11,15 @@
     "test": "mocha || true --watch"
   },
   "author": "Himanshu Bhutani",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ihimanshubhutani/f-drive.git"
+  },
+  "engines": {
+    "npm": ">=6.14.5",
+    "node": ">=12.16.3"
+  },
   "dependencies": {
     "babel-register": "^6.26.0",
     "body-parser": "^1.19.0",
