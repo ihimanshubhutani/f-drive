@@ -1,7 +1,5 @@
 Use this folder files for configuration of this project 
 
-This all files need to be edited according to your database settings.
-
 1. Use your username and password of Gmail {or any other email account} through which you want to send email during 
 Email Confirmation in keys.json file
 
