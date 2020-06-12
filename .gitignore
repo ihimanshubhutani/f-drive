@@ -1,5 +1,5 @@
 node_modules
 public
-.env
-config.json
-keys.json
+config/.env
+config/config.json
+config/keys.json
