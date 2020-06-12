@@ -131,6 +131,7 @@ An error response:
 {YOUR_REDIRECT_URI}?error=access_denied
 
 ```
+Success respons:
 
 ```sh
 
