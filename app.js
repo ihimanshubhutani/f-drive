@@ -5,15 +5,15 @@ import fileUpload from 'express-fileupload';
 import session from 'express-session';
 // eslint-disable-next-line no-unused-vars
 import ejs from 'ejs';
-import filesRoute from './routes/files';
-import index from './routes/index';
-import loginRoute from './routes/login';
-import signupRoute from './routes/signup';
-import emailVerificationRoute from './routes/emailVerification';
-import devRoute from './routes/dev';
-import oauthRoute from './routes/oauth';
-import fdriveRoute from './routes/f-drive';
-import errorHandler from './middleware/errorHandler';
+import filesRoute from './app/routes/files';
+import index from './app/routes/index';
+import loginRoute from './app/routes/login';
+import signupRoute from './app/routes/signup';
+import emailVerificationRoute from './app/routes/emailVerification';
+import devRoute from './app/routes/dev';
+import oauthRoute from './app/routes/oauth';
+import fdriveRoute from './app/routes/f-drive';
+import errorHandler from './app/middleware/errorHandler';
 
 const app = express();
 

@@ -4,9 +4,9 @@
   "description": "Let you upload your files and manage it and allow you to integerate your F-Drive Account with third party websites",
   "main": "app.js",
   "scripts": {
-    "devStart": "nodemon server.js",
+    "devStart": "nodemon bin/app",
     "prestart": "npx sequelize-cli db:migrate",
-    "start": "node app.js",
+    "start": "nodemon bin/app",
     "pretest": " kill -9 $( lsof -t -i:3000)",
     "test": "mocha || true --watch"
   },

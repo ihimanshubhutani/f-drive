@@ -5,8 +5,13 @@
  */
 import { randomBytes, createCipheriv, createDecipheriv } from 'crypto';
 import { ENCRYPTION } from 'config';
+import { join } from 'path';
+
+// eslint-disable-next-line no-unused-vars
+const dotenv = require('dotenv').config({ path: join(__dirname, '../../config/.env') });
 
 export const encrypter = data => {
+  console.log(process.env.AUTHCODE_ENCRYPTION_KEY);
   const text = JSON.stringify(data);
   const iv = randomBytes(16);
   const cipher = createCipheriv(ENCRYPTION.ALGORITHM,

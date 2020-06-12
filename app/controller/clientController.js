@@ -16,7 +16,7 @@ export const showClientIndexPage = (req, res) => {
     .then((result) => {
       if (!result.redirectUri) { return res.sendFile('devIndex.html', { root: join(__dirname, '../views/') }); }
 
-      return res.render('devShowClientDetails', { redirectUri: result.redirectUri, clientSecret: result.clientSecret, clientId: req.session.dev.clientId });
+      return res.render(join(__dirname, '../views/devShowClientDetails'), { redirectUri: result.redirectUri, clientSecret: result.clientSecret, clientId: req.session.dev.clientId });
     });
 };
 

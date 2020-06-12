@@ -2,7 +2,7 @@
 import { join } from 'path';
 import { randomBytes, createCipheriv, createDecipheriv } from 'crypto';
 import { v4 } from 'uuid';
-import { SCOPE, ENCRYPTION } from '../../config/default.json';
+import { SCOPE, ENCRYPTION } from 'config';
 import { AuthorizationCode, Client, Token } from '../../models';
 // eslint-disable-next-line no-unused-vars
 const dotenv = require('dotenv').config({ path: join(__dirname, '../../config/.env') });
