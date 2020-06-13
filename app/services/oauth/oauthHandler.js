@@ -18,8 +18,8 @@ const dotenv = require('dotenv').config({ path: join(__dirname, '../../config/.e
  * @param {string} accessType
  */
 export const insertAuthorizationCodeParameters = (userId,
-  clientId, redirectUri, scope, accessType) => AuthorizationCode.create({
-    userId, clientId, scope, redirectUri, accessType,
+  clientId, redirectUri, scope, accessType, expires) => AuthorizationCode.create({
+    userId, clientId, scope, redirectUri, accessType, expires,
   });
 /**
  *
@@ -100,8 +100,8 @@ export const insertTokenValue = (id, value) => Token.update({
   },
 });
 
-export const insertTokenParameters = (type, scope, userId, clientId) => Token.create({
-  type, scope, userId, clientId,
+export const insertTokenParameters = (type, scope, userId, clientId, expires) => Token.create({
+  type, scope, userId, clientId, expires,
 }).then(result => {
   const tokenValue = encrypter({ id: result.id, value: v4() });
   insertTokenValue(result.id, tokenValue);
@@ -125,13 +125,29 @@ export const verifyAccessToken = id => Token.findOne(
   },
 );
 
-export const destroyExpiredAuthorizationCode = () => {
-  console.log(moment().subtract(10, 'minutes'));
-  AuthorizationCode.findAll({
-    where: { expires: { [Op.lt]: moment().subtract(10, 'minutes') } },
-  }).then(result => {
-    if (result) {
-      // console.log(result);
-    }
+export const destroyExpiredAuthorizationCode = (number, string) => {
+  AuthorizationCode.destroy({
+    raw: true,
+    where: { expires: { [Op.lt]: moment().subtract(number, string) } },
+  });
+};
+
+export const destroyExpiredAccessTokens = (number, string) => {
+  Token.destroy({
+    raw: true,
+    where: {
+      expires: { [Op.lt]: moment().subtract(number, string) },
+      type: 'access',
+    },
+  });
+};
+
+export const destroyExpiredRefreshTokens = (number, string) => {
+  Token.destroy({
+    raw: true,
+    where: {
+      expires: { [Op.lt]: moment().subtract(number, string) },
+      type: 'refresh',
+    },
   });
 };

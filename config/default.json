@@ -38,6 +38,24 @@
     "profile": "View your profile details",
     "file": "View and download your F-drive files"
   },
+  "EXPIRATION": {
+    "ACCESS_TOKEN": {
+      "NUMBER": 5,
+      "STRING": "minutes"
+    },
+    "REFERSH_TOKEN": {
+      "NUMBER": 1,
+      "STRING": "month"
+    },
+    "AUTHORIZATION_CODE": {
+      "NUMBER": 10,
+      "STRING": "minutes"
+    },
+    "EMAIL_VERIFICATION_CODE": {
+      "NUMBER": 10,
+      "STRING": "minutes"
+    }
+  },
   "STATUS": {
     "OK": 200,
     "BAD_REQUEST": 400,

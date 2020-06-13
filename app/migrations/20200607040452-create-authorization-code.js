@@ -30,7 +30,7 @@ module.exports = {
     },
     expires: {
       type: Sequelize.DATE,
-      defaultValue: Date.now(),
+      allowNull: false,
     },
     scope: {
       type: Sequelize.ARRAY(Sequelize.TEXT),

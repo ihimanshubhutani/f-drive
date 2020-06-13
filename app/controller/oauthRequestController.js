@@ -51,7 +51,7 @@ export const createAuthorizationCode = (req, res, next) => {
   if (req.query.response === 'false') return res.redirect(`${parsedData.redirect_uri}/?error=acess_denied`);
   return insertAuthorizationCodeParameters(req.session.userId,
     parsedData.client_id, parsedData.redirect_uri,
-    parsedData.scope.split(' '), parsedData.access_type)
+    parsedData.scope.split(' '), parsedData.access_type, Date.now())
     .then(result => {
       const authCode = encrypter({ id: result.id, code: v4() });
       insertAuthorizationCode(result.id, authCode);
@@ -63,7 +63,7 @@ export const returnAccessToken = async (req, res) => {
   let refreshToken;
   let accessToken;
   try {
-    accessToken = await insertTokenParameters('access', req.auth.scope, req.auth.userId, req.auth.Client.id);
+    accessToken = await insertTokenParameters('access', req.auth.scope, req.auth.userId, req.auth.Client.id, Date.now());
 
     if (req.body.access_type === 'offline') {
       refreshToken = await insertTokenParameters('refresh', req.auth.scope, req.auth.userId, req.auth.Client.id);
