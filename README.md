@@ -164,6 +164,7 @@ After the web server receives the authorization code, it can exchange the author
 | *code* | The authorization code returned from the initial request. |
 | *grant\_type* | As defined in the OAuth 2.0 specification, this field must contain a value of authorization\_code. |
 | *access\_type* | this can be offline or online, if offline returns refresh\_token with request |
+| *grant\_type* | this can be either authorization_code or refresh_token, if authorization_code, returns access token, if refresh_token returns newly generated access_token this is used when access_token is expired |
 
 ``` sh
 POST /token HTTP/1.1
@@ -174,7 +175,7 @@ code={AUTHORIZATION_CODE_YOU_GET}&
 client_id={CLIENT_ID}&
 client_secret={CLIENT_SECRET}&
 access_type={offline||online}
-grant_type=authorization_code
+grant_type={authorization_code||refresh_token}
 ```
 
 F-Drive responds to this request by returning a JSON object that contains a short-lived access token and a refresh token. Note that the refresh token is only returned if your application set the access\_type parameter to offline in the initial request to F-Drive's authorization server.
@@ -258,7 +259,7 @@ Authorization: Bearer {access_token}
 
 ## Show your support
 
-Give a  ⭐️  to this project if you liked it or it have helped you!
+Give a   ⭐️     to this project if you liked it or it have helped you!
 
 
 ## 📝  License
