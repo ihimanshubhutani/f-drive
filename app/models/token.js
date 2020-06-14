@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     scope: DataTypes.ARRAY(DataTypes.TEXT),
     expires: DataTypes.DATE,
   }, { timestamps: false });
-  Token.associate = () => {
-    // associations can be defined here
+  Token.associate = (models) => {
+    Token.belongsTo(models.Client, { foreignKey: 'clientId' });
   };
   return Token;
 };

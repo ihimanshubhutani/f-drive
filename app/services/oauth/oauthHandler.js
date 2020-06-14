@@ -109,14 +109,10 @@ export const insertTokenParameters = (type, scope, userId, clientId, expires) =>
 });
 
 export const verifyRefreshToken = (refershToken) => {
-  if (!refershToken) return false;
   const decryptedToken = JSON.parse(decrypter(refershToken));
+  console.log(decryptedToken);
   const { id } = decryptedToken;
-  return Token.findOne({ where: id })
-    .then((result) => {
-      if (!result) return false;
-      return true;
-    });
+  return Token.findOne({ include: [Client], where: id });
 };
 
 export const verifyAccessToken = id => Token.findOne(

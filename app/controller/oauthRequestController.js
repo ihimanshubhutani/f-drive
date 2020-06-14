@@ -62,17 +62,16 @@ export const createAuthorizationCode = (req, res, next) => {
 export const returnAccessToken = async (req, res) => {
   let refreshToken;
   let accessToken;
+
   try {
     accessToken = await insertTokenParameters('access', req.auth.scope, req.auth.userId, req.auth.Client.id, Date.now());
 
     if (req.body.access_type === 'offline') {
-      refreshToken = await insertTokenParameters('refresh', req.auth.scope, req.auth.userId, req.auth.Client.id);
-    }
-    if (req.body.grant_type === 'refresh_token') {
-      console.log('here');
-      if (!await verifyRefreshToken(req.body.refresh_token)) return res.json({ error: 'refresh token either expired or invalid' });
+      refreshToken = await insertTokenParameters('refresh', req.auth.scope, req.auth.userId, req.auth.Client.id, Date.now());
     }
   } catch (err) {
+    console.log('ji');
+    console.log(err);
     if (err.reason === 'bad decrypt') return res.json({ err: 'invalid token value' });
     return res.json({ err });
   }
