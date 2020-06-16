@@ -1,0 +1,5 @@
+node_modules
+public
+config/.env
+config/config.json
+config/keys.json

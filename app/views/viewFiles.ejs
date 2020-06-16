@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Personal directory</title>
+  <style>
+    form {
+      margin: 20px 0;
+    }
+
+    form input,
+    button {
+      padding: 5px;
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 20px;
+      border-collapse: collapse;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid #cdcdcd;
+    }
+
+    table th,
+    table td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <input type="text" id="getID" style="display: none" value="<%=data%>">
+  <script>
+
+    //var test is now assigned to getTest which will only work on browsers
+
+    let data = JSON.parse(document.getElementById("getID").value);
+
+
+    $(document).ready(function () {
+      for (let i = 0; i < data.arr.length; i++) {
+
+        let name = data.arr[i].name;
+        let type = data.arr[i].type;
+        let createdAt = data.arr[i].createdAt;
+        var markup =
+          "<tr><td><input type='checkbox' name='record'></td><td>" +
+          `<a href='http://localhost:3000/files/${data.arr[i].id}'>${name}</a>` +
+          "</td><td>" +
+          type +
+          "</td><td>" +
+          createdAt +
+          "</td></tr>";
+        $("table tbody").append(markup);
+      }
+      // Find and remove selected table rows
+      $(".delete-row").click(function () {
+        $("table tbody")
+          .find('input[name="record"]')
+          .each(function () {
+            if ($(this).is(":checked")) {
+              let path = '' + $(this).parents("tr").find("td").eq(1).html();
+              console.log(path.split('<a href="')[1].split('">')[0]);
+
+              fetch(path.split('<a href="')[1].split('">')[0], { method: 'DELETE' }).then((res) => {
+                if (res) $(this).parents("tr").remove();
+
+              })
+
+
+            }
+          });
+      });
+    });
+
+  </script>
+</head>
+
+<body>
+  <h2>Files</h2>
+  <br />
+  <button type="button" class="delete-row">Delete Selected File</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Select</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</body>
+
+</html>

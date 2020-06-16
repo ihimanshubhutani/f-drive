@@ -1,0 +1,86 @@
+{
+  "SECRET": "101458794DSA",
+  "MESSAGE": {
+    "INVALID_PASSWORD": "Password Should be Minimum eight characters, \n at least one letter, one number and one special character",
+    "INVALID_EMAIL": "email format is incorrect",
+    "USERNAME_EXISTS": "username already exists",
+    "EMAIL_EXISTS": "email already exists",
+    "INVALID_CREDENTIALS": "invalid credentials",
+    "LINK_EXPIRED": "verification link is expired",
+    "INVALID_URL": "URL format is incorrect",
+    "INVALID_CLIENT_ID": "invalid client_id",
+    "INVALID_REDIRECT_URI": "invalid redirect_uri",
+    "INVALID_SCOPE": "some request scopes are invalid",
+    "MESSAGE.REMOVED_SUCCESSFULLY": "removed successfully",
+    "INTERNAL_SERVER_ERROR": "internal server error",
+    "NO_FILE_UPLOADED": "no file uploaded",
+    "FILE_UPLOADED_SUCCESS": "file uploaded successfully",
+    "CANNOT_PROCESS_REQUEST": "The server cannot process the request because it is malformed. It should not be retried"
+  },
+  "EMAIL": {
+    "BODY": "Thank You for registering with Us \n Click below to confim your email address \n",
+    "SUBJECT": "Verify Your Email Address || Fdrive"
+  },
+  "FILE": {
+    "CANNOT_DELETED": "file cannot be deleted"
+  },
+  "SERVER": "http://localhost:3000",
+  "MISSING_PARAMS": {
+    "SCOPE": "Missing parameter: scope",
+    "RESPONSE_TYPE": "Missing parameter: response_type",
+    "STATE": "Missing parameter: state",
+    "REDIRECT_URI": "Missing parameter: redirect_uri",
+    "CLIENT_ID": "Missing parameter: client_id",
+    "ACCESS_TYPE": "Missing parameter: access_type",
+    "ALLOWED_GRANT_TYPE": "Allowed response type: code "
+  },
+  "SCOPE": {
+    "profile": "View your profile details",
+    "file": "View and download your F-drive files"
+  },
+  "EXPIRATION": {
+    "ACCESS_TOKEN": {
+      "NUMBER": 5,
+      "STRING": "minutes"
+    },
+    "REFERSH_TOKEN": {
+      "NUMBER": 1,
+      "STRING": "month"
+    },
+    "AUTHORIZATION_CODE": {
+      "NUMBER": 10,
+      "STRING": "minutes"
+    },
+    "EMAIL_VERIFICATION_CODE": {
+      "NUMBER": 10,
+      "STRING": "minutes"
+    }
+  },
+  "STATUS": {
+    "OK": 200,
+    "BAD_REQUEST": 400,
+    "UNAUTHORIZED": 401,
+    "UNPROCESSEBLE_ENTITY": 422,
+    "CONFLICT": 409,
+    "INTERNAL_SERVER_ERROR": 500,
+    "NOT_FOUND": 404
+  },
+  "STATUS_CODE": {
+    "400": "Bad Request",
+    "401": "Unauthorized",
+    "409": "Conflict",
+    "404": "Not Found",
+    "422": "Unprocesseble Entity",
+    "500": "Internal Server Error",
+    "200": "Ok"
+  },
+  "ENCRYPTION": {
+    "ALGORITHM": "aes-256-cbc",
+    "HEX": "hex",
+    "UTF8": "utf-8"
+  },
+  "GRANT_TYPE": {
+    "refresh_token": true,
+    "authorization_code": true
+  }
+}
